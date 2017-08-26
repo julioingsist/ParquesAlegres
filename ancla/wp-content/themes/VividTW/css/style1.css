@@ -1,0 +1,21 @@
+/* Estilos específicos para Style1: Azul */
+body{background:#1c7782 url(style1/top-bg.jpg) no-repeat scroll center top}
+/*Enlaces*/
+a:link, a:visited, a:active, .post a:link, .post a:visited, .post a:active, #navigation li a, #related_articles a:hover, #sidebar h3{color:#3f99a6}
+a:hover, .post a:hover, .post .the_post_meta li a:hover{color:#1c7782}
+.reply a:link, .reply a:visited, .cancel-comment-reply a:link, .cancel-comment-reply a:visited{background:#3f99a6; border-bottom:1px solid #1c7782}
+.reply a:hover, .cancel-comment-reply a:hover{background:#1c7782; border-bottom:1px solid #3f99a6}
+.reply a:active, .cancel-comment-reply a:active{background:#1c7782}
+input#submit{background:#1c7782}
+/*Buscador*/
+.search_button{background:url(style1/search-button.png) no-repeat}
+/*Menú*/
+#navigation li a:hover, #navigation li.current_page_item a{color:#fff; background-color:#3f99a6; border:1px solid #1c7782}
+/*Artículos*/
+.post .the_post_meta, .post .the_post_meta li a{color:#719baf}
+.post_inner_wrap ul li{background:url(style1/li.png) no-repeat 0 5px}
+.post blockquote{background:transparent url(style1/blockquote.png) no-repeat 0 0}
+ol.commentlist li.autorcomment{background-color:#d9f4f7 !important}
+/*Sidebar*/
+.sbb ul li a:hover{color:#3f99a6 !important}
+.boxBody div ul{list-style-image:url(style1/li.png)}

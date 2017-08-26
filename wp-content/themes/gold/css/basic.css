@@ -1,0 +1,258 @@
+/**********************************
+
+* Green #101010;
+
+* Dark Green: #101010;
+
+*/
+p{
+
+	color:#555;
+
+}
+button, html input[type="button"],input[type="submit"],input[type="reset"]{
+
+	-moz-transition: background 1s, color 1s;
+
+	-webkit-transition: background 1s, color 1s;
+
+	-o-transition: background 1s, color 1s;
+
+	-ms-transition: background 1s, color 1s;
+
+	transition: background 1s, color 1s	;
+}
+a{
+
+	color: #101010;
+
+	-moz-transition: background 1s, color 1s;
+
+	-webkit-transition: background 1s, color 1s;
+
+	-o-transition: background 1s, color 1s;
+
+	-ms-transition: background 1s, color 1s;
+
+	transition: background 1s, color 1s	;
+
+}
+
+h2, h3, h4, h5, h6{color:  #444;}
+
+h1{color: #000;}
+
+.panel-default .panel-heading{
+
+	background-color: #fff;
+
+}
+
+.panel-title {color: #000;}
+.collapse-heading{
+		background-color: #ffffff;
+		border-color: #101010;
+		padding: 0px 10px;
+		border-bottom: 1px solid #BBB6B6 !important;
+		border-top-right-radius: 3px;
+		border-top-left-radius: 3px;
+	}
+.collapse-title{
+	color: #101010;
+}	
+.collapse-title a{
+	display: block;
+}
+.footer-box-title{
+	color: #ffffff !important;
+}
+
+a:hover, a:focus {
+
+	color: #615D5D !important;
+
+	text-decoration: underline;
+
+}
+
+.glyphicon:hover{
+
+	color:#101010;
+
+}
+
+[class^="icon-"], [class*=" icon-"] {
+
+	color:#101010;	
+
+}
+
+.navbar-inverse {
+
+	background-color: #101010;
+	border-color: #101010 !important;
+
+}
+
+.navbar-nav>li>a {
+
+	color: #fff !important;
+
+}
+
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus {
+
+	color: #000 !important;
+
+	background-color: #FFF;
+
+}
+
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
+
+	color: #FFF;
+
+	text-decoration: none;
+
+	background-color: #101010;
+
+	background-image: -webkit-gradient(linear,left 0,left 100%,from(#101010),to(#101010));
+
+	background-image: -webkit-linear-gradient(top,#101010,0%,#101010,100%);
+
+	background-image: -moz-linear-gradient(top,#101010 0,#101010 100%);
+
+	background-image: linear-gradient(to bottom,#101010 0,#101010 100%);
+
+}
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+	color: #ffffff !important;
+	text-decoration: none !important;
+	background-color: #101010 !important;
+	outline: 0 !important;
+}
+
+.navbar-inverse .navbar-nav>.dropdown>a .caret {
+
+	border-top-color: #FFF;
+
+	border-bottom-color: #FFF;
+
+}
+
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus {
+
+	color: #000 !important;
+
+	background-color: #FFF;
+
+}
+
+.panel-main .panel-heading .panel-title{
+
+	color: #fff;
+
+}
+
+.btn-primary{
+
+	background-color: #101010;
+
+	border-color:  #101010;
+
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
+
+	background-color: #101010;
+
+	border-color: #101010;	
+
+}
+
+
+
+/****************** Collapse, tabs and accordion *****************/
+
+.nav>li>a:hover, .nav>li>a:focus {
+
+	text-decoration: none;
+
+	background-color: #101010 !important;
+
+	color: #ffffff;
+
+
+
+}
+
+.accordion-heading a{
+
+	color:#101010;
+
+	font-weight: bold;
+
+	text-decoration: none;
+
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+
+	color: #FFF;
+
+	cursor: default;
+
+	background-color: #101010;
+
+}
+
+/***********************************/
+
+/****************** Forms *****************/
+
+label{color: #101010;}
+
+/***********************************/
+
+.footer-box-title{color: #101010;}
+
+.foot-nav li a {
+
+	color: #101010;
+
+}
+
+.foot-nav li a:hover {
+
+	color: #101010;
+
+}
+
+.footer-a{
+	 color: #615D5D !important;
+}
+.bottom-a{
+	color: #ffffff !important;
+}
+.copyright-a{
+	color: #101010;
+}
+
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .h1 small, .h2 small, .h3 small, .h4 small, .h5 small, .h6 small {	
+
+	color: #101010;
+
+}
+#calendar_wrap #today a{
+	color: #878A8A;
+	text-decoration: underline;
+}
+#calendar_wrap #today{
+		color: #878A8A;		
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
+	background-color: #101010;
+	border-color:  #101010;
+}
+

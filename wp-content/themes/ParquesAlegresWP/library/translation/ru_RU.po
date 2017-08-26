@@ -1,0 +1,515 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wp theme bones\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-04-08 15:46-0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Statsenko Vladimir <vovchiksta@gmail.com>\n"
+"Language-Team: fulgor <frag.fulgor@gmail.com>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n\n"
+"X-Poedit-Basepath: ../\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../404.php:12
+msgid "Epic 404 - Article Not Found"
+msgstr "Ошибка 404 - Статья не найдена"
+
+#: ../404.php:16
+msgid ""
+"The article you were looking for was not found, but maybe try looking again!"
+msgstr "Статья, которую вы ищите не найдена, попробуйте ещё раз!"
+
+#: ../404.php:24
+msgid "This is the 404.php template."
+msgstr "Это шаблон 404.php."
+
+#: ../archive-accordion.php:30 ../archive-custom_type.php:21 ../archive.php:55
+#: ../index.php:21 ../search.php:38 ../taxonomy-custom_cat.php:55
+msgid "&laquo; Older Entries"
+msgstr "&laquo; Предыдущие записи"
+
+#: ../archive-accordion.php:31 ../archive-custom_type.php:22 ../archive.php:56
+#: ../index.php:22 ../search.php:39 ../taxonomy-custom_cat.php:56
+msgid "Newer Entries &raquo;"
+msgstr "Следующие записи &raquo;"
+
+#: ../archive.php:11
+msgid "Topic:"
+msgstr ""
+
+#: ../archive.php:16
+#, fuzzy
+msgid "Tagged:"
+msgstr "Теги:"
+
+#: ../archive.php:25
+msgid "Posts By:"
+msgstr "Автор:"
+
+#: ../archive.php:30
+msgid "Daily Archives:"
+msgstr "Архивы за день:"
+
+#: ../archive.php:35
+msgid "Monthly Archives:"
+msgstr "Архивы за месяц:"
+
+#: ../archive.php:40
+msgid "Yearly Archives:"
+msgstr "Архивы за год:"
+
+#: ../comments.php:12
+msgid "This post is password protected. Enter the password to view comments."
+msgstr "Этот пост защищен паролем. Введите пароль чтобы увидеть комментарии."
+
+#: ../comments.php:22
+msgid "<span>No</span> Responses"
+msgstr ""
+
+#: ../comments.php:22
+msgid "<span>One</span> Response"
+msgstr ""
+
+#: ../comments.php:22
+msgid "<span>%</span> Response"
+msgstr ""
+
+#: ../comments.php:38
+msgid "Comments are closed."
+msgstr "Комментарии закрыты."
+
+#: ../comments.php:49
+msgid "Leave a Reply"
+msgstr "Ответить"
+
+#: ../comments.php:49
+#, php-format
+msgid "Leave a Reply to %s"
+msgstr "Ответить %s"
+
+#: ../comments.php:57
+#, php-format
+msgid "You must be %1$slogged in%2$s to post a comment."
+msgstr ""
+
+#: ../comments.php:65
+msgid "Logged in as"
+msgstr "Вы вошли как"
+
+#: ../comments.php:65
+msgid "Log out of this account"
+msgstr ""
+
+#: ../comments.php:65
+msgid "Log out"
+msgstr "Выйти"
+
+#: ../comments.php:65
+msgid "&raquo;"
+msgstr ""
+
+#: ../comments.php:72
+msgid "Name"
+msgstr "Имя"
+
+#: ../comments.php:72 ../comments.php:77
+msgid "(required)"
+msgstr ""
+
+#: ../comments.php:73
+msgid "Your Name*"
+msgstr "Ваше имя*"
+
+#: ../comments.php:77
+msgid "Mail"
+msgstr "Почта"
+
+#: ../comments.php:78
+msgid "Your E-Mail*"
+msgstr "Ваш E-Mail*"
+
+#: ../comments.php:79
+msgid "(will not be published)"
+msgstr "(не будет опубликован)"
+
+#: ../comments.php:83
+msgid "Website"
+msgstr "Сайт"
+
+#: ../comments.php:84
+msgid "Got a website?"
+msgstr "Есть сайт?"
+
+#: ../comments.php:91
+msgid "Your Comment here..."
+msgstr "Ваш комментарий..."
+
+#: ../comments.php:94
+msgid "Submit"
+msgstr "Отправить"
+
+#: ../functions.php:83 ../functions.php:94
+msgid "The Main Menu"
+msgstr "Главное меню"
+
+#: ../functions.php:84 ../functions.php:111
+msgid "Footer Links"
+msgstr "Ссылки в футере"
+
+#: ../functions.php:149
+msgid "Sidebar 1"
+msgstr ""
+
+#: ../functions.php:150
+msgid "The first (primary) sidebar."
+msgstr ""
+
+#: ../functions.php:159
+msgid "Offcanvas"
+msgstr ""
+
+#: ../functions.php:160
+msgid "The offcanvas sidebar."
+msgstr ""
+
+#: ../functions.php:214
+#, php-format
+msgid "<cite class=\"fn\">%s</cite>"
+msgstr "<cite class=\"fn\">%s</cite>"
+
+#: ../functions.php:215
+msgid " F jS, Y - g:ia"
+msgstr ""
+
+#: ../functions.php:216
+msgid "(Edit)"
+msgstr "(Изменить)"
+
+#: ../functions.php:220
+msgid "Your comment is awaiting moderation."
+msgstr "Ваш комментарий ожидает модерации."
+
+#: ../functions.php:252
+#, php-format
+msgid "Page %s"
+msgstr ""
+
+#: ../library/admin.php:51
+msgid "j F Y @ g:i a"
+msgstr ""
+
+#: ../library/admin.php:63
+msgid "Recently on Themble (Customize on admin.php)"
+msgstr ""
+
+#: ../library/admin.php:110
+msgid ""
+"<span id=\"footer-thankyou\">Developed by <a href=\"http://yoursite.com\" "
+"target=\"_blank\">Your Site Name</a></span>. Built using <a href=\"http://"
+"themble.com/joints\" target=\"_blank\">joints</a>."
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:22
+#: ../library/custom-post-type-accordion.php:23
+msgid "Accordion Post"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:24
+#, fuzzy
+msgid "All Accordion Posts"
+msgstr "Все пользовательские посты"
+
+#: ../library/custom-post-type-accordion.php:25
+msgid "Add New Accordion Post"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:26
+msgid "Add New Accodion Post"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:27
+#: ../library/custom-post-type.php:27
+msgid "Edit"
+msgstr "Изменить"
+
+#: ../library/custom-post-type-accordion.php:28
+msgid "Edit Accordion Post"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:29
+msgid "New Accordion Post"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:30
+msgid "View Accordion Posts"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:31
+msgid "Search Accordion Post"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:32
+#: ../library/custom-post-type.php:32
+msgid "Nothing found in the Database."
+msgstr "В базе данных ничего не найдено."
+
+#: ../library/custom-post-type-accordion.php:33
+#: ../library/custom-post-type.php:33
+msgid "Nothing found in Trash"
+msgstr "В Корзине ничего не найдено"
+
+#: ../library/custom-post-type-accordion.php:36
+#: ../library/custom-post-type.php:36
+msgid "This is the example custom post type"
+msgstr "Это пример пользовательского типа поста"
+
+#: ../library/custom-post-type-accordion.php:73
+#: ../library/custom-post-type.php:73
+msgid "Custom Categories"
+msgstr "Пользовательские категории"
+
+#: ../library/custom-post-type-accordion.php:74
+#: ../library/custom-post-type.php:74
+msgid "Custom Category"
+msgstr "Пользовательская категория"
+
+#: ../library/custom-post-type-accordion.php:75
+#: ../library/custom-post-type.php:75
+msgid "Search Custom Categories"
+msgstr "Поиск в пользовательских категориях"
+
+#: ../library/custom-post-type-accordion.php:76
+#: ../library/custom-post-type.php:76
+msgid "All Custom Categories"
+msgstr "Все пользовательские категории"
+
+#: ../library/custom-post-type-accordion.php:77
+#: ../library/custom-post-type.php:77
+msgid "Parent Custom Category"
+msgstr "Родительская пользовательская категория"
+
+#: ../library/custom-post-type-accordion.php:78
+#: ../library/custom-post-type.php:78
+msgid "Parent Custom Category:"
+msgstr "Родительская пользовательская категория:"
+
+#: ../library/custom-post-type-accordion.php:79
+#: ../library/custom-post-type.php:79
+msgid "Edit Custom Category"
+msgstr "Изменить пользовательскую категорию"
+
+#: ../library/custom-post-type-accordion.php:80
+#: ../library/custom-post-type.php:80
+msgid "Update Custom Category"
+msgstr "Обновить пользовательскую категорию"
+
+#: ../library/custom-post-type-accordion.php:81
+#: ../library/custom-post-type.php:81
+msgid "Add New Custom Category"
+msgstr "Создать пользовательскую категорию"
+
+#: ../library/custom-post-type-accordion.php:82
+#: ../library/custom-post-type.php:82
+msgid "New Custom Category Name"
+msgstr "Новое название пользовательской категории"
+
+#: ../library/custom-post-type-accordion.php:96
+#: ../library/custom-post-type.php:96
+msgid "Custom Tags"
+msgstr "Пользовательские теги"
+
+#: ../library/custom-post-type-accordion.php:97
+#: ../library/custom-post-type.php:97
+msgid "Custom Tag"
+msgstr "Пользовательский тег"
+
+#: ../library/custom-post-type-accordion.php:98
+#: ../library/custom-post-type.php:98
+msgid "Search Custom Tags"
+msgstr "Поиск по пользовательским тегам"
+
+#: ../library/custom-post-type-accordion.php:99
+#: ../library/custom-post-type.php:99
+msgid "All Custom Tags"
+msgstr "Все пользовательские теги"
+
+#: ../library/custom-post-type-accordion.php:100
+#: ../library/custom-post-type.php:100
+msgid "Parent Custom Tag"
+msgstr "Родительский пользовательский тег"
+
+#: ../library/custom-post-type-accordion.php:101
+#: ../library/custom-post-type.php:101
+msgid "Parent Custom Tag:"
+msgstr "Родительский пользовательский тег:"
+
+#: ../library/custom-post-type-accordion.php:102
+#: ../library/custom-post-type.php:102
+msgid "Edit Custom Tag"
+msgstr "Изменить пользовательский тег"
+
+#: ../library/custom-post-type-accordion.php:103
+#: ../library/custom-post-type.php:103
+msgid "Update Custom Tag"
+msgstr "Обновить пользовательский тег"
+
+#: ../library/custom-post-type-accordion.php:104
+#: ../library/custom-post-type.php:104
+msgid "Add New Custom Tag"
+msgstr "Создать пользовательский тег"
+
+#: ../library/custom-post-type-accordion.php:105
+#: ../library/custom-post-type.php:105
+msgid "New Custom Tag Name"
+msgstr "Новый пользовательский тег"
+
+#: ../library/custom-post-type.php:22
+msgid "Custom Types"
+msgstr "Пользовательские типы"
+
+#: ../library/custom-post-type.php:23
+msgid "Custom Post"
+msgstr "Пользовательский пост"
+
+#: ../library/custom-post-type.php:24
+msgid "All Custom Posts"
+msgstr "Все пользовательские посты"
+
+#: ../library/custom-post-type.php:25
+msgid "Add New"
+msgstr "Создать новый"
+
+#: ../library/custom-post-type.php:26
+msgid "Add New Custom Type"
+msgstr "Создать новый пользовательский тип"
+
+#: ../library/custom-post-type.php:28
+msgid "Edit Post Types"
+msgstr "Изменить типы постов"
+
+#: ../library/custom-post-type.php:29
+msgid "New Post Type"
+msgstr "Новый тип поста"
+
+#: ../library/custom-post-type.php:30
+msgid "View Post Type"
+msgstr "Посмотреть тип поста"
+
+#: ../library/custom-post-type.php:31
+msgid "Search Post Type"
+msgstr "Найти тип поста"
+
+#: ../library/joints.php:277
+msgid "No Related Posts Yet!"
+msgstr ""
+
+#: ../library/joints.php:321
+msgid "First"
+msgstr ""
+
+#: ../library/joints.php:338
+msgid "Last"
+msgstr ""
+
+#: ../library/joints.php:422
+#, fuzzy, php-format
+msgid "Posts by %s"
+msgstr "Автор:"
+
+#: ../partials/content-byline.php:2
+#, php-format
+msgid ""
+"Posted by <span class=\"author\">%3$s</span> on <time class=\"updated\" "
+"datetime=\"%1$s\" pubdate>%2$s</time> -- %4$s"
+msgstr ""
+
+#: ../partials/content-missing.php:3
+msgid "Oops, Post Not Found!"
+msgstr "Ой, пост не найден!"
+
+#: ../partials/content-missing.php:6
+msgid "Uh Oh. Something is missing. Try double checking things."
+msgstr "Опс. Что-то пропущено. Попробуйте всё перепроверить."
+
+#: ../partials/content-missing.php:9
+#, fuzzy
+msgid "This is the error message in the partials/missing-content.php template."
+msgstr "Это сообщение об ошибке в шаблоне single.php."
+
+#: ../partials/loop-archive.php:15 ../partials/loop-page.php:13
+msgid "Tags:"
+msgstr ""
+
+#: ../search.php:6
+#, fuzzy
+msgid "Search Results for:"
+msgstr "Искать:"
+
+#: ../search.php:21
+#, fuzzy
+msgid "Read more &raquo;"
+msgstr "Следующие записи &raquo;"
+
+#: ../search.php:48
+msgid "Sorry, No Results."
+msgstr "Извините, ничего не найдено."
+
+#: ../search.php:51
+msgid "Try your search again."
+msgstr "Попробуйте поискать ещё раз."
+
+#: ../search.php:54
+msgid "This is the error message in the search.php template."
+msgstr "Это сообщение об ошибке в шаблоне search.php."
+
+#: ../sidebar-offcanvas.php:12 ../sidebar.php:12
+msgid "Please activate some Widgets."
+msgstr ""
+
+#: ../taxonomy-custom_cat.php:24
+msgid "Posts Categorized:"
+msgstr "Категории:"
+
+#: ../taxonomy-custom_cat.php:38
+#, fuzzy
+msgid "Read More &raquo;"
+msgstr "Следующие записи &raquo;"
+
+#~ msgid "Posted"
+#~ msgstr "Опубликовано"
+
+#~ msgid "by"
+#~ msgstr "автор"
+
+#~ msgid "This is the error message in the custom posty type archive template."
+#~ msgstr "Это сообщение об ошибке в шаблоне custom post type archive."
+
+#~ msgid "filed under"
+#~ msgstr "в"
+
+#~ msgid "This is the error message in the archive.php template."
+#~ msgstr "Это сообщение об ошибке в шаблоне archive.php."
+
+#~ msgid "You can use these tags"
+#~ msgstr "Вы можете использовать эти теги"
+
+#~ msgid "This is the error message in the index.php template."
+#~ msgstr "Это сообщение об ошибке в шаблоне index.php."
+
+#~ msgid "This is the error message in the page-custom.php template."
+#~ msgstr "Это сообщение об ошибке в шаблоне page-custom.php."
+
+#~ msgid "This is the error message in the page.php template."
+#~ msgstr "Это сообщение об ошибке в шаблоне page.php."
+
+#~ msgid "This is the error message in the single-custom_type.php template."
+#~ msgstr "Это сообщение об ошибке в шаблоне single-custom_type.php."
+
+#~ msgid "This is the error message in the taxonomy-custom_cat.php template."
+#~ msgstr "Это сообщение об ошибке в шаблоне taxonomy-custom_cat.php."

@@ -1,0 +1,31 @@
+.content tr td{
+  border: none !important;
+  padding: 15px !important;
+}
+
+.google-visualization-table-table{
+  border: none !important;
+  font-family: $base-font-family !important;
+}
+
+.google-visualization-table-tr-head .gradient, .google-visualization-table-tr-head-nonstrict .gradient, .google-visualization-table-div-page .gradient{
+  background: none !important;
+}
+
+.google-visualization-table-th{
+  border: none !important;
+  border-right: 1px solid #C6C4C2 !important;
+  padding: 30px 10px 10px !important;
+}
+
+.google-visualization-table-tr-even, .google-visualization-table-tr-even td, .google-visualization-table-tr-even-nonstrict{
+  background-color: #F7F7F7;
+}
+.google-visualization-table-tr-odd, .google-visualization-table-tr-odd td, .google-visualization-table-tr-odd-nonstrict{
+  background: none;
+}
+
+.google-visualization-table-td{
+  border: none !important;
+  border-right: 1px solid #C6C4C2 !important;
+}

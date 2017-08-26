@@ -1,0 +1,23 @@
+/* Estilos específicos para style4: Verde */
+body{background:#6c821c url(style4/top-bg.jpg) no-repeat scroll center top}
+/*Enlaces*/
+a:link, a:visited, a:active, .post a:link, .post a:visited, .post a:active, #navigation li a, #related_articles a:hover, #sidebar h3{color:#a6a43f}
+a:hover, .post a:hover, .post .the_post_meta li a:hover{color:#6c821c}
+.reply a:link, .reply a:visited, .cancel-comment-reply a:link, .cancel-comment-reply a:visited{background:#a6a43f; border-bottom:1px solid #6c821c}
+.reply a:hover, .cancel-comment-reply a:hover{background:#6c821c; border-bottom:1px solid #a6a43f}
+.reply a:active, .cancel-comment-reply a:active{background:#6c821c}
+input#submit{background:#6c821c}
+/*Buscador*/
+.search_button{background:url(style4/search-button.png) no-repeat}
+/*Menú*/
+#navigation li a:hover, #navigation li.current_page_item a{color:#fff; background-color:#a6a43f; border:1px solid #6c821c}
+/*Artículos*/
+.post .the_post_meta, .post .the_post_meta li a{color:#afae71}
+.post_inner_wrap ul li{background:url(style4/li.png) no-repeat 0 5px}
+.post blockquote{background:transparent url(style4/blockquote.png) no-repeat 0 0}
+ol.commentlist li.autorcomment{background-color:#dbeba1 !important}
+/*Artículos relacionados*/
+#related_articles li, .sbb ul li{background:url(style4/li.png) no-repeat 0 8px}
+/*Sidebar*/
+.sbb ul li a:hover{color:#a6a43f !important}
+.boxBody div ul{list-style-image:url(style4/li.png)}

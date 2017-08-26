@@ -1,0 +1,394 @@
+html, body{
+	overflow-x: hidden;
+}
+
+body{
+	background: url("img/body-background.jpg") repeat #FFF;
+	color: $brand-color;
+}
+a{
+	display: inline-block;
+	text-decoration: none;
+}
+p > em, .feature{
+	font-style: italic;
+	font-weight: 300;
+}
+
+strong, .strong{
+	font-weight: 800;
+}
+
+
+%container{
+	width: 980px;
+	margin: 0 auto;
+}
+.container{
+	padding: 0 20px;
+	@extend %container;
+}
+
+%arrow{
+	z-index: 5;
+	@include arrow(bottom, center, #f7f4ed, #e5e5e5);
+}
+
+%arrow2{
+	z-index: 5;
+	@include arrow(bottom, center, #393939);
+}
+
+/**
+ * Full width image background
+ */
+.bg{
+	position: relative;
+}
+	.bg > img{
+		width: 100%;
+		display: block;
+	}
+
+/**
+ * Only in home, class hero
+ */
+.hero{
+	width: 610px;
+	margin: 0 auto;
+	padding: 40px 0;
+	color: #FFF;
+	text-align: center;
+	background: url("img/hero-shadow.png") no-repeat center center transparent;
+	@include vendor(text-shadow, 0 -1px 1px rgba(0, 0, 0, 0.6));
+}
+	.hero__title{
+		font-weight: 700;
+		margin-bottom: 10px;
+		@include font-size($giga-size);
+	}
+	.hero__subtitle{
+		font-weight: 300;
+		@extend .gamma;
+	}
+	.hero__link{
+		background: #8cb804;
+		color: #FFF;
+		font-size: 20px;
+		font-style: italic;
+		@extend .btn;
+		@extend .btn--hard;
+		@extend .btn--small;
+	}
+
+/**
+ * Background for main content
+ */
+.top{
+	background-image: url("img/top-bg.png");
+	background-repeat: repeat-x;
+	height: 70px;
+}
+	/*52 x 70*/
+	.what-is{
+		background-position: 0 0;
+	}
+	.bg-improve{
+		background-position: 0 -70px;
+	}
+	.bg-support{
+		background-position: 0 -140px;
+	}
+	.bg-provide{
+		background-position: 0 -210px;
+	}
+	.bg-info{
+		background-position: 0 -280px;
+	}
+
+/**
+ * Object for links
+ */
+.link{
+	display: inline-block;
+	text-decoration: none;
+	color: inherit;
+}
+	.link--natural{
+		color: inherit;
+		display: block;
+	}
+	.link--highlighted{
+		text-decoration: underline;
+	}
+	.link--testimonial{
+		color: #19b8ab !important;
+		text-align: center;
+		display: block;
+	}
+	.link--provider{
+		border-left: 3px solid #E24D3C;
+    	color: inherit;
+    	display: block;
+    	margin: 10px 0;
+    	min-height: 70px;
+    	padding: 0 10px;
+	}
+
+	/* Home tiles */
+	.link--tile{
+		display: block;
+		color: #FFF;
+		text-transform: uppercase;
+		text-align: center;
+		font-weight: 400;
+		padding: 5px 0;
+	}
+
+/**
+ * Section object for containing content
+ */
+.section{
+	display: block;
+	position: relative;
+}
+	/* White vertically/horizontally centered section */
+	.section--box{
+		background: #FFF;
+		padding: 40px;
+		width: 600px;
+		margin: 0 auto;
+		@include vendor(border-radius, 7px);
+	}
+
+	.section--listing{
+		padding: 0 20px;
+		& > .section--listing__head{
+			width: 860px;
+			margin: 70px auto 0 auto;
+		}
+	}
+		.section--listing__head{
+			.split{
+				padding: 0 110px;
+				@extend .cf;
+			}
+			p{
+				text-align: center;
+			}
+		}
+
+	.section--natural{
+		background: #FFF;
+		border-top: 1px solid #e5e5e5;
+	}
+
+	.section--special{
+		background: #e54f3f;
+		padding-top: 45px;
+	}
+	.section--special-rev{
+		background: #c3d600;
+		@extend .section--special;
+		color: #fff;
+	}
+
+/**
+ * Icons box (related to sections box)
+ */
+.icon-box{
+	display: inline-block;
+	width: 107px;
+	height: 107px;
+	position: absolute;
+	top: 30px;
+	left: -80px;
+	background-image: url("img/box-icons.png");
+	background-repeat: no-repeat;
+}
+	.icon-box--time{
+		background-position: 0 0;
+	}
+	.icon-box--gov{
+		background-position: 0 -107px;
+	}
+	.icon-box--parks-order{
+		background-position: 0 -214px;
+	}
+	.icon-box--volunteering{
+		background-position: 0 -321px;
+	}
+	.icon-box--business{
+		background-position: 0 -428px;
+	}
+	.icon-box--institutions{
+		background-position: 0 -535px;
+	}
+	.icon-box--staff{
+		background-position: 0 -642px;
+	}
+	.icon-box--foundations{
+		background-position: 0 -749px;
+	}
+	.icon-box--download{
+		background-position: 0 -856px;
+	}
+	.icon-box--info{
+		background-position: 0 -964px;
+	}
+
+
+/**
+ * Tabs (related to sections listing)
+ */
+.tabs{
+	padding: 20px 0;
+	@extend %arrow;
+}
+	.tab > label{
+		text-align: center;
+	}
+	.tab > .labelfocus{
+		position: relative;
+		&:after{
+			@extend %arrow2;
+		}
+	}
+
+.tabs-content{
+	background: #FFF;
+	border-top: 1px solid #e5e5e5;
+	position: relative;
+	padding: 30px;
+	&:before, &:after{
+		content: "";
+		position: absolute;
+		background: #FFF;
+		top: 0; bottom: 0;
+		width: 9999px;
+		border-top: 1px solid #e5e5e5;
+	}
+	&:before{
+		right: 100%;
+	}
+	&:after{
+		left: 100%;
+	}
+}
+
+.tab-content{
+	width: 860px;
+	margin: 0 auto;
+
+	input{
+		display: none;
+		visibility: hidden;
+	}
+	input ~ *{
+		@include vendor(transition, opacity .5s ease-in);
+	}
+	input:not(:checked) ~ *{
+		opacity: 0;
+		@extend .visuallyhidden;
+	}
+	input:checked ~ *{
+		opacity: 1;
+	}
+	p{
+		text-align: center;
+		margin: 0;
+		padding: 20px 0;
+	}
+}
+
+.testimonial-list{
+	@extend .multi-list;
+	@extend .four-cols;
+	li{
+		padding: 15px 0;
+	}
+	li ul{
+		margin-left: 5px;
+		list-style: none;
+	}
+	p{
+		font-size: 13px;
+		padding: 0;
+		margin-bottom: 5px;
+	}
+}
+
+/**
+ * Tabs for providers list
+ */
+.providers-menu{
+	width: 190px;
+	background: #FFF;
+	@extend .media__img;
+
+	ul{
+		margin: 0;
+		ul > li{
+			border: none;
+			padding: 5px 15px;
+			font-style: italic;
+			font-weight: 300;
+		}
+	}
+
+	li{
+		padding: 10px 30px;
+		border-bottom: 1px solid #e5e5e5;
+	}
+}
+.providers-listing{
+	width: 560px;
+	position: relative;
+	@extend .media__body;
+
+	input{
+		display: none;
+	}
+	input:not(:checked) ~ div{
+		opacity: 0;
+		@extend .visuallyhidden;
+	}
+	input:checked ~ div{
+		opacity: 1;
+		@include vendor(transition, opacity .5s ease);
+	}
+}
+.provider-content{
+	opacity: 0;
+	position: absolute;
+	@include vendor(transition, opacity .3s ease-in);
+
+	&.showed{
+		opacity: 1;
+		width: 370px;
+		padding: 40px;
+		position: absolute;
+		top: 20%;
+		left: 45%;
+		background-color: $red;
+		@include vendor(transition, opacity .3s ease-out);
+	}
+}
+	.provider-info{
+		color: #FFF;
+
+		h1, h2, h3, h4, h5, h6{ @extend .delta; }
+		p{ margin-bottom: $half-spacing-unit; }
+	}
+
+	.close{
+		cursor: pointer;
+		position: absolute;
+		top: 10px;
+		right: 20px;
+		color: #FFF;
+	}
+
+.seven-cols > li{
+    width:14.285%;
+}

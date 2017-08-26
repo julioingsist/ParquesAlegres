@@ -11,3 +11,10 @@
 /_vti_log
 /_vti_pvt
 /_vti_txt
+wp-config.php
+wp-config-sample.php
+error_log
+/tablet/tangibles
+/tablet/experiencias_exitosas
+/wp-content/uploads
+

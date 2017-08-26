@@ -1,0 +1,21 @@
+/* Estilos específicos para style3: Rojo */
+body{background:#82341c url(style3/top-bg.jpg) no-repeat scroll center top}
+/*Enlaces*/
+a:link, a:visited, a:active, .post a:link, .post a:visited, .post a:active, #navigation li a, #related_articles a:hover, #sidebar h3{color:#a65a3f}
+a:hover, .post a:hover, .post .the_post_meta li a:hover{color:#82341c}
+.reply a:link, .reply a:visited, .cancel-comment-reply a:link, .cancel-comment-reply a:visited{background:#a65a3f; border-bottom:1px solid #82341c}
+.reply a:hover, .cancel-comment-reply a:hover{background:#82341c; border-bottom:1px solid #a65a3f}
+.reply a:active, .cancel-comment-reply a:active{background:#82341c}
+input#submit{background:#82341c}
+/*Buscador*/
+.search_button{background:url(style3/search-button.png) no-repeat}
+/*Menú*/
+#navigation li a:hover, #navigation li.current_page_item a{color:#fff; background-color:#a65a3f; border:1px solid #82341c}
+/*Artículos*/
+.post .the_post_meta, .post .the_post_meta li a{color:#af7d71}
+.post_inner_wrap ul li{background:url(style3/li.png) no-repeat 0 5px}
+.post blockquote{background:transparent url(style3/blockquote.png) no-repeat 0 0}
+ol.commentlist li.autorcomment{background-color:#f1c9bd !important}
+/*Sidebar*/
+.sbb ul li a:hover{color:#a65a3f !important}
+.boxBody div ul{list-style-image:url(style3/li.png)}

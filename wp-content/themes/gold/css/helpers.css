@@ -1,0 +1,147 @@
+/* +++++++General classes++++++++++++++++++++++++*/	
+	.bold{font-weight: bold;}
+	.bolder{font-weight: bolder;}
+	.light{font-weight: lighter;}
+	.font10{font-size: 10px}
+	.font11{font-size: 11px}
+	.font12{font-size: 12px}
+	.font13{font-size: 13px}
+	.font14{font-size: 14px}
+	.font15{font-size: 15px}
+	.font16{font-size: 16px}
+	.font17{font-size: 17px}
+	.font18{font-size: 18px}
+	.font19{font-size: 19px}
+	.font20{font-size: 20px}
+	.font21{font-size: 21px}
+	.font22{font-size: 22px}
+	.font23{font-size: 23px}
+	.font24{font-size: 24px}
+	.font25{font-size: 25px}
+	.font30{font-size: 30px}
+	.font40{font-size: 40px}
+    .font42{font-size: 42px}
+	.font45{font-size: 45px}
+	.font50{font-size: 50px}
+	.font55{font-size: 55px}
+	.font60{font-size: 60px}
+	.font70{font-size: 70px}
+
+	.bottom10{margin-bottom: 10px}
+	.line-h100{line-height: 100%}
+	.line-h110{line-height: 110%}
+	.line-h120{line-height: 120%}
+	.line-h130{line-height: 130%}
+	.line-h140{line-height: 140%}
+	.line-h150{line-height: 150%}
+	.line-h160{line-height: 160%}
+	.line-h170{line-height: 170%}
+	.line-h180{line-height: 180%}
+	.line-h190{line-height: 190%}
+	.margin0{margin-top: 0}
+	.margin-all0{margin: 0!important;}
+	.mark{ background: gray}
+	.left{float: left;}
+	.right{float: right;}
+	.clearboth{clear: both;}
+	.right-n{float: right;}
+	.center{text-align: center;}
+	.justify{text-align: justify;}
+	.justify-all{text-align: justify;}
+	.black{color: black}
+	.black-imp{color: black !important}
+	.white{color: white}
+	.white-imp{color: white !important}
+	.whitebg{background-color: white}
+	.yellow{color: yellow}
+	.purple{color:#942A8F;}
+	.purple-bg{background-color:#942A8F;}
+	.blue{color:#211B5B}
+	.bluebg{background-color:#211B5B}
+	.gray{color:#7B7B7B	}
+	.red{color: red}
+	.darkgray{color:#5B5A58}
+	.lightergraybg{background-color: #ECEBE7}
+	.lightgray{color:#7b7b7b;}
+	.padding5{ padding: 5px}
+	.padding6{ padding: 6px}
+	.padding8{ padding: 8px}
+	.padding10{ padding: 10px}
+	.padding15{ padding: 15px}
+	.padding20{ padding: 20px}
+	.left10{margin-left: 10px}
+	.left20{margin-left: 20px}
+	.left30{margin-left: 30px}
+	.left40{margin-left: 40px}
+	.left50{margin-left: 50px}
+	.left60{margin-left: 60px}
+	.left70{margin-left: 70px}
+	.left80{margin-left: 80px}
+	.left100{margin-left: 100px}
+	.left340{margin-left: 340px}
+	.right10{margin-right: 10px}
+	.right20{margin-right: 20px}
+	.right30{margin-right: 30px}
+	.right40{margin-right: 40px}
+	.right50{margin-right: 50px}
+	.right60{margin-right: 60px}
+	.right70{margin-right: 70px}
+	.right80{margin-right: 80px}
+	.right100{margin-right: 100px}
+	.wide25{width: 25%}
+	.wide50{width: 50%}
+	.wide45{width: 45%}
+	.wide77{width: 77% !important}
+	.shadow{text-shadow:2px 2px black;}
+	.shadow1{text-shadow:1px 1px black;}
+	.h30{min-height: 30px}
+	.h40{min-height: 40px}
+	.h50{min-height: 50px}
+	.h60{min-height: 60px}
+	.h70{min-height: 70px}
+	.h80{min-height: 80px}
+	.h90{min-height: 90px}
+	.h100{min-height:100px}
+	.h150{min-height:150px !important}
+	.h200{min-height:200px !important}
+	.h300{min-height:300px}
+	.h400{min-height:400px}
+	.top5{margin-top: 5px}
+	.top10{margin-top: 10px}
+	.top20{margin-top: 20px}
+	.top30{margin-top: 30px}
+	.top40{margin-top: 40px}
+	.top50{margin-top: 50px}
+	.top60{margin-top: 60px}
+	.top70{margin-top: 70px}
+
+	.relative{position: relative;}
+	.absolute{position: absolute;}
+	.toupper{text-transform: uppercase;}
+	.overflow{overflow: hidden;}
+	.radius5{border-radius: 5px}
+	.radius10{border-radius: 10px}
+	.radius15{border-radius: 15px}
+	.radius20{border-radius: 20px}
+
+	.box10{padding: 10px}
+	.smokebg{background-color: whitesmoke}
+	.flex-video{
+      height: 0;
+      margin-bottom: 1em;
+      overflow: hidden;
+      padding-bottom: 67.5%;
+      padding-top: 1.5625em;
+      position: relative;
+    }
+    .flex-video iframe, .flex-video object, .flex-video embed, .flex-video video {
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+    .hidden{display: none;}
+    .block{display: block;}
+
+    .no-list-style{list-style-type: none;}

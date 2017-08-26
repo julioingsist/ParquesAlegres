@@ -1,0 +1,127 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: NatureFox v1.0.10\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2013-11-08 18:23:27+0000\n"
+"Last-Translator: root <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: CSL v1.x\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: \n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: 404.php:3
+#@ naturefox
+msgid "Error 404 - Not Found"
+msgstr "Fehler 404 - Nichts gefunden"
+
+#: 404.php:4
+#@ naturefox
+msgid "Apologies, but the page you requested could not be found."
+msgstr "Entschuldige bitte, aber die von Ihnen angeforderte Seite konnte nicht gefunden werden."
+
+#: archive.php:17
+#@ naturefox
+msgid "Author Archive"
+msgstr "Autoren-Archiv"
+
+#: archive.php:19
+#@ naturefox
+msgid "Blog Archives"
+msgstr "Blog Archiv"
+
+#: archive.php:46
+#: index.php:27
+#: search.php:29
+#@ naturefox
+msgid "More"
+msgstr "mehr"
+
+#: archive.php:82
+#: index.php:63
+#@ naturefox
+msgid "Not found"
+msgstr "Nicht gefunden"
+
+#: archive.php:83
+#: index.php:64
+#@ naturefox
+msgid "Sorry, but you are looking for something that isn't here."
+msgstr "Sorry, aber du suchst nach etwas, das es hier nicht gibt."
+
+#: comments.php:16
+#@ naturefox
+msgid "Comments are currently closed."
+msgstr "Kommentare sind derzeit geschlossen."
+
+#: functions.php:7
+#@ naturefox
+msgid "Sidebar Widget Area"
+msgstr "Sidebar Widget Bereich"
+
+#: functions.php:9
+#@ naturefox
+msgid "The sidebar widget area"
+msgstr "Der Sidebar Widget Bereich"
+
+#: functions.php:54
+#@ naturefox
+msgid "My post is password protected. Please ask me for a password:"
+msgstr "Mein Beitrag ist Passwort geschützt. Bitte fragen Sie mich nach einem Passwort:"
+
+#: functions.php:55
+#@ naturefox
+msgid "Password"
+msgstr "Kennwort"
+
+#: functions.php:56
+#@ default
+msgid "Submit"
+msgstr ""
+
+#: header.php:23
+#, php-format
+#@ default
+msgid "Page %s"
+msgstr ""
+
+#: search.php:65
+#@ naturefox
+msgid "No posts found. Try a different search?"
+msgstr "Keine Nachrichten gefunden. Versuchen Sie einen andere Suche?"
+
+#: sidebar.php:7
+#@ naturefox
+msgid "Search"
+msgstr "Suchen"
+
+#: sidebar.php:11
+#@ naturefox
+msgid "Pages"
+msgstr "Seiten"
+
+#: sidebar.php:17
+#@ naturefox
+msgid "Categories"
+msgstr "Kategorien"
+
+#: sidebar.php:23
+#@ naturefox
+msgid "Archives"
+msgstr "Archiv"
+
+#: sidebar.php:30
+#@ naturefox
+msgid "Meta"
+msgstr "Meta"
+

@@ -1,0 +1,235 @@
+admin,Villa del Real,000-031-254-002-001
+admin,Capistrano Residencial,000-042-503-001-001
+admin,Villa contenta,000-025-076-015-001
+Angela Vianey Ramirez Lopez,Los Ángeles (Santa Cristina),000-046-084-001-001
+Angela Vianey Ramirez Lopez,Los Ángeles (Benjamines),000-046-073-027-001
+Angela Vianey Ramirez Lopez,Los Ángeles (Cerritos),000-046-013-001-001
+Angela Vianey Ramirez Lopez,Los Ángeles (Monrrovia),000-046-012-001-001
+Angela Vianey Ramirez Lopez,Los Ángeles (Cancha de usos múltiples),000-046-039-001-001
+Angela Vianey Ramirez Lopez,Los Ángeles (Topanga),000-046-057-037-001
+Angela Vianey Ramirez Lopez,Los Ángeles (Ventura),000-046-010-001-001
+Angelina Lopez,Unidad Deportiva Villa del Real,000-031-627-001-001
+Angelina Lopez,Las Quintas (ciudad de puebla),000-004-149-001-001
+Angelina Lopez,Camino real 1,000-031-709-001-001
+Angelina Lopez,Camino real 2,000-031-236-035-001
+Angelina Lopez,Camino real 3,000-031-704-001-001
+Angelina Lopez,Paseos del rio,000-034-201-001-001
+Angelina Lopez,Ribera de Tamazula Prep,000-034-224-001-001
+Angelina Lopez,Villa del Real 3,000-031-214-001-001
+Angelina Lopez,Camino Real (Virreyes),000-031-727-009-001
+Angelina Lopez,Villa del Real,000-031-254-002-001
+Balbina Garcia Valenzuela,"Nakayama, Juan Rulfo",000-028-701-001-001
+Balbina Garcia Valenzuela,Villa Bonita 1,000-045-152-001-001
+Balbina Garcia Valenzuela,Villa Bonita 3,000-045-178-019-001
+Balbina Garcia Valenzuela,Chulavista ( Escuela Primaria ),000-042-062-001-001
+carlos,Unidad deportiva Misión de San Juan,000-044-055-018-001
+carlos yovani lerma aispuro,Agustina Ramírez(cuarto menguante),000-020-209-001-001
+carlos yovani lerma aispuro,Infonavit Humaya (José C.Valadez),000-020-094-001-001
+carlos yovani lerma aispuro,Infonavit Humaya (frente a la Escuela ),000-020-121-001-001
+carlos yovani lerma aispuro,Infonavit Humaya Tierra,000-020-053-029-001
+carlos yovani lerma aispuro,Nueva Vizcaya,000-020-262-007-001
+carlos yovani lerma aispuro,Santa Elena PREP,000-020-293-001-001
+carlos yovani lerma aispuro,Santa Elena 2 (área verde),000-020-295-010-001
+carlos yovani lerma aispuro,Santa Elena 1 (juegos infantiles),000-020-306-001-001
+carlos yovani lerma aispuro,Infonavit Humaya (Andador Planeta),000-020-078-001-001
+carlos yovani lerma aispuro,Infonavit Humaya (sol-Asteroide),000-020-064-011-001
+carlos yovani lerma aispuro,Agustina Ramirez 4to Menguante 2,000-020-209-001-001
+carlos yovani lerma aispuro,Fovissste Diamante Av. Obrero Mundial,000-020-167-001-001
+Daniela Guadalupe Ochoa Heredia,Universidad 94 etapa 1,000-022-142-001-001
+Daniela Guadalupe Ochoa Heredia,pradera dorada prep,000-022-129-001-001
+Daniela Guadalupe Ochoa Heredia,Horizontes,000-023-080-001-001
+Daniela Guadalupe Ochoa Heredia,Parque Montecarlo,000-023-378-001-001
+Daniela Guadalupe Ochoa Heredia,Villas Victoria prep,000-022-187-001-001
+Daniela Guadalupe Ochoa Heredia,Horizontes prep,000-023-075-001-001
+Daniela Guadalupe Ochoa Heredia,Espacios Barcelona(Parque Central),000-020-340-001-001
+Daniela Guadalupe Ochoa Heredia,Espacios Barcelona 2,000-020-344-001-001
+Daniela Guadalupe Ochoa Heredia,Santa Anita 1,000-022-204-001-001
+Daniela Guadalupe Ochoa Heredia,El barco,000-022-001-264-001
+Daniela Guadalupe Ochoa Heredia,Portalegre I,000-022-480-018-001
+Daniela Guadalupe Ochoa Heredia,Acueducto 4  el parque grande de la palapa,000-022-412-001-001
+Daniela Guadalupe Ochoa Heredia,Montecarlo 2,000-023-417-001-001
+Daniela Guadalupe Ochoa Heredia,Montecarlo 3,000-023-424-001-001
+Daniela Guadalupe Ochoa Heredia,Espacios Barcelona parque Cuchilla,000-020-339-026-001
+Daniela Guadalupe Ochoa Heredia,Espacios Barcelona Entrada 1 Derecha,000-020-335-020-001
+Daniela Guadalupe Ochoa Heredia,Espacios Barcelona Entrada 1 izquierda,000-020-345-001-001
+Daniela Guadalupe Ochoa Heredia,Espacios Barcelona Entrada 2 Derecha,000-020-350-001-001
+Daniela Guadalupe Ochoa Heredia,Espacios Barcelona Entrada 2 Izquierda,000-020-350-001-001
+Eric Favela,Unidad deportiva Esthela Ortíz,000-028-454-001-001
+Eric Favela,Lomas del Boulevard,000-025-015-001-001
+Eric Favela,Unidad deportiva El Vallado,000-012-047-001-001
+Eric Favela,Buenos Aires 1,000-037-429-001-001
+Eric Favela,"Felipe Ángeles, Iglesia",000-028-560-001-001
+Eric Favela,Montebello 1,000-030-236-001-001
+Eric Favela,Montebello 2,000-030-256-004-001
+Eric Favela,Montebello 5,000-030-243-001-001
+Eric Favela,Colinas de San Miguel 1,000-015-170-031-001
+Eric Favela,Colinas de San Miguel 2,000-015-194-031-001
+Ernesto Barreras Ruiz,Villas del rio el rinconcito,000-023-139-031-001
+Ernesto Barreras Ruiz,Acueducto 2,000-022-311-001-001
+Ernesto Barreras Ruiz,Unidad deportiva la Conquista,000-022-260-001-001
+Ernesto Barreras Ruiz,Villas del rio Claveles,000-023-123-019-001
+Ernesto Barreras Ruiz,Villas del rio Castilla,000-023-360-045-001
+Ernesto Barreras Ruiz,Acueducto 1,000-022-290-001-001
+Ernesto Barreras Ruiz,Villas del rio San sebastian,000-023-362-001-001
+Ernesto Barreras Ruiz,Villas del río Albacete,000-023-367-011-001
+Ernesto Barreras Ruiz,Villas del rio Granada,000-023-368-017-001
+Ernesto Barreras Ruiz,Villas del río Segovia,000-023-350-029-001
+Ernesto Barreras Ruiz,Villas del rio Terrassa,000-023-339-001-001
+Ernesto Barreras Ruiz,Villas del río Valencia,000-023-345-032-001
+Ernesto Barreras Ruiz,villas del río Gijon,000-023-366-009-001
+Ernesto Barreras Ruiz,villas del rio salamanca,000-023-344-001-001
+Ernesto Barreras Ruiz,Villas del rio cerrada 1,000-023-188-001-001
+Ernesto Barreras Ruiz,villas del rio Cerrada III,000-023-185-001-001
+Ernesto Barreras Ruiz,UrbiVilla del Cedro (Arandano),000-022-505-001-001
+Ernesto Barreras Ruiz,Villas del rio Castellon,000-023-341-001-001
+Ernesto Barreras Ruiz,Bosques del rio,000-023-289-001-001
+Ernesto Barreras Ruiz,Prados de la conquista (calle marte),000-022-426-001-001
+Ernesto Barreras Ruiz,Villas del Río Madre teresa,000-023-412-001-001
+Esmeralda Astorga Ramirez,jardines de santa fe (PREP),000-040-006-001-001
+Esmeralda Astorga Ramirez,La Puerta PREP,000-021-354-001-001
+Esmeralda Astorga Ramirez,La Puerta Los Puentes,000-021-205-014-001
+Esmeralda Astorga Ramirez,Colinas de la rivera(prep),000-021-317-001-001
+Esmeralda Astorga Ramirez,Jardines de santa fe(cancha de futbol),000-040-014-001-001
+Esmeralda Astorga Ramirez,Santa fe(santa regina),000-021-122-001-001
+Esmeralda Astorga Ramirez,Santa fe(san cipriano),000-021-188-001-001
+Esmeralda Astorga Ramirez,Fincas del humaya(chalet),000-021-513-001-001
+Esmeralda Astorga Ramirez,Colinas de la Rivera (villa calomato),000-021-318-001-001
+Esmeralda Astorga Ramirez,Villa Fontana 2,000-021-083-017-001
+Esmeralda Astorga Ramirez,Real de Santa fe 2,000-021-504-015-001
+Esmeralda Astorga Ramirez,Altamira 1,000-020-390-001-001
+Esmeralda Astorga Ramirez,Altamira 2,000-020-388-001-001
+Esmeralda Astorga Ramirez,Santa Elena 3 (bancas),000-020-283-018-001
+Esmeralda Astorga Ramirez,Santa Elena 4 (solo),000-020-285-018-001
+Esmeralda Astorga Ramirez,Bosquencinos Residencial,000-021-518-001-001
+Esmeralda Astorga Ramirez,Rincon Real 5,000-021-375-001-001
+Fabiola Espinoza Medina,"Barrancos II, María Greever",000-027-365-003-001
+Fabiola Espinoza Medina,"Barrancos II, Alma Schillerde",000-027-374-001-001
+Fabiola Espinoza Medina,"Infonavit Barrancos I, Art. 115",000-027-228-001-001
+Fabiola Espinoza Medina,"Barrancos II, Profesor Graciano Sánchez",000-027-362-001-001
+Fabiola Espinoza Medina,"Barrancos II, Luis Spota",000-027-366-002-001
+Fabiola Espinoza Medina,"Barrancos II, Rubén Romero",000-027-366-001-001
+Fabiola Espinoza Medina,UrbiVilla del Sol,000-042-469-001-001
+Fabiola Espinoza Medina,UrbiVilla del Sol 1,000-042-483-001-001
+Fabiola Espinoza Medina,UrbiVilla del Sol malla ciclonica,000-042-481-001-001
+Fabiola Espinoza Medina,"Barrancos II, Solidaridad",000-027-358-001-001
+Fabiola Espinoza Medina,Colinas del Bosque(Las Torres 1),000-042-543-012-001
+Fabiola Espinoza Medina,Colinas del Bosque (Las Torres 2),000-042-545-001-001
+Fabiola Espinoza Medina,Colinas del Bosque (Las Torres 3 Cerro),000-042-544-043-001
+Fabiola Espinoza Medina,Colinas del Bosque (2da Entrada C.Tulipanes),000-042-540-116-001
+Fabiola Espinoza Medina,Prados del Sol 2 ( Las Torres ),000-042-425-001-001
+Fabiola Espinoza Medina,Colinas del Bosque (3ra Entrada C. de los Geranios),000-042-555-052-001
+Fabiola Espinoza Medina,Colinas del Bosque (3ra Entrada Cuchilla de las Peonias),000-042-559-001-001
+Fabiola Espinoza Medina,Colinas del Bosque ( 3ra C. de las Azucenas),000-042-558-016-001
+Fabiola Espinoza Medina,Colinas del Bosque (4ta Entrada C. Lirios),000-042-561-018-001
+Francia Marcela Robles Ibarra,Cañadas 1,000-029-072-050-001
+Francia Marcela Robles Ibarra,SAN CARLOS 1,000-029-299-060-001
+Francia Marcela Robles Ibarra,PARQUE MIRADOR,000-029-018-016-001
+Irma Jimenez,Unidad deportiva san Benito,000-043-019-001-001
+Irma Jimenez,Unidad deportiva 5 de febrero I,000-031-700-005-001
+Irma Jimenez,Unidad deportiva 5 de febrero 2,000-031-700-005-001
+Irma Jimenez,Unidad Deportiva José Vasconcelos,000-031-130-001-001
+Irma Jimenez,Alturas del Sur (Cima del Kibo),000-043-131-002-001
+Irma Jimenez,Unidad Deportiva Vista Hermosa,000-032-698-001-001
+Irma Jimenez,Cancha de futbol 10 de mayo,000-030-196-003-001
+Irma Jimenez,Plazuela Lazaro Cardenas,000-037-113-001-001
+Irma Jimenez,Unidad deportiva las huertas,000-037-014-001-001
+Irma Jimenez,Centro Barrio 21 de Marzo,000-032-419-001-001
+Irma Jimenez,Providencia 2,000-044-288-001-001
+Irma Jimenez,Parque 21 de Marzo,000-031-700-005-001
+Irma Jimenez,Nueva Galicia Sur,000-044-055-009-001
+Irma Jimenez,Unidad deportiva cnop,000-037-278-001-001
+Jesus Antonio lopez vargas,La alameda,000-039-715-001-001
+Jesus Antonio lopez vargas,Centro barrio Lombardo Toledano,000-035-115-001-001
+Jesus Antonio lopez vargas,Brisas del Humaya,000-020-248-001-001
+Jesus Antonio lopez vargas,Hacienda de Los Huertos,000-039-790-001-001
+Jesus Antonio lopez vargas,Villa Fontana 1,000-021-089-001-001
+Jesus Antonio lopez vargas,Campo los huertos,000-039-606-016-001
+Jesus Antonio lopez vargas,Unidad deportiva Juan de dios batiz,000-035-332-001-001
+Jesus Antonio lopez vargas,Colinas de la Rivera 3,000-021-465-001-001
+Jesus Antonio lopez vargas,Residencial Alameda prep,000-039-589-014-001
+Jesus Antonio lopez vargas,Rotarismo,000-021-001-004-001
+Maricela Sainz,Unidad deportiva bugambilias,000-026-131-001-001
+Maricela Sainz,Los Helechos(laureles),000-036-403-035-001
+Maricela Sainz,Valle Alto Sendero del Valle,000-023-491-001-001
+Maricela Sainz,Valle Alto Camino al Valle,000-023-487-001-001
+Maricela Sainz,Heliótropos,000-026-136-031-001
+Maricela Sainz,Santa Rocio (Monte Sinaí),000-036-186-001-001
+Maricela Sainz,"Las Palmas 2, palma viajera",000-025-081-031-001
+Maricela Sainz,"Las Palmas 2, palma plumosa",000-025-080-025-001
+Maricela Sainz,Las palmas real,000-025-079-045-001
+Marlenne Ibarra Lopez,"Molinos de Flores, Bugambilias",000-026-202-015-001
+Marlenne Ibarra Lopez,"Molinos de Flores, Gladiolas",000-026-195-001-001
+Marlenne Ibarra Lopez,"Molinos de flores, Azucenas",000-026-197-029-001
+Marlenne Ibarra Lopez,"Molinos de Flores, Orquídeas",000-026-199-015-001
+Marlenne Ibarra Lopez,"Rincon del Valle, Campo El Sol",000-026-108-009-001
+Marlenne Ibarra Lopez,"Rincon del Valle, Mediterraneo",000-026-115-001-001
+Marlenne Ibarra Lopez,Villa verde Iglesia,000-027-246-001-001
+Marlenne Ibarra Lopez,"Villa Verde, Praga",000-027-432-001-001
+Marlenne Ibarra Lopez,Centenario I,000-027-583-001-001
+Marlenne Ibarra Lopez,Unidad Deportiva Jardines del Valle,000-027-200-001-001
+Marlenne Ibarra Lopez,Los Arcos,000-027-443-001-001
+Marlenne Ibarra Lopez,Unidad deportiva Plutarco Elias Calles,000-028-538-001-001
+Marlenne Ibarra Lopez,Fuentes del Valle,000-026-143-001-001
+Marlenne Ibarra Lopez,Santa Clara,000-027-560-001-001
+Marlenne Ibarra Lopez,Villa Colonial,000-027-494-001-001
+Marlenne Ibarra Lopez,Residencial Casa Blanca,000-027-699-001-001
+Marlenne Ibarra Lopez,Rincón Santa Rosa,000-027-655-022-001
+Marlenne Ibarra Lopez,Los Portales,000-027-626-001-001
+Marlenne Ibarra Lopez,Unidad Deportiva Eduardo Millán Vega,000-027-432-001-001
+Marlenne Ibarra Lopez,Urbivilla del Roble,000-027-667-001-001
+Marlenne Ibarra Lopez,"Centenario I, Camino del Río",000-027-589-001-001
+Marlenne Ibarra Lopez,"Barrancos IV, Rodolfo Fierro",000-027-570-037-001
+Marlenne Ibarra Lopez,"Plutarco Elias Calles, Art. 27",000-028-511-001-001
+Marlenne Ibarra Lopez,Girasoles,000-027-614-001-001
+Mayleth Fonseca Cuen,Villas del río Guanajuato,000-023-389-001-001
+Mayleth Fonseca Cuen,villas del río Lagunas,000-023-391-001-001
+Mayleth Fonseca Cuen,Villas del rio prep,000-023-390-001-001
+Mayleth Fonseca Cuen,Villas del rio Almeria,000-023-372-001-001
+Mayleth Fonseca Cuen,Stanza Toscana cuchilla,000-023-537-053-001
+Mayleth Fonseca Cuen,Stanza Toscana Cori,000-023-551-001-001
+Mayleth Fonseca Cuen,Stanza Toscana Rodi,000-023-555-001-001
+Mayleth Fonseca Cuen,Stanza Toscana Lecco,000-023-553-001-001
+Mayleth Fonseca Cuen,Villas del río Patzcuaro,000-023-388-001-001
+Mitl Gaxiola,Unidad deportiva Infonavit Solidaridad,000-022-059-001-001
+Mitl Gaxiola,Parque Deportivo Luz Daniela Gaxiola González,000-022-155-001-001
+Mitl Gaxiola,Valle dorado,000-022-228-001-001
+Mitl Gaxiola,Infonavit Humaya (andromeda),000-020-052-160-001
+Mitl Gaxiola,Infonavit Humaya(circulo medusa),000-020-120-001-001
+Mitl Gaxiola,Infonavit Humaya prep,000-020-068-001-001
+Mitl Gaxiola,Parquesito Issstesin,000-020-104-026-001
+Mitl Gaxiola,Pradera Dorada 2 (tetuán),000-022-173-009-001
+Mitl Gaxiola,Rancho Contento (Rejoneo),000-022-403-001-001
+Mitl Gaxiola,Rancho Contento (inicio de calle la troje),000-022-302-001-001
+Mitl Gaxiola,Pradera del Rey 2,000-022-354-001-001
+Mitl Gaxiola,Pradera Diamante(arresifes),000-022-397-001-001
+Mitl Gaxiola,Asaleas 1,000-022-369-001-001
+Mitl Gaxiola,Asaelas (delfin),000-022-395-016-001
+Mitl Gaxiola,Rancho Contento (cortijo),000-022-352-002-001
+Mitl Gaxiola,CANACO,000-022-026-001-001
+Nora Tamayo,Club Deportivo Terranova,000-036-160-001-001
+Nora Tamayo,Terranova (kinder),000-036-145-001-001
+Nora Tamayo,Terranova(unidad deportiva Aaron Irizar),000-036-140-005-001
+Nora Tamayo,Hacienda de la Mora(Naranjo),000-026-179-001-001
+Nora Tamayo,Campo Bello,000-036-360-001-001
+Nora Tamayo,El Paraíso (PREP),000-036-286-001-001
+Nora Tamayo,Vallebonito,000-036-257-001-001
+Nora Tamayo,Agrapando,000-026-123-033-001
+Nora Tamayo,Nardo,000-026-124-064-001
+Nora Tamayo,Flor de Loto,000-026-099-001-001
+Nora Tamayo,Girasol (IMSS),000-036-275-001-001
+Nora Tamayo,Paraíso (pasto sintético),000-036-287-001-001
+Nora Tamayo,Villas del Manantial (etapa 1),000-036-427-001-001
+Nora Tamayo,Las Terrazas (vista del sol),000-036-417-001-001
+Nora Tamayo,San José María Escrivá,000-036-500-001-001
+Nora Tamayo,Danubio 1,000-036-474-001-001
+Nora Tamayo,Danubio 2,000-036-471-001-001
+Rafael Valenzuela,Interlomas,000-035-411-017-001
+Rafael Valenzuela,Interlomas circuito de las aguilas,000-035-418-010-001
+Rafael Valenzuela,Interlomas circuito del quetzal,000-035-420-001-001
+Rafael Valenzuela,Interlomas circuito de las garzas,000-035-409-001-001
+Rafael Valenzuela,Interlomas parque circuito de las aguilas,000-035-417-001-001
+Rafael Valenzuela,Residencial hacienda del corral,000-035-186-026-001
+Rafael Valenzuela,Lomas del sol orion(prep),000-035-294-001-001
+Yahir Abraham Narvaez Velarde,Rivera del Tamazula(badiraguato),000-034-182-001-001
+Yahir Abraham Narvaez Velarde,Parque Elektra (Fracc. Floresta),000-034-237-002-001
+Yahir Abraham Narvaez Velarde,Ribera de Piaxtla,000-034-192-001-001
