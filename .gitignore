@@ -17,3 +17,8 @@ error_log
 /tablet/experiencias_exitosas
 /wp-content/uploads
 autoptimize_*
+gifsicle
+jpegtran
+optipng
+wp-content/wflogs/attack-data.php
+config.tmp.*
