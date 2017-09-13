@@ -1,0 +1,48 @@
+.main-footer{
+	background: url("img/footer-bg.png") repeat-x left top #96c101;	
+	margin-top: -5px;
+	padding-top: 50px;
+}
+	/**
+	 * News
+	 */
+	.latest-news{
+		padding-bottom: 40px;
+	}
+		.news{
+			padding-right: 20px;
+			color: #FFF;
+			header{
+				margin-bottom: $base-spacing-unit;
+			}		
+			p{
+				font-weight: 300;
+				-webkit-font-smoothing: antialiased;
+			}		
+		}
+
+	/**
+	 * Copy
+	 */
+	.copy-info{
+		background: #8fb801;
+		color: #FFF;
+		font-size: 12px;
+		font-weight: 700;
+		padding: 10px 0;
+	}
+		.copy{
+			margin: 0;
+		}
+		.footer-links{
+			width: 500px;
+			float: right;			
+			ul{
+				margin: 0;
+			}
+			li:after{
+            content:"|";
+            display: inline-block;
+            padding: 0 2px;
+        }			
+		}	

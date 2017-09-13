@@ -1,0 +1,59 @@
+fieldset{
+	border: none;
+	padding: 10px 0;
+	margin: 20px 0;
+	legend{
+		position: relative;
+		padding: 10px 20px 10px 0;
+		&:before{
+			content: "";
+			position: absolute;
+			border-bottom: 1px solid #e5e5e5;
+			width: 9999px;
+			left: 100%;
+			top: 50%;
+		}
+	}
+}
+
+.form-fields > li{
+	padding: 0 10px;
+}
+
+label, .label{
+	color: #393939;
+	font-size: 13px;
+	span{
+		color: #F00;
+	}
+}
+
+.text-input{
+	border: none;
+	background: #f7f7f7;
+	padding: 10px;
+	width: 100%;
+	resize: none;
+}
+
+.text-input--alt{
+	background: #fff;
+}
+
+button[type="submit"],
+input[type="submit"]{
+	color: #FFF;
+	background: $red;
+	text-transform: uppercase;
+	@extend .btn;
+	@extend .btn--full;
+	@extend .btn--hard;
+}
+	.btn--contact{
+		background: $blue !important;
+	}
+
+
+.providers-form, .park-submit, .park-test{
+	overflow: hidden;
+}

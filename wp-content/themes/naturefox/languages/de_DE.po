@@ -1,0 +1,176 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: NatureFox v1.0.13\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-04-25 16:48+0100\n"
+"PO-Revision-Date: 2014-04-28 16:38+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: CSL v1.x\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: .\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+# @ naturefox
+#: ../search.php:29
+#: ../archive.php:46
+#: ../index.php:27
+msgid "More"
+msgstr "mehr"
+
+#: ../search.php:50
+#: ../archive.php:67
+#: ../index.php:48
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: ../search.php:59
+#: ../archive.php:76
+#: ../index.php:57
+msgid "&laquo; Previous Posts"
+msgstr "&laquo; Vorherige Beitr&auml;ge"
+
+#: ../search.php:60
+#: ../archive.php:77
+#: ../index.php:58
+msgid "Next posts &raquo;"
+msgstr "N&auml;chste Beitr&auml;ge &raquo;"
+
+# @ naturefox
+#: ../search.php:65
+msgid "No posts found. Try a different search?"
+msgstr "Keine Nachrichten gefunden. Versuchen Sie einen andere Suche?"
+
+# @ naturefox
+#: ../archive.php:17
+msgid "Author Archive"
+msgstr "Autoren-Archiv"
+
+# @ naturefox
+#: ../archive.php:19
+msgid "Blog Archives"
+msgstr "Blog Archiv"
+
+# @ naturefox
+#: ../archive.php:82
+#: ../index.php:63
+msgid "Not found"
+msgstr "Nicht gefunden"
+
+# @ naturefox
+#: ../archive.php:83
+#: ../index.php:64
+msgid "Sorry, but you are looking for something that isn't here."
+msgstr "Sorry, aber du suchst nach etwas, das es hier nicht gibt."
+
+#: ../page.php:9
+#: ../single.php:41
+msgid "Edit this entry."
+msgstr "Eintrag bearbeiten."
+
+# @ naturefox
+#: ../searchform.php:4
+#: ../sidebar.php:7
+msgid "Search"
+msgstr "Suchen"
+
+#: ../footer.php:4
+msgid "Powered by"
+msgstr "Pr&auml;sentiert von"
+
+#: ../single.php:24
+msgid "<p class=\"serif\">Read the rest of this entry &raquo;</p>"
+msgstr "<p class=\"serif\">Den Rest von diesem Beitrag lesen &raquo;</p>"
+
+# @ naturefox
+#: ../functions.php:7
+msgid "Sidebar Widget Area"
+msgstr "Sidebar Widget Bereich"
+
+# @ naturefox
+#: ../functions.php:9
+msgid "The sidebar widget area"
+msgstr "Der Sidebar Widget Bereich"
+
+# @ naturefox
+#: ../functions.php:54
+msgid "My post is password protected. Please ask me for a password:"
+msgstr "Mein Beitrag ist Passwort geschützt. Bitte fragen Sie mich nach einem Passwort:"
+
+# @ naturefox
+#: ../functions.php:55
+msgid "Password"
+msgstr "Kennwort"
+
+# @ naturefox
+#: ../404.php:3
+msgid "Error 404 - Not Found"
+msgstr "Fehler 404 - Nichts gefunden"
+
+# @ naturefox
+#: ../404.php:4
+msgid "Apologies, but the page you requested could not be found."
+msgstr "Entschuldige bitte, aber die von Ihnen angeforderte Seite konnte nicht gefunden werden."
+
+# @ naturefox
+#: ../sidebar.php:11
+msgid "Pages"
+msgstr "Seiten"
+
+# @ naturefox
+#: ../sidebar.php:17
+msgid "Categories"
+msgstr "Kategorien"
+
+# @ naturefox
+#: ../sidebar.php:23
+msgid "Archives"
+msgstr "Archiv"
+
+# @ naturefox
+#: ../sidebar.php:30
+msgid "Meta"
+msgstr "Meta"
+
+# @ default
+#: ../header.php:23
+#, php-format
+msgid "Page %s"
+msgstr "Seite %s"
+
+# @ naturefox
+#: ../comments.php:3
+msgid "This post is password protected. Enter the password to view comments."
+msgstr "Mein Beitrag ist Passwort geschützt. Bitte fragen Sie mich nach einem Passwort."
+
+# @ naturefox
+#: ../comments.php:16
+msgid "Comments are currently closed."
+msgstr "Kommentare sind derzeit geschlossen."
+
+#: ../comments.php:21
+msgid "No responses"
+msgstr "Keine Antworten"
+
+#: ../comments.php:21
+msgid "One response"
+msgstr "Eine Antwort"
+
+#: ../comments.php:21
+msgid "% Responses"
+msgstr "% Antworten"
+
+#: ../comments.php:21
+msgid "to"
+msgstr "zu"
+

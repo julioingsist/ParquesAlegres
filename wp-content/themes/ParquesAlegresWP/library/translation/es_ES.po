@@ -1,0 +1,1077 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Parques Alegres\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-04-30 12:26-0700\n"
+"PO-Revision-Date: 2014-04-30 12:26-0700\n"
+"Last-Translator: Omar Lopez <yosoy@zoma.rs>\n"
+"Language-Team: Ancla Studio <devs@anclastudio.com>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-Basepath: ../\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../404.php:6
+msgid "Epic 404 - Article Not Found"
+msgstr "Épico 404 - Artículo no encontrado"
+
+#: ../404.php:12
+msgid ""
+"The article you were looking for was not found, but maybe try looking again!"
+msgstr "El articulo que buscabas no fue encontrado, intenta buscar de nuevo."
+
+#: ../archive-accordion.php:30 ../archive-custom_type.php:21 ../archive.php:55
+#: ../index.php:21 ../search.php:38 ../taxonomy-custom_cat.php:55
+msgid "&laquo; Older Entries"
+msgstr "&laquo; Entradas Antiguas"
+
+#: ../archive-accordion.php:31 ../archive-custom_type.php:22 ../archive.php:56
+#: ../index.php:22 ../search.php:39 ../taxonomy-custom_cat.php:56
+msgid "Newer Entries &raquo;"
+msgstr "Entradas Nuevas &raquo;"
+
+#: ../archive.php:11
+msgid "Topic:"
+msgstr "Tema:"
+
+#: ../archive.php:16
+msgid "Tagged:"
+msgstr "Etiquetado:"
+
+#: ../archive.php:25
+msgid "Posts By:"
+msgstr "Entradas por:"
+
+#: ../archive.php:30
+msgid "Daily Archives:"
+msgstr "Archivos Diarios:"
+
+#: ../archive.php:35
+msgid "Monthly Archives:"
+msgstr "Archivos Mensuales:"
+
+#: ../archive.php:40
+msgid "Yearly Archives:"
+msgstr "Archivos Anuales:"
+
+#: ../comments.php:12
+msgid "This post is password protected. Enter the password to view comments."
+msgstr "Esta entrada está protegida. Para verla, escribe la contraseña:"
+
+#: ../comments.php:22
+msgid "<span>No</span> Responses"
+msgstr "<span>No hay</span> Respuestas"
+
+#: ../comments.php:22
+msgid "<span>One</span> Response"
+msgstr "<span>Una</span> Respuesta"
+
+#: ../comments.php:38
+msgid "Comments are closed."
+msgstr "Los comentarios están cerrados."
+
+#: ../comments.php:49
+msgid "Leave a Reply"
+msgstr "Deja un comentario"
+
+#: ../comments.php:49
+#, php-format
+msgid "Leave a Reply to %s"
+msgstr "Responder a %s"
+
+#: ../comments.php:57
+#, php-format
+msgid "You must be %1$slogged in%2$s to post a comment."
+msgstr "Debes %1$siniciar sesión%2$s para escribir un comentario."
+
+#: ../comments.php:65
+msgid "Logged in as"
+msgstr "Identificado como"
+
+#: ../comments.php:65
+msgid "Log out of this account"
+msgstr "Salir de esta cuenta"
+
+#: ../comments.php:65
+msgid "Log out"
+msgstr "Salir"
+
+#: ../comments.php:65
+msgid "&raquo;"
+msgstr "&raquo;"
+
+#: ../comments.php:72
+msgid "Name"
+msgstr "Nombre"
+
+#: ../comments.php:72 ../comments.php:77
+msgid "(required)"
+msgstr "(requerido)"
+
+#: ../comments.php:73
+msgid "Your Name*"
+msgstr "Tu nombre*"
+
+#: ../comments.php:77
+msgid "Mail"
+msgstr "Correo electrónico"
+
+#: ../comments.php:78
+msgid "Your E-Mail*"
+msgstr "Tu correo electrónico"
+
+#: ../comments.php:79
+msgid "(will not be published)"
+msgstr "(no será publicado)"
+
+#: ../comments.php:83
+msgid "Website"
+msgstr "Sitio web"
+
+#: ../comments.php:84
+msgid "Got a website?"
+msgstr "Tu sitio web"
+
+#: ../comments.php:91
+msgid "Your Comment here..."
+msgstr "Tu comentario aquí"
+
+#: ../comments.php:94
+msgid "Submit"
+msgstr "Enviar"
+
+#: ../functions.php:100 ../functions.php:111
+msgid "The Main Menu"
+msgstr "El menú principal"
+
+#: ../functions.php:101 ../functions.php:128
+msgid "Footer Links"
+msgstr "Enlaces de pie de página"
+
+#: ../functions.php:166
+msgid "Sidebar 1"
+msgstr "Barra lateral 1"
+
+#: ../functions.php:167
+msgid "The first (primary) sidebar."
+msgstr "La barra lateral principal."
+
+#: ../functions.php:176
+msgid "Offcanvas"
+msgstr "Offcanvas"
+
+#: ../functions.php:177
+msgid "The offcanvas sidebar."
+msgstr "La barra lateral Offcanvas."
+
+#: ../functions.php:231
+#, php-format
+msgid "<cite class=\"fn\">%s</cite>"
+msgstr "<cite class=\"fn\">%s</cite>"
+
+#: ../functions.php:232
+msgid " F jS, Y - g:ia"
+msgstr " F jS, Y - g:ia"
+
+#: ../functions.php:233
+msgid "(Edit)"
+msgstr "(Editar)"
+
+#: ../functions.php:237
+msgid "Your comment is awaiting moderation."
+msgstr "Tu comentario está pendiente de moderación"
+
+#: ../functions.php:269
+#, php-format
+msgid "Page %s"
+msgstr "Pagina %s"
+
+#: ../library/admin.php:51
+msgid "j F Y @ g:i a"
+msgstr "j F Y @ g:i a"
+
+#: ../library/admin.php:63
+msgid "Recently on Themble (Customize on admin.php)"
+msgstr "Recientemente en Themble (Personalizar en admin.php)"
+
+#: ../library/admin.php:110
+msgid ""
+"<span id=\"footer-thankyou\">Developed by <a href=\"http://zoma.rs\" target="
+"\"_blank\">zomars</a> for <a href=\"http://anclastudio.com\" target=\"_blank"
+"\">Ancla Studio</a></span> . Built using <a href=\"http://themble.com/joints"
+"\" target=\"_blank\">joints</a>."
+msgstr ""
+"<span id=\"footer-thankyou\">Desarrollado por <a href=\"http://zoma.rs\" "
+"target=\"_blank\">zomars</a> para <a href=\"http://anclastudio.com\" target="
+"\"_blank\">Ancla Studio</a></span>."
+
+#: ../library/custom-post-type-accordion.php:22
+#: ../library/custom-post-type-accordion.php:23
+msgid "Accordion Post"
+msgstr "Entrada de Acordeón"
+
+#: ../library/custom-post-type-accordion.php:24
+msgid "All Accordion Posts"
+msgstr "Todas las Entrada de Acordeón"
+
+#: ../library/custom-post-type-accordion.php:25
+msgid "Add New Accordion Post"
+msgstr "Agregar nueva Entrada de Acordeón"
+
+#: ../library/custom-post-type-accordion.php:26
+msgid "Add New Accodion Post"
+msgstr "Agregar nueva Entrada de Acordeón"
+
+#: ../library/custom-post-type-accordion.php:27
+#: ../library/custom-post-type-institution.php:27
+#: ../library/custom-post-type-provider.php:27
+#: ../library/custom-post-type-success-case.php:27
+#: ../library/custom-post-type.php:27
+msgid "Edit"
+msgstr "Editar"
+
+#: ../library/custom-post-type-accordion.php:28
+msgid "Edit Accordion Post"
+msgstr "Editar Entrada de Acordeón"
+
+#: ../library/custom-post-type-accordion.php:29
+msgid "New Accordion Post"
+msgstr "Nueva Entrada de Acordeón"
+
+#: ../library/custom-post-type-accordion.php:30
+msgid "View Accordion Posts"
+msgstr "Ver Entrada de Acordeón"
+
+#: ../library/custom-post-type-accordion.php:31
+msgid "Search Accordion Post"
+msgstr "Buscar Entrada de Acordeón"
+
+#: ../library/custom-post-type-accordion.php:32
+#: ../library/custom-post-type-institution.php:32
+#: ../library/custom-post-type-provider.php:32
+#: ../library/custom-post-type-success-case.php:32
+#: ../library/custom-post-type.php:32
+msgid "Nothing found in the Database."
+msgstr "Nada encontrado en la base de datos."
+
+#: ../library/custom-post-type-accordion.php:33
+#: ../library/custom-post-type-institution.php:33
+#: ../library/custom-post-type-provider.php:33
+#: ../library/custom-post-type-success-case.php:33
+#: ../library/custom-post-type.php:33
+msgid "Nothing found in Trash"
+msgstr "Nada encontrado en la papelera de reciclaje"
+
+#: ../library/custom-post-type-accordion.php:36
+#: ../library/custom-post-type.php:36
+msgid "This is the example custom post type"
+msgstr "Este es un ejemplo de tipo de entrada personalizada"
+
+#: ../library/custom-post-type-accordion.php:73
+#: ../library/custom-post-type.php:73
+msgid "Custom Categories"
+msgstr "Catergorías personalizadas"
+
+#: ../library/custom-post-type-accordion.php:74
+#: ../library/custom-post-type.php:74
+msgid "Custom Category"
+msgstr "Categoría personalizada"
+
+#: ../library/custom-post-type-accordion.php:75
+#: ../library/custom-post-type.php:75
+msgid "Search Custom Categories"
+msgstr "Buscar en categorías personalizadas"
+
+#: ../library/custom-post-type-accordion.php:76
+#: ../library/custom-post-type.php:76
+msgid "All Custom Categories"
+msgstr "Todas las categorias personalizadas"
+
+#: ../library/custom-post-type-accordion.php:77
+#: ../library/custom-post-type.php:77
+msgid "Parent Custom Category"
+msgstr "Categoría personalizada padre"
+
+#: ../library/custom-post-type-accordion.php:78
+#: ../library/custom-post-type.php:78
+msgid "Parent Custom Category:"
+msgstr "Categoría personalizada padre:"
+
+#: ../library/custom-post-type-accordion.php:79
+#: ../library/custom-post-type.php:79
+msgid "Edit Custom Category"
+msgstr "Editar categoría personalizada"
+
+#: ../library/custom-post-type-accordion.php:80
+#: ../library/custom-post-type.php:80
+msgid "Update Custom Category"
+msgstr "Actualizar categoría personalizada"
+
+#: ../library/custom-post-type-accordion.php:81
+#: ../library/custom-post-type.php:81
+msgid "Add New Custom Category"
+msgstr "Añadir nueva categoría personalizada"
+
+#: ../library/custom-post-type-accordion.php:82
+#: ../library/custom-post-type.php:82
+msgid "New Custom Category Name"
+msgstr "Nuevo nombre de categoría personalizada"
+
+#: ../library/custom-post-type-accordion.php:96
+#: ../library/custom-post-type.php:96
+msgid "Custom Tags"
+msgstr "Etiquetas personalizadas"
+
+#: ../library/custom-post-type-accordion.php:97
+#: ../library/custom-post-type.php:97
+msgid "Custom Tag"
+msgstr "Etiqueta personalizada"
+
+#: ../library/custom-post-type-accordion.php:98
+#: ../library/custom-post-type.php:98
+msgid "Search Custom Tags"
+msgstr "Buscar etiqueta personalizada"
+
+#: ../library/custom-post-type-accordion.php:99
+#: ../library/custom-post-type.php:99
+msgid "All Custom Tags"
+msgstr "Todas las etiquetas personalizadas"
+
+#: ../library/custom-post-type-accordion.php:100
+#: ../library/custom-post-type.php:100
+msgid "Parent Custom Tag"
+msgstr "Etiqueta personalizada padre"
+
+#: ../library/custom-post-type-accordion.php:101
+#: ../library/custom-post-type.php:101
+msgid "Parent Custom Tag:"
+msgstr "Etiqueta personalizada padre"
+
+#: ../library/custom-post-type-accordion.php:102
+#: ../library/custom-post-type.php:102
+msgid "Edit Custom Tag"
+msgstr "Editar etiqueta personalizada"
+
+#: ../library/custom-post-type-accordion.php:103
+#: ../library/custom-post-type.php:103
+msgid "Update Custom Tag"
+msgstr "Actualizar etiqueta personalizada"
+
+#: ../library/custom-post-type-accordion.php:104
+#: ../library/custom-post-type.php:104
+msgid "Add New Custom Tag"
+msgstr "Añadir nueva etiqueta personalizada"
+
+#: ../library/custom-post-type-accordion.php:105
+#: ../library/custom-post-type.php:105
+msgid "New Custom Tag Name"
+msgstr "Nuevo nombre de etiqueta personalizada"
+
+#: ../library/custom-post-type-institution.php:22
+msgid "Institutions"
+msgstr "Instituciones"
+
+#: ../library/custom-post-type-institution.php:23
+msgid "Institution"
+msgstr "Institución"
+
+#: ../library/custom-post-type-institution.php:24
+msgid "All Institutions"
+msgstr "Todas las Instituciones"
+
+#: ../library/custom-post-type-institution.php:25
+#: ../library/custom-post-type-institution.php:26
+msgid "Add New Institution"
+msgstr "Agregar nueva Institución"
+
+#: ../library/custom-post-type-institution.php:28
+msgid "Edit Institution"
+msgstr "Editar Institución"
+
+#: ../library/custom-post-type-institution.php:29
+msgid "New Institution"
+msgstr "Nueva Institución"
+
+#: ../library/custom-post-type-institution.php:30
+msgid "View Institutions"
+msgstr "Ver Institución"
+
+#: ../library/custom-post-type-institution.php:31
+msgid "Search Institution"
+msgstr "Buscar Institución"
+
+#: ../library/custom-post-type-institution.php:36
+msgid "This is the Institution register"
+msgstr "Este es el registo de Instituciones."
+
+#: ../library/custom-post-type-institution.php:44
+msgid "institution"
+msgstr "institucion"
+
+#: ../library/custom-post-type-institution.php:45
+msgid "institutions"
+msgstr "instituciones"
+
+#: ../library/custom-post-type-institution.php:81
+#: ../library/custom-post-type-provider.php:142
+#: ../library/custom-post-type-success-case.php:142
+msgid "More Info"
+msgstr "Mas Información"
+
+#: ../library/custom-post-type-institution.php:89
+#: ../library/custom-post-type-provider.php:180
+#: ../library/custom-post-type-success-case.php:185
+msgid "Gallery Files:"
+msgstr "Archivos de Galería:"
+
+#: ../library/custom-post-type-institution.php:90
+#: ../library/custom-post-type-provider.php:181
+#: ../library/custom-post-type-success-case.php:186
+msgid "Upload an image or enter an URL."
+msgstr "Sube una imagen o ingrese la URL."
+
+#: ../library/custom-post-type-provider.php:22
+msgid "Providers"
+msgstr "Proveedores"
+
+#: ../library/custom-post-type-provider.php:23
+msgid "Provider"
+msgstr "Proveedor"
+
+#: ../library/custom-post-type-provider.php:24
+msgid "All Providers"
+msgstr "Todos los Proveedores"
+
+#: ../library/custom-post-type-provider.php:25
+#: ../library/custom-post-type-provider.php:26
+msgid "Add New Provider"
+msgstr "Nuevo Proveedor"
+
+#: ../library/custom-post-type-provider.php:28
+msgid "Edit Provider"
+msgstr "Editar Proveedor"
+
+#: ../library/custom-post-type-provider.php:29
+msgid "New Provider"
+msgstr "Nuevo Proveedor"
+
+#: ../library/custom-post-type-provider.php:30
+msgid "View Providers"
+msgstr "Ver Proveedores"
+
+#: ../library/custom-post-type-provider.php:31
+msgid "Search Provider"
+msgstr "Buscar Proveedor"
+
+#: ../library/custom-post-type-provider.php:36
+msgid "This is the providers registry."
+msgstr "Este es el registo de Proveedores."
+
+#: ../library/custom-post-type-provider.php:44
+msgid "provider"
+msgstr "proveedor"
+
+#: ../library/custom-post-type-provider.php:45
+msgid "providers"
+msgstr "proveedores"
+
+#: ../library/custom-post-type-provider.php:73
+msgid "Categories"
+msgstr "Categorias"
+
+#: ../library/custom-post-type-provider.php:74
+msgid "Provider Category"
+msgstr "Categoria"
+
+#: ../library/custom-post-type-provider.php:75
+msgid "Search Provider Categories"
+msgstr "Buscar Categoría"
+
+#: ../library/custom-post-type-provider.php:76
+msgid "All Provider Categories"
+msgstr "Todas las Categorías"
+
+#: ../library/custom-post-type-provider.php:77
+msgid "Parent Provider Category"
+msgstr "Categoría de Proveedor padre"
+
+#: ../library/custom-post-type-provider.php:78
+msgid "Parent Provider Category:"
+msgstr "Categoría de Proveedor padre:"
+
+#: ../library/custom-post-type-provider.php:79
+msgid "Edit Provider Category"
+msgstr "Editar Categoría"
+
+#: ../library/custom-post-type-provider.php:80
+msgid "Update Provider Category"
+msgstr "Actualizar Categoría de Proveedor"
+
+#: ../library/custom-post-type-provider.php:81
+msgid "Add New Provider Category"
+msgstr "Agregar Nueva Categoría"
+
+#: ../library/custom-post-type-provider.php:82
+msgid "New Provider Category Name"
+msgstr "Nombre de Nueva Categoría"
+
+#: ../library/custom-post-type-provider.php:150
+#: ../partials/loop-provider.php:10
+msgid "Business Role:"
+msgstr "Tipo de Giro:"
+
+#: ../library/custom-post-type-provider.php:155
+#: ../partials/loop-provider.php:14
+msgid "Description:"
+msgstr "Descripción:"
+
+#: ../library/custom-post-type-provider.php:160
+#: ../partials/loop-provider.php:18
+msgid "Address:"
+msgstr "Dirección:"
+
+#: ../library/custom-post-type-provider.php:165
+#: ../partials/loop-provider.php:22
+msgid "Phone:"
+msgstr "Teléfono:"
+
+#: ../library/custom-post-type-provider.php:170
+#: ../partials/loop-provider.php:26
+msgid "E-mail:"
+msgstr "Correo:"
+
+#: ../library/custom-post-type-provider.php:175
+#: ../partials/loop-provider.php:30
+msgid "Contact:"
+msgstr "Contacto:"
+
+#: ../library/custom-post-type-success-case.php:22
+msgid "Success Cases"
+msgstr "Proyectos"
+
+#: ../library/custom-post-type-success-case.php:23
+msgid "Success Case"
+msgstr "Proyectos"
+
+#: ../library/custom-post-type-success-case.php:24
+msgid "All Success Cases"
+msgstr "fireTodos los Proyectos"
+
+#: ../library/custom-post-type-success-case.php:25
+#: ../library/custom-post-type.php:25
+msgid "Add New"
+msgstr "Agregar Nuevo"
+
+#: ../library/custom-post-type-success-case.php:26
+msgid "Add New Success Case"
+msgstr "Agregar Nuevo Proyectos"
+
+#: ../library/custom-post-type-success-case.php:28
+msgid "Edit Success Case"
+msgstr "Editar Proyecto"
+
+#: ../library/custom-post-type-success-case.php:29
+msgid "New Success Case"
+msgstr "Nuevo Proyecto"
+
+#: ../library/custom-post-type-success-case.php:30
+msgid "View Success Case"
+msgstr "Ver Proyecto"
+
+#: ../library/custom-post-type-success-case.php:31
+msgid "Search Success Case"
+msgstr "Buscar Proyectos"
+
+#: ../library/custom-post-type-success-case.php:36
+msgid "This is the success cases registry"
+msgstr "Este es el registo de Proyectos."
+
+#: ../library/custom-post-type-success-case.php:44
+msgid "case"
+msgstr "proyecto"
+
+#: ../library/custom-post-type-success-case.php:45
+msgid "cases"
+msgstr "proyectos"
+
+#: ../library/custom-post-type-success-case.php:150
+#: ../partials/loop-case.php:11
+msgid "Event Date"
+msgstr "Fecha del evento:"
+
+#: ../library/custom-post-type-success-case.php:155
+#: ../partials/loop-case.php:15
+msgid "Event Type"
+msgstr "Tipo de Evento:"
+
+#: ../library/custom-post-type-success-case.php:160
+#: ../partials/loop-case.php:19
+msgid "People involved:"
+msgstr "Personas participantes:"
+
+#: ../library/custom-post-type-success-case.php:165
+#: ../partials/loop-case.php:23
+msgid "Investment:"
+msgstr "Inversión:"
+
+#: ../library/custom-post-type-success-case.php:170
+#: ../partials/loop-case.php:31
+msgid "Impact and number of attendees:"
+msgstr "Impacto y cantidad de asistentes:"
+
+#: ../library/custom-post-type-success-case.php:175
+#: ../partials/loop-case.php:35
+msgid "Benefits obtained:"
+msgstr "Beneficios obtenidos:"
+
+#: ../library/custom-post-type-success-case.php:180
+#: ../partials/loop-case.php:39
+msgid "Key to Success:"
+msgstr "Clave del éxito:"
+
+#: ../library/custom-post-type.php:22
+msgid "Custom Types"
+msgstr "Tipos Personalizados"
+
+#: ../library/custom-post-type.php:23
+msgid "Custom Post"
+msgstr "Entrada Personalizada"
+
+#: ../library/custom-post-type.php:24
+msgid "All Custom Posts"
+msgstr "Todas las Entradas Personalizadas"
+
+#: ../library/custom-post-type.php:26
+msgid "Add New Custom Type"
+msgstr "Agregar Nuevo Tipo Personalizado"
+
+#: ../library/custom-post-type.php:28
+msgid "Edit Post Types"
+msgstr "Editar tipo de entrada"
+
+#: ../library/custom-post-type.php:29
+msgid "New Post Type"
+msgstr "Nuevo tipo de entrada"
+
+#: ../library/custom-post-type.php:30
+msgid "View Post Type"
+msgstr "Ver tipo de entrada"
+
+#: ../library/custom-post-type.php:31
+msgid "Search Post Type"
+msgstr "Buscar tipo de entrada"
+
+#: ../library/joints.php:284
+msgid "No Related Posts Yet!"
+msgstr "¡Sin entradas personalizadas aun!"
+
+#: ../library/joints.php:328
+msgid "First"
+msgstr "Primero"
+
+#: ../library/joints.php:345
+msgid "Last"
+msgstr "Último"
+
+#: ../library/joints.php:429
+#, php-format
+msgid "Posts by %s"
+msgstr "Entradas por %s"
+
+#: ../library/metabox/example-functions.php:25
+msgid "Test Metabox"
+msgstr "Prueba Metabox"
+
+#: ../library/metabox/example-functions.php:33
+#: ../library/metabox/example-functions.php:263
+msgid "Test Text"
+msgstr "Prueba Texto"
+
+#: ../library/metabox/example-functions.php:34
+#: ../library/metabox/example-functions.php:44
+#: ../library/metabox/example-functions.php:51
+#: ../library/metabox/example-functions.php:58
+#: ../library/metabox/example-functions.php:66
+#: ../library/metabox/example-functions.php:73
+#: ../library/metabox/example-functions.php:85
+#: ../library/metabox/example-functions.php:91
+#: ../library/metabox/example-functions.php:98
+#: ../library/metabox/example-functions.php:113
+#: ../library/metabox/example-functions.php:121
+#: ../library/metabox/example-functions.php:128
+#: ../library/metabox/example-functions.php:134
+#: ../library/metabox/example-functions.php:140
+#: ../library/metabox/example-functions.php:152
+#: ../library/metabox/example-functions.php:163
+#: ../library/metabox/example-functions.php:174
+#: ../library/metabox/example-functions.php:185
+#: ../library/metabox/example-functions.php:193
+#: ../library/metabox/example-functions.php:200
+#: ../library/metabox/example-functions.php:208
+#: ../library/metabox/example-functions.php:214
+#: ../library/metabox/example-functions.php:226
+#: ../library/metabox/example-functions.php:264
+#: ../library/metabox/example-functions.php:283
+#: ../library/metabox/example-functions.php:290
+#: ../library/metabox/example-functions.php:297
+#: ../library/metabox/example-functions.php:303
+#: ../library/metabox/example-functions.php:309
+#: ../library/metabox/example-functions.php:315
+#: ../library/metabox/example-functions.php:321
+#: ../library/metabox/example-functions.php:338
+msgid "field description (optional)"
+msgstr "field description (optional)"
+
+#: ../library/metabox/example-functions.php:43
+msgid "Test Text Small"
+msgstr "Prueba Texto Pequeño"
+
+#: ../library/metabox/example-functions.php:50
+msgid "Test Text Medium"
+msgstr "Prueba Texto Mediano"
+
+#: ../library/metabox/example-functions.php:57
+msgid "Website URL"
+msgstr "Sitio web"
+
+#: ../library/metabox/example-functions.php:65
+msgid "Test Text Email"
+msgstr "Prueba Texto Grande"
+
+#: ../library/metabox/example-functions.php:72
+msgid "Test Time"
+msgstr "Prueba Tiempo"
+
+#: ../library/metabox/example-functions.php:78
+#: ../library/metabox/example-functions.php:79
+msgid "Time zone"
+msgstr "Zona Horaria"
+
+#: ../library/metabox/example-functions.php:84
+msgid "Test Date Picker"
+msgstr "Prueba Selección Fecha"
+
+#: ../library/metabox/example-functions.php:90
+msgid "Test Date Picker (UNIX timestamp)"
+msgstr "Prueba Selección Fecha (estampa UNIX)"
+
+#: ../library/metabox/example-functions.php:97
+msgid "Test Date/Time Picker Combo (UNIX timestamp)"
+msgstr "Test Date/Time Picker Combo (UNIX timestamp)"
+
+#: ../library/metabox/example-functions.php:112
+msgid "Test Money"
+msgstr "Prueba Dinero"
+
+#: ../library/metabox/example-functions.php:120
+msgid "Test Color Picker"
+msgstr "Prueba Selección de Color"
+
+#: ../library/metabox/example-functions.php:127
+msgid "Test Text Area"
+msgstr "Prueba Area de Texto"
+
+#: ../library/metabox/example-functions.php:133
+msgid "Test Text Area Small"
+msgstr "Prueba Area de Texto Pequeña"
+
+#: ../library/metabox/example-functions.php:139
+msgid "Test Text Area for Code"
+msgstr "Prueba Cédigo de Area"
+
+#: ../library/metabox/example-functions.php:145
+msgid "Test Title Weeeee"
+msgstr "Prueba Titulo Weeeee"
+
+#: ../library/metabox/example-functions.php:146
+msgid "This is a title description"
+msgstr "Esta es una descripción de Titulo"
+
+#: ../library/metabox/example-functions.php:151
+msgid "Test Select"
+msgstr "Prueba Seleccionar"
+
+#: ../library/metabox/example-functions.php:156
+#: ../library/metabox/example-functions.php:167
+#: ../library/metabox/example-functions.php:178
+msgid "Option One"
+msgstr "Opción Uno"
+
+#: ../library/metabox/example-functions.php:157
+#: ../library/metabox/example-functions.php:168
+#: ../library/metabox/example-functions.php:179
+msgid "Option Two"
+msgstr "Opción Dos"
+
+#: ../library/metabox/example-functions.php:158
+#: ../library/metabox/example-functions.php:169
+#: ../library/metabox/example-functions.php:180
+msgid "Option Three"
+msgstr "Opción Tres"
+
+#: ../library/metabox/example-functions.php:162
+msgid "Test Radio inline"
+msgstr "Prueba Radio en Linea"
+
+#: ../library/metabox/example-functions.php:173
+msgid "Test Radio"
+msgstr "Prueba Raido"
+
+#: ../library/metabox/example-functions.php:184
+msgid "Test Taxonomy Radio"
+msgstr "Test Taxonomy Radio"
+
+#: ../library/metabox/example-functions.php:192
+msgid "Test Taxonomy Select"
+msgstr "Test Taxonomy Select"
+
+#: ../library/metabox/example-functions.php:199
+msgid "Test Taxonomy Multi Checkbox"
+msgstr "Test Taxonomy Multi Checkbox"
+
+#: ../library/metabox/example-functions.php:207
+msgid "Test Checkbox"
+msgstr "Test Checkbox"
+
+#: ../library/metabox/example-functions.php:213
+msgid "Test Multi Checkbox"
+msgstr "Test Multi Checkbox"
+
+#: ../library/metabox/example-functions.php:218
+msgid "Check One"
+msgstr "Check One"
+
+#: ../library/metabox/example-functions.php:219
+msgid "Check Two"
+msgstr "Check Two"
+
+#: ../library/metabox/example-functions.php:220
+msgid "Check Three"
+msgstr "Check Three"
+
+#: ../library/metabox/example-functions.php:225
+msgid "Test wysiwyg"
+msgstr "Test wysiwyg"
+
+#: ../library/metabox/example-functions.php:232
+msgid "Test Image"
+msgstr "Test Image"
+
+#: ../library/metabox/example-functions.php:233
+msgid "Upload an image or enter a URL."
+msgstr "Sube una imagen o ingrese la URL."
+
+#: ../library/metabox/example-functions.php:238
+msgid "Multiple Files"
+msgstr "Multiple Files"
+
+#: ../library/metabox/example-functions.php:239
+msgid "Upload or add multiple images/attachments."
+msgstr "Upload or add multiple images/attachments."
+
+#: ../library/metabox/example-functions.php:245
+msgid "oEmbed"
+msgstr "oEmbed"
+
+#: ../library/metabox/example-functions.php:246
+msgid ""
+"Enter a youtube, twitter, or instagram URL. Supports services listed at <a "
+"href=\"http://codex.wordpress.org/Embeds\">http://codex.wordpress.org/"
+"Embeds</a>."
+msgstr ""
+"Enter a youtube, twitter, or instagram URL. Supports services listed at <a "
+"href=\"http://codex.wordpress.org/Embeds\">http://codex.wordpress.org/"
+"Embeds</a>."
+
+#: ../library/metabox/example-functions.php:255
+msgid "About Page Metabox"
+msgstr "About Page Metabox"
+
+#: ../library/metabox/example-functions.php:276
+msgid "User Profile Metabox"
+msgstr "User Profile Metabox"
+
+#: ../library/metabox/example-functions.php:282
+msgid "Extra Info"
+msgstr "Extra Info"
+
+#: ../library/metabox/example-functions.php:289
+msgid "Avatar"
+msgstr "Avatar"
+
+#: ../library/metabox/example-functions.php:296
+msgid "Facebook URL"
+msgstr "Facebook URL"
+
+#: ../library/metabox/example-functions.php:302
+msgid "Twitter URL"
+msgstr "Twitter URL"
+
+#: ../library/metabox/example-functions.php:308
+msgid "Google+ URL"
+msgstr "Google+ URL"
+
+#: ../library/metabox/example-functions.php:314
+msgid "Linkedin URL"
+msgstr "Linkedin URL"
+
+#: ../library/metabox/example-functions.php:320
+msgid "User Field"
+msgstr "User Field"
+
+#: ../library/metabox/example-functions.php:333
+msgid "Theme Options Metabox"
+msgstr "Theme Options Metabox"
+
+#: ../library/metabox/example-functions.php:337
+msgid "Site Background Color"
+msgstr "Site Background Color"
+
+#: ../library/metabox/helpers/cmb_Meta_Box_ajax.php:47
+msgid "Please Try Again"
+msgstr "Por Favor Intente de Nuevo"
+
+#: ../library/metabox/helpers/cmb_Meta_Box_ajax.php:131
+msgid "Remove Embed"
+msgstr "Remove Embed"
+
+#: ../library/metabox/helpers/cmb_Meta_Box_ajax.php:134
+#, php-format
+msgid "No oEmbed Results Found for %s. View more info at"
+msgstr "No oEmbed Results Found for %s. View more info at"
+
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:150
+msgid "Add Row"
+msgstr "Nueva Fila"
+
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:178
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:547
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:590
+msgid "Remove"
+msgstr "Quitar"
+
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:523
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:563
+msgid "Add or Upload File"
+msgstr "Añadir o subir archivo"
+
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:536
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:582
+msgid "Remove Image"
+msgstr "Quitar Imagen"
+
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:547
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:590
+msgid "File:"
+msgstr "Archivo:"
+
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:547
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:590
+msgid "Download"
+msgstr "Descargar"
+
+#: ../library/metabox/init.php:243
+msgid "Clear"
+msgstr "Limpiar"
+
+#: ../library/metabox/init.php:244
+msgid "Default"
+msgstr "Predetarminado"
+
+#: ../library/metabox/init.php:245
+msgid "Select Color"
+msgstr "Seleccionar Color"
+
+#: ../library/metabox/init.php:246
+msgid "Current Color"
+msgstr "Color Actual"
+
+#: ../library/metabox/init.php:1185
+msgid "Save"
+msgstr "Guardar"
+
+#: ../library/plugins/pa-Comentarios_parametros/index.php:57
+#: ../library/plugins/pa-arturo/index.php:160
+#: ../library/plugins/pa-cienciast/index.php:68
+#: ../library/plugins/pa-detalle_parques/index.php:1873
+#: ../library/plugins/pa-detalle_parques2/index.php:1864
+#: ../library/plugins/pa-planos/index.php:116
+#: ../library/plugins/pa-proyectos/index.php:116
+msgid "Arturo GC"
+msgstr "Arturo GC"
+
+#: ../library/plugins/pa-agregacomentarios/index.php:379
+#: ../library/plugins/pa-usuariowp/index.php:287
+msgid "Mike GC"
+msgstr "Mike GC"
+
+#: ../library/plugins/pa-edicionparques/index.php:68
+msgid "edita parques"
+msgstr "edita parques"
+
+#: ../library/plugins/pa-parametros/index.php:143
+msgid "Mike VL"
+msgstr "Mike VL"
+
+#: ../page-quees.php:150 ../partials/content-missing.php:3
+msgid "Oops, Post Not Found!"
+msgstr "Ups, Entrada No Encontrada."
+
+#: ../partials/content-byline.php:2
+#, php-format
+msgid ""
+"Publicado por <span class=\"author\">%3$s</span> en <time class=\"updated\" "
+"datetime=\"%1$s\" pubdate>%2$s</time> %4$s"
+msgstr ""
+"Publicado por <span class=\"author\">%3$s</span> en <time class=\"updated\" "
+"datetime=\"%1$s\" pubdate>%2$s</time> %4$s"
+
+#: ../partials/content-missing.php:6
+msgid "Uh Oh. Something is missing. Try double checking things."
+msgstr "Oh oh. Algo esta faltando. Trata de revisar las cosas."
+
+#: ../partials/content-missing.php:9
+msgid "This is the error message in the partials/missing-content.php template."
+msgstr "Este el mensaje de error de la plantilla partials/missing-content.php."
+
+#: ../partials/loop-archive.php:15 ../partials/loop-page.php:13
+msgid "Tags:"
+msgstr "Etiquetas:"
+
+#: ../partials/loop-case.php:27
+msgid "Description of activities:"
+msgstr "Descripción de las actividades:"
+
+#: ../search.php:6
+msgid "Search Results for:"
+msgstr "Resultados de búsqueda de:"
+
+#: ../search.php:21
+msgid "Read more &raquo;"
+msgstr "Leer más &raquo;"
+
+#: ../search.php:48
+msgid "Disculpa, no se econtraron resultados."
+msgstr "Disculpa, no se econtraron resultados."
+
+#: ../search.php:51
+msgid "Intente la busqueda de nuevo."
+msgstr "Intente la busqueda de nuevo."
+
+#: ../sidebar-offcanvas.php:12 ../sidebar.php:12
+msgid "Please activate some Widgets."
+msgstr "Por favor active algunos widgets."
+
+#: ../taxonomy-custom_cat.php:24
+msgid "Posts Categorized:"
+msgstr "Archivos de categoría:"
+
+#: ../taxonomy-custom_cat.php:38
+msgid "Read More &raquo;"
+msgstr "Leer más  &raquo;"

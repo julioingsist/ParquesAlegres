@@ -1,0 +1,190 @@
+/*
+Theme Name: VividTW
+Theme URI: http://themes.trazos-web.com/vividtw/
+Description: Un theme de WordPress con 4 tipos de estilo con colores vívidos.
+Version: 1.0
+Author: Diego Castillo
+Author URI: http://www.trazos-web.com
+License: http://www.gnu.org/licenses/gpl.html
+Mini Icons: http://splashyfish.com/icons/
+Mini Social Icons: http://icondock.com/free/vector-social-media-icons
+Tags:Blue, Green, Purple, Red, two-columns, right-sidebar, fixed-width, theme-options, threaded-comments
+*/
+/*Resets*/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td{margin:0; padding:0; border:0; outline:0; font-weight:inherit; font-style:inherit; font-size:100%; font-family:inherit; vertical-align:baseline}
+:focus{outline:0}
+body{color:#545050; font:14px/20px Arial,Helvetica,sans-serif}
+ol, ul{list-style:none}
+table{border-collapse:separate; border-spacing:0}
+caption, th, td{text-align:left; font-weight:normal}
+blockquote:before, blockquote:after, q:before, q:after{content:""}
+blockquote, q{quotes:""""}
+acronym{cursor:help; border-bottom:1px dotted #333}
+strong{font-weight:bold; color:#33312a}
+em{font-style:italic}
+hr{display:none}
+.right{float:right}
+.left{float:left}
+.none{display:none !important}
+.clear{clear:both}
+.clearfix:after{content:"."; display:block; clear:both; visibility:hidden; line-height:0; height:0}
+.clearfix{display:block}
+html[xmlns] .clearfix{display:block}
+* html .clearfix{height:1%}
+/*Contenedor*/
+.container{width:980px; margin:0 auto}
+/*Bordes Redondeados*/
+.round_8{-webkit-border-radius:8px; -moz-border-radius:8px; border-radius:8px}
+/*Enlaces*/
+a:link, a:visited, a:hover, a:active{text-decoration:none}
+.post a:link, .post a:visited, .post a:hover, .post a:active{text-decoration:underline}
+.post h1 a:link, .post h1 a:visited{color:#33312a; text-decoration:none}
+.post h1 a:hover{color:#000; text-decoration:none}
+.post h1 a:active{color:#33312a; text-decoration:none}
+/*Cabeceras*/
+h1, h2, h3, h4, h5, h6{font-weight:bold; font-family:Helvetic,Arial,sans-serif; color:#33312a}
+h1{font-size:30px; line-height:30px; letter-spacing:-1px; padding-bottom:5px}
+h2{font-size:25px; line-height:27px; letter-spacing:-2px; padding-bottom:5px}
+h3{font-size:20px; line-height:24px; font-family:Helvetica,Arial,sans-serif; padding-bottom:13px}
+.post h3{font-size:20px; line-height:30px; font-family:Helvetica,Arial,sans-serif; padding:2px; clear:both}
+.post h3 span{color:#33312a}
+.post h3 span.below{height:1px; display:block; position:relative;  top:30px}
+h3.c_style{font-size:30px; line-height:30px; font-family:Helvetica,Arial,sans-serif; padding:30px; margin:30px 0; text-align:center; clear:both}
+h3.c_style span{ color:#33312a}
+h3.c_style span.below{height:1px; display:block; position:relative; top:30px}
+h4{font-size:16px; font-family:Arial,sans-serif; padding:20px 0 10px 0; margin-bottom:15px}
+h5{}
+h6{}
+/*Cabecera*/
+#header{margin:0 auto; padding-top:25px; height:75px}
+#logo{float:left; width:560px}
+#logo h2{ padding:0}
+#logo h2 a{font-size:36px; letter-spacing:1px; margin:0;color:#ded5b9; text-shadow:0px 0px 3px #000 }
+#logo span.description{color:#33312a; text-shadow:0px 1px 1px #eee; font-size:20px; font-weight:bold}
+/*Buscador*/
+#search{float:right; margin-top:5px}
+#search input{border:none; float:left; background:url(img/input.png) no-repeat; padding:5px 7px 8px; height:27px; width:271px; color:#777; font:16px/22px arial,helvetica,sans-serif}
+.search_button{border:none; float:left; width:45px; height:40px; cursor:pointer; text-indent:-9999px}
+.search_button:hover{border:none; float:left; background:url(img/search-button-h.png) no-repeat; width:45px; height:40px; cursor:pointer; text-indent:-9999px}
+/*Menú*/
+#navigation{background:url(img/navbar.png) no-repeat; padding:19px 15px; height:22px; width:950px}
+#navigation li{display:inline; margin-right:2px; font:16px Helvetica,Arial; letter-spacing:0px; font-weight:700; float:left}
+#navigation li a{padding:2px 9px; text-shadow:0 1px #fff}
+#navigation li a:hover, #navigation li.current_page_item a{padding:2px 8px; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; text-shadow:0 1px #000}
+/*Contenido*/
+#content{background-color:#e3dcc5; padding:20px}
+#bottomcontent{background:url(img/bottom-content.png) no-repeat scroll top center; width:980px; height:35px}
+#izq{width:590px; float:left}
+/*Artículos*/
+.post{position:relative; border:1px solid #ded5b9; padding:20px 20px 5px; width:548px; background-color:#f4f1e7; margin-bottom:10px}
+* html .post{padding:10px 10px 5px}
+.post .the_post_meta{display:inline; font-size:11px}
+.post .the_post_meta span{color:#888}
+.post .the_post_meta li{display:inline; color:#888}
+.post .the_post_meta li a{display:inline; text-decoration:none}
+.post .the_post_meta li a:hover{text-decoration:none}
+.post span.ncomments{font-size:12px; background:transparent url(img/ico-comments.png) no-repeat scroll left center; padding:0 0 0 20px}
+.post .post_inner_wrap{margin-top:10px; padding-bottom:15px}
+.post_inner_wrap ul{padding-left:40px; padding-bottom:15px}
+.post_inner_wrap ul li{padding-left:20px; margin-bottom:10px}
+.post_inner_wrap ol{padding-left:60px; padding-bottom:15px}
+.post_inner_wrap ol li{list-style:decimal; margin-bottom:10px}
+.post_inner_wrap ul ul, .post_inner_wrap ol ol{padding-bottom:0px}
+#content p{padding-bottom:14px}
+.post a.more-link{z-index:10; position:absolute; bottom:5px; right:15px; display:inline; font-family:Verdana,Arial; font-size:11px; line-height:16px; text-transform:uppercase; font-weight:bold; background:url(img/more.png) no-repeat scroll left center; padding:3px 0 4px 20px; height:16px}
+.post blockquote{color:#33312a; font-style:italic; font-size:18px; line-height:26px; padding:0 0 0 50px;margin-left:20px;}
+.post attribution{color:#59554a; font-size:10px; font-family:Verdana,Arial; padding-left:60px; padding-bottom:20px; text-transform:uppercase; display:block}
+.post pre {background:transparent url(images/code.png) no-repeat 0 0;padding:0 0 0 50px; margin-left:20px;width:480px;}
+.post pre code { overflow:auto;display:block;}
+.post table{border-color:#CDCDCD; border-style:solid; border-width:1px 0; text-align:center; width:100%}
+.aligncenter, 
+div.aligncenter{display:block; margin-left:auto; margin-right:auto}
+.wp-caption{border-bottom:1px solid #c0c0c0; text-align:center; background-color:#e8e8e8; padding-top:5px; margin:10px}
+.wp-caption img{margin:0; padding:0; border:0 none}
+.wp-caption p.wp-caption-text{font-size:10px; line-height:17px; text-align:right; font-family:Verdana,Arial; padding:10px 5px 0 0; text-transform:uppercase; margin:0}
+img.centered{display:block; margin-left:auto; margin-right:auto}
+img.alignright{padding:4px; margin:0 0 2px 7px; display:inline}
+img.alignleft{padding:4px; margin:0 7px 2px 0; display:inline}
+.alignright{float:right}
+.alignleft{float:left}
+.post .divisor{background:transparent url(img/sep.png) no-repeat scroll center top; height:2px; width:588px; left:-20px; margin-top:5px; position:relative}
+.post .social{position:relative; font-size:10px; font-family:Verdana,Arial; text-transform:uppercase; padding-top:5px; height:20px}
+.post .social li{display:inline !important; float:left !important; list-style-type:none !important; margin:0 !important; height:16px !important; width:24px !important; cursor:pointer !important; padding:0 !important}
+.post .social li a{display:block !important; width:24px !important;	height:16px !important;	text-indent: -9999px !important; background-color:transparent !important}
+.post .social li a:hover{background-color:transparent !important}
+.post .delicious{background: url(img/delicious.png) no-repeat}
+.post .facebook{background: url(img/facebook.png) no-repeat}
+.post .googlebookmark{background: url(img/googlebookmark.png) no-repeat}
+.post .technorati{background: url(img/technorati.png) no-repeat}
+.post .twitter{background: url(img/twitter.png) no-repeat}
+.post .stumbleupon{background: url(img/stumbleupon.png) no-repeat}
+.post .rss a{position:absolute; bottom:-1px; right:0; background: url(img/rss-post.png) no-repeat 0 0;padding:0 0 0 30px; display:block; height:24px !important; cursor:pointer}
+/*Comentarios*/
+#comments{padding:20px 0 20px}
+h2.commh2{font-size:1.4em !important; padding:0 0 5px; color:#333 !important}
+ol.commentlist{margin:10px 0 20px; padding:0; list-style:none; font-size:12px; line-height:20px}
+ol.commentlist p, #respond p{margin-bottom:10px; line-height:20px}
+ol.commentlist .content{margin-left:70px}
+.commentmetadata a{font-size:11px; color:#333}
+ol.commentlist cite{font-style:normal; font-weight:bold}
+ol.commentlist li.comment{padding:15px 15px 5px; margin:10px 0; background:#F8F8F4; border:1px solid #DEDBD1}
+ol.pinglist{margin-bottom:15px}
+ol.pinglist li{padding:5px 5px; padding-left:20px; background:url(img/li.png) no-repeat 5px 10px}
+input#submit{font-size:12px; color:#fff; font-weight:bold; padding:7px 10px; margin:0 0 7px 0; text-align:left; border:1px solid #fff; cursor:pointer}
+input#submit:hover{font-size:12px; color:#363636; font-weight:bold; padding:7px 10px; margin:0 0 7px 0; text-align:left; border:1px solid #DEDBD1; background:#F5F4F0; cursor:pointer}
+.fix{clear:both; height:1px; margin:0 0 -1px; overflow:hidden}
+.reply, .cancel-comment-reply{float:right; top:20px; font-size:10px; font-family:Verdana,Arial; text-transform:uppercase}
+.reply a:link, .reply a:visited, .cancel-comment-reply a:link, .cancel-comment-reply a:visited{color:#fff !important;padding:0 5px; text-decoration:none}
+.reply a:hover, .cancel-comment-reply a:hover{color:#fff !important; text-decoration:none}
+.reply a:active, .cancel-comment-reply a:active{color:#fff !important; text-decoration:none}
+.gravatar {background:none repeat scroll 0 0 #ffffff; border-bottom:1px solid #d7d7d7; border-left:1px solid #efefef; border-right:1px solid #efefef; float:left; margin:0 7px 0 0; padding:4px}
+.subscribe-options{ padding-bottom:40px}
+/*Paginación*/
+.pagination{font-size: 10px; font-family: Verdana, Arial; text-transform: uppercase; color: #5c584d; font-weight: normal; margin-top: 15px; margin-left: 17px}
+.pagination a, .pagination .current{padding: 1px 4px; border: 1px solid #c8c4b7; background: #eeebe2; color: #5c584d; margin-left: 1px}
+.pagination a:hover, .pagination .current{color: #5c584d; background: #fff; border: 1px solid #fff}
+/*Sidebar*/
+#sidebar{float:left; width:330px; margin-left:20px; overflow:hidden}
+#sidebar h3{padding-bottom:13px; font-size:30px; text-shadow:0px 1px 1px #fff; font-weight:bold}
+#sidebar div.sbb, #sidebar div.subscribe, #sidebar div.ads, #sidebar div.tabs{padding:0 0 20px; margin-bottom:20px; background:url(img/sepsid.png) repeat-x 0 100%}
+#sidebar ul li a{font-size:14px; color:#545050}
+.subscribe ul{padding-left:20px}
+.subscribe ul li{padding:5px;padding-left:38px;height:32px}
+.subscribe ul li a{font-size:18px !important}
+.subscribe ul li a:hover{text-decoration:underline !important}
+li#rss{background:url(img/rss-sb.png) no-repeat}
+li#email{background:url(img/email-sb.png) no-repeat}
+li#twitter{background:url(img/twitter-sb.png) no-repeat}
+.sbb ul{padding-left:20px}
+.sbb ul li{padding:2px 0; padding-left:20px}
+.sbb ul li a:hover{text-decoration:underline !important}
+.adsbanners{float:left; padding: 0 20px}
+.adsbanners a{padding:5px 5px; float:left; width:125px}
+.adsbanners a img{float:left; clear:right}
+#tabMenu{margin:0; padding:0 0 0 10px; list-style:none}
+#tabMenu li{float:left; height:32px; width:39px; cursor:pointer; z-index:1}
+li.commentst{background:url(img/tabComment.png) no-repeat 0 -32px;}
+li.posts{background:url(img/tabBulb.png) no-repeat 0 -32px;}
+li.famous{background:url(img/tabPopular.png) no-repeat 0 -32px;}
+li.random{background:url(img/tabRandom.png) no-repeat 0 -32px;}
+li.category{background:url(img/tabTag.png) no-repeat 0 -32px;}
+li.mouseover {background-position:0 0;}
+li.mouseout {background-position:0 -32px;}
+li.selected {background-position:0 0;}
+.box{width:330px}
+.boxBody{background-color:#eeebe2; border:1px solid #d2c7a3; padding: 10px 0}
+.boxBody div{display:none}
+.boxBody div.show{display:block}
+.boxBody #category{padding:0 10px 0 20px}
+.boxBody #category h3{padding:0 10px 13px 0 !important}
+.boxBody div h3{padding:0px 5px 0px 10px}
+.boxBody div ul{margin:0 10px 0 25px; padding-left:10px}
+* html .boxBody div ul{margin-left:10px; padding-left:15px}
+.boxBody div li{padding:4px 0; cursor:pointer}
+.boxBody div ul li.last{border-bottom:none}
+.boxBody div li span{font-size:8px; font-style:italic; color:#888}
+.boxBody div ul li a{color:#5f5d57}
+/*Footer*/
+#footer{color:#bbb; height:40px}
+#footer a{color:#ded5b9; text-decoration:underline}
+#footer a:hover{color:#ccc; text-decoration:none}

@@ -1,0 +1,190 @@
+.main-header{
+	position: relative;	
+	@extend .cf;
+}
+.main-header:not(.home-header){
+	background: url("img/body-background.jpg") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    @include vendor(box-shadow, 1px 1px 5px #BBB);
+}
+	.banner{
+		position: absolute;
+		left: 50%;
+		margin-left: -833px;
+		width: 1666px;
+		top: 0;
+	}
+
+	.container{
+		position: relative;
+	}
+
+	.logo, .main-nav{
+		display: inline-block;		
+	}
+
+	.logo{
+		width: 240px;
+		margin-right: 40px;
+		float: left;
+	}
+
+	.main-nav{
+		max-width: 660px;
+		clear: both;
+		margin-top: 20px;
+
+		/* Top level */
+		.flyout{
+			overflow: visible; //overrides buggy behavior
+			z-index: 10;
+			&:hover > .flyout__content{
+				opacity: 1;
+			}
+			.flyout__content{
+				width: 100%;
+				opacity: 0;
+				@include vendor(transition, opacity .3s ease);
+			}
+		}
+		a{
+			color: $brand-color;
+			font-family: $base-font-family;
+			font-weight: 700;
+			text-transform: uppercase;
+			font-size: 11px;
+			text-align: right;
+			@include vendor(text-rendering, optimizelegibility);			
+		}
+		li > a{
+			padding: 10px;
+			border-right-width: 4px;
+			border-right-style: solid;			
+		}
+
+		/* Sub level */
+		li li > a{
+			padding-top: 5px;
+			padding-bottom: 5px;
+			border: none;
+			font-weight: 400;
+			text-transform: none;
+		}
+
+		.yellow li a:hover{
+			background: lighten($yellow, 10%) !important;
+		}
+		.green li a:hover{
+			background: lighten($green, 10%) !important;
+		}
+		.orange li a:hover{
+			background: lighten($orange, 10%) !important;
+		}
+		.red li a:hover{
+			background: lighten($red, 10%) !important;
+		}
+		.blue li a:hover{
+			background: lighten($blue, 10%) !important;
+		}
+
+		//Coloring the menu
+		$colors: $yellow, $green, $orange, $red, $blue;
+		$i: 1;
+		@each $color in $colors{
+			// Borders
+			li:nth-child(#{$i}) > a{
+				border-right-color: #{$color};				
+			}
+
+			//Background parent
+			li:nth-child(#{$i}):hover, li:nth-child(#{$i}) > a:hover{
+				background-color: #{$color};				
+			}			
+			
+			//Background children
+			li:nth-child(#{$i}):hover li > a{
+				background-color: #{$color};				
+			}
+			/*li:nth-child(#{$i}):hover li > a:hover{
+				background-color: #{$color};
+				@extend .muted;				
+			}*/			
+
+			$i : $i+1;
+		}
+	}
+	.main-nav--alt{
+		a{
+			color: #FFF;
+		}
+		li:hover > a, li li > a{
+			color: $brand-color;
+		}
+	}
+
+	.tools{
+		display: inline-block;
+		@extend .float--right;				
+	}
+		.educative-platform{
+			@extend .cf;
+			a{
+				@extend .float--right;
+			}
+			span{
+				font-size: 12px;
+				font-weight: 700;
+				color: #FFF;
+				padding: 3px 5px;
+				background: $orange;
+				text-align: center;
+				display: inline-block;
+			}
+			.icon{
+				background: $brand-color;
+				width: 23px;
+				height: 23px;
+			}
+		}
+		.search{
+			margin-top: 5px;
+		}				
+			.faq{
+				margin-right: 5px;			
+				color: $brand-color;
+				span{
+					text-decoration: underline;
+				}
+				.icon{
+					background-color: $orange;
+					color: #FFF;
+					padding: 2px 5px;
+				}
+			}
+			.faq--alt{
+				color: #FFF;
+			}
+			.search-form{
+				display: inline-block;
+				margin-left: 5px;
+				input, button{
+					border: none;
+					padding: 3px 5px;
+				}
+				input{
+					width: 200px;
+					background: #cbc9c8;
+				}
+				button{
+					background: $orange;
+					padding: 3px 5px;
+					color: #FFF;
+					width: 23px;
+					height: 23px;
+				}
+			}			
+
+
+

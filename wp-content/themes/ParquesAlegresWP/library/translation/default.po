@@ -1,0 +1,846 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Parques Alegres\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-04-10 15:29-0700\n"
+"PO-Revision-Date: 2014-04-10 15:29-0700\n"
+"Last-Translator: Omar Lopez <yosoy@zoma.rs>\n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-Basepath: ../\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../404.php:12
+msgid "Epic 404 - Article Not Found"
+msgstr ""
+
+#: ../404.php:16
+msgid ""
+"The article you were looking for was not found, but maybe try looking again!"
+msgstr ""
+
+#: ../404.php:24
+msgid "This is the 404.php template."
+msgstr ""
+
+#: ../archive-accordion.php:30 ../archive-custom_type.php:21 ../archive.php:55
+#: ../index.php:21 ../search.php:38 ../taxonomy-custom_cat.php:55
+msgid "&laquo; Older Entries"
+msgstr ""
+
+#: ../archive-accordion.php:31 ../archive-custom_type.php:22 ../archive.php:56
+#: ../index.php:22 ../search.php:39 ../taxonomy-custom_cat.php:56
+msgid "Newer Entries &raquo;"
+msgstr ""
+
+#: ../archive.php:11
+msgid "Topic:"
+msgstr ""
+
+#: ../archive.php:16
+msgid "Tagged:"
+msgstr ""
+
+#: ../archive.php:25
+msgid "Posts By:"
+msgstr ""
+
+#: ../archive.php:30
+msgid "Daily Archives:"
+msgstr ""
+
+#: ../archive.php:35
+msgid "Monthly Archives:"
+msgstr ""
+
+#: ../archive.php:40
+msgid "Yearly Archives:"
+msgstr ""
+
+#: ../comments.php:12
+msgid "This post is password protected. Enter the password to view comments."
+msgstr ""
+
+#: ../comments.php:22
+msgid "<span>No</span> Responses"
+msgstr ""
+
+#: ../comments.php:22
+msgid "<span>One</span> Response"
+msgstr ""
+
+#: ../comments.php:38
+msgid "Comments are closed."
+msgstr ""
+
+#: ../comments.php:49
+msgid "Leave a Reply"
+msgstr ""
+
+#: ../comments.php:49
+#, php-format
+msgid "Leave a Reply to %s"
+msgstr ""
+
+#: ../comments.php:57
+#, php-format
+msgid "You must be %1$slogged in%2$s to post a comment."
+msgstr ""
+
+#: ../comments.php:65
+msgid "Logged in as"
+msgstr ""
+
+#: ../comments.php:65
+msgid "Log out of this account"
+msgstr ""
+
+#: ../comments.php:65
+msgid "Log out"
+msgstr ""
+
+#: ../comments.php:65
+msgid "&raquo;"
+msgstr ""
+
+#: ../comments.php:72
+msgid "Name"
+msgstr ""
+
+#: ../comments.php:72 ../comments.php:77
+msgid "(required)"
+msgstr ""
+
+#: ../comments.php:73
+msgid "Your Name*"
+msgstr ""
+
+#: ../comments.php:77
+msgid "Mail"
+msgstr ""
+
+#: ../comments.php:78
+msgid "Your E-Mail*"
+msgstr ""
+
+#: ../comments.php:79
+msgid "(will not be published)"
+msgstr ""
+
+#: ../comments.php:83
+msgid "Website"
+msgstr ""
+
+#: ../comments.php:84
+msgid "Got a website?"
+msgstr ""
+
+#: ../comments.php:91
+msgid "Your Comment here..."
+msgstr ""
+
+#: ../comments.php:94
+msgid "Submit"
+msgstr ""
+
+#: ../functions.php:86 ../functions.php:97
+msgid "The Main Menu"
+msgstr ""
+
+#: ../functions.php:87 ../functions.php:114
+msgid "Footer Links"
+msgstr ""
+
+#: ../functions.php:152
+msgid "Sidebar 1"
+msgstr ""
+
+#: ../functions.php:153
+msgid "The first (primary) sidebar."
+msgstr ""
+
+#: ../functions.php:162
+msgid "Offcanvas"
+msgstr ""
+
+#: ../functions.php:163
+msgid "The offcanvas sidebar."
+msgstr ""
+
+#: ../functions.php:217
+#, php-format
+msgid "<cite class=\"fn\">%s</cite>"
+msgstr ""
+
+#: ../functions.php:218
+msgid " F jS, Y - g:ia"
+msgstr ""
+
+#: ../functions.php:219
+msgid "(Edit)"
+msgstr ""
+
+#: ../functions.php:223
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: ../functions.php:255
+#, php-format
+msgid "Page %s"
+msgstr ""
+
+#: ../library/admin.php:51
+msgid "j F Y @ g:i a"
+msgstr ""
+
+#: ../library/admin.php:63
+msgid "Recently on Themble (Customize on admin.php)"
+msgstr ""
+
+#: ../library/admin.php:110
+msgid ""
+"<span id=\"footer-thankyou\">Developed by <a href=\"http://zoma.rs\" target="
+"\"_blank\">zomars</a> for <a href=\"http://anclastudio.com\" target=\"_blank"
+"\">Ancla Studio</a></span> . Built using <a href=\"http://themble.com/joints"
+"\" target=\"_blank\">joints</a>."
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:22
+#: ../library/custom-post-type-accordion.php:23
+msgid "Accordion Post"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:24
+msgid "All Accordion Posts"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:25
+msgid "Add New Accordion Post"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:26
+msgid "Add New Accodion Post"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:27
+#: ../library/custom-post-type-success-case.php:27
+#: ../library/custom-post-type.php:27
+msgid "Edit"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:28
+msgid "Edit Accordion Post"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:29
+msgid "New Accordion Post"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:30
+msgid "View Accordion Posts"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:31
+msgid "Search Accordion Post"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:32
+#: ../library/custom-post-type-success-case.php:32
+#: ../library/custom-post-type.php:32
+msgid "Nothing found in the Database."
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:33
+#: ../library/custom-post-type-success-case.php:33
+#: ../library/custom-post-type.php:33
+msgid "Nothing found in Trash"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:36
+#: ../library/custom-post-type.php:36
+msgid "This is the example custom post type"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:73
+#: ../library/custom-post-type.php:73
+msgid "Custom Categories"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:74
+#: ../library/custom-post-type.php:74
+msgid "Custom Category"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:75
+#: ../library/custom-post-type.php:75
+msgid "Search Custom Categories"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:76
+#: ../library/custom-post-type.php:76
+msgid "All Custom Categories"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:77
+#: ../library/custom-post-type.php:77
+msgid "Parent Custom Category"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:78
+#: ../library/custom-post-type.php:78
+msgid "Parent Custom Category:"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:79
+#: ../library/custom-post-type.php:79
+msgid "Edit Custom Category"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:80
+#: ../library/custom-post-type.php:80
+msgid "Update Custom Category"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:81
+#: ../library/custom-post-type.php:81
+msgid "Add New Custom Category"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:82
+#: ../library/custom-post-type.php:82
+msgid "New Custom Category Name"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:96
+#: ../library/custom-post-type.php:96
+msgid "Custom Tags"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:97
+#: ../library/custom-post-type.php:97
+msgid "Custom Tag"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:98
+#: ../library/custom-post-type.php:98
+msgid "Search Custom Tags"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:99
+#: ../library/custom-post-type.php:99
+msgid "All Custom Tags"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:100
+#: ../library/custom-post-type.php:100
+msgid "Parent Custom Tag"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:101
+#: ../library/custom-post-type.php:101
+msgid "Parent Custom Tag:"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:102
+#: ../library/custom-post-type.php:102
+msgid "Edit Custom Tag"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:103
+#: ../library/custom-post-type.php:103
+msgid "Update Custom Tag"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:104
+#: ../library/custom-post-type.php:104
+msgid "Add New Custom Tag"
+msgstr ""
+
+#: ../library/custom-post-type-accordion.php:105
+#: ../library/custom-post-type.php:105
+msgid "New Custom Tag Name"
+msgstr ""
+
+#: ../library/custom-post-type-success-case.php:22
+msgid "Success Cases"
+msgstr ""
+
+#: ../library/custom-post-type-success-case.php:23
+msgid "Success Case"
+msgstr ""
+
+#: ../library/custom-post-type-success-case.php:24
+msgid "All Success Cases"
+msgstr ""
+
+#: ../library/custom-post-type-success-case.php:25
+#: ../library/custom-post-type.php:25
+msgid "Add New"
+msgstr ""
+
+#: ../library/custom-post-type-success-case.php:26
+msgid "Add New Success Case"
+msgstr ""
+
+#: ../library/custom-post-type-success-case.php:28
+msgid "Edit Success Case"
+msgstr ""
+
+#: ../library/custom-post-type-success-case.php:29
+msgid "New Success Case"
+msgstr ""
+
+#: ../library/custom-post-type-success-case.php:30
+msgid "View Success Case"
+msgstr ""
+
+#: ../library/custom-post-type-success-case.php:31
+msgid "Search Success Case"
+msgstr ""
+
+#: ../library/custom-post-type-success-case.php:36
+msgid "This is the success cases registry"
+msgstr ""
+
+#: ../library/custom-post-type-success-case.php:141
+msgid "More Info"
+msgstr ""
+
+#: ../library/custom-post-type-success-case.php:149
+msgid "Event Date"
+msgstr ""
+
+#: ../library/custom-post-type-success-case.php:154
+msgid "People involved:"
+msgstr ""
+
+#: ../library/custom-post-type-success-case.php:159
+msgid "Description of activities:"
+msgstr ""
+
+#: ../library/custom-post-type-success-case.php:164
+msgid "Impact and number of attendees:"
+msgstr ""
+
+#: ../library/custom-post-type-success-case.php:169
+msgid "Benefits obtained:"
+msgstr ""
+
+#: ../library/custom-post-type-success-case.php:174
+msgid "Key to Success:"
+msgstr ""
+
+#: ../library/custom-post-type.php:22
+msgid "Custom Types"
+msgstr ""
+
+#: ../library/custom-post-type.php:23
+msgid "Custom Post"
+msgstr ""
+
+#: ../library/custom-post-type.php:24
+msgid "All Custom Posts"
+msgstr ""
+
+#: ../library/custom-post-type.php:26
+msgid "Add New Custom Type"
+msgstr ""
+
+#: ../library/custom-post-type.php:28
+msgid "Edit Post Types"
+msgstr ""
+
+#: ../library/custom-post-type.php:29
+msgid "New Post Type"
+msgstr ""
+
+#: ../library/custom-post-type.php:30
+msgid "View Post Type"
+msgstr ""
+
+#: ../library/custom-post-type.php:31
+msgid "Search Post Type"
+msgstr ""
+
+#: ../library/joints.php:277
+msgid "No Related Posts Yet!"
+msgstr ""
+
+#: ../library/joints.php:321
+msgid "First"
+msgstr ""
+
+#: ../library/joints.php:338
+msgid "Last"
+msgstr ""
+
+#: ../library/joints.php:422
+#, php-format
+msgid "Posts by %s"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:25
+msgid "Test Metabox"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:33
+#: ../library/metabox/example-functions.php:263
+msgid "Test Text"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:34
+#: ../library/metabox/example-functions.php:44
+#: ../library/metabox/example-functions.php:51
+#: ../library/metabox/example-functions.php:58
+#: ../library/metabox/example-functions.php:66
+#: ../library/metabox/example-functions.php:73
+#: ../library/metabox/example-functions.php:85
+#: ../library/metabox/example-functions.php:91
+#: ../library/metabox/example-functions.php:98
+#: ../library/metabox/example-functions.php:113
+#: ../library/metabox/example-functions.php:121
+#: ../library/metabox/example-functions.php:128
+#: ../library/metabox/example-functions.php:134
+#: ../library/metabox/example-functions.php:140
+#: ../library/metabox/example-functions.php:152
+#: ../library/metabox/example-functions.php:163
+#: ../library/metabox/example-functions.php:174
+#: ../library/metabox/example-functions.php:185
+#: ../library/metabox/example-functions.php:193
+#: ../library/metabox/example-functions.php:200
+#: ../library/metabox/example-functions.php:208
+#: ../library/metabox/example-functions.php:214
+#: ../library/metabox/example-functions.php:226
+#: ../library/metabox/example-functions.php:264
+#: ../library/metabox/example-functions.php:283
+#: ../library/metabox/example-functions.php:290
+#: ../library/metabox/example-functions.php:297
+#: ../library/metabox/example-functions.php:303
+#: ../library/metabox/example-functions.php:309
+#: ../library/metabox/example-functions.php:315
+#: ../library/metabox/example-functions.php:321
+#: ../library/metabox/example-functions.php:338
+msgid "field description (optional)"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:43
+msgid "Test Text Small"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:50
+msgid "Test Text Medium"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:57
+msgid "Website URL"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:65
+msgid "Test Text Email"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:72
+msgid "Test Time"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:78
+#: ../library/metabox/example-functions.php:79
+msgid "Time zone"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:84
+msgid "Test Date Picker"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:90
+msgid "Test Date Picker (UNIX timestamp)"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:97
+msgid "Test Date/Time Picker Combo (UNIX timestamp)"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:112
+msgid "Test Money"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:120
+msgid "Test Color Picker"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:127
+msgid "Test Text Area"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:133
+msgid "Test Text Area Small"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:139
+msgid "Test Text Area for Code"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:145
+msgid "Test Title Weeeee"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:146
+msgid "This is a title description"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:151
+msgid "Test Select"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:156
+#: ../library/metabox/example-functions.php:167
+#: ../library/metabox/example-functions.php:178
+msgid "Option One"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:157
+#: ../library/metabox/example-functions.php:168
+#: ../library/metabox/example-functions.php:179
+msgid "Option Two"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:158
+#: ../library/metabox/example-functions.php:169
+#: ../library/metabox/example-functions.php:180
+msgid "Option Three"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:162
+msgid "Test Radio inline"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:173
+msgid "Test Radio"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:184
+msgid "Test Taxonomy Radio"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:192
+msgid "Test Taxonomy Select"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:199
+msgid "Test Taxonomy Multi Checkbox"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:207
+msgid "Test Checkbox"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:213
+msgid "Test Multi Checkbox"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:218
+msgid "Check One"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:219
+msgid "Check Two"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:220
+msgid "Check Three"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:225
+msgid "Test wysiwyg"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:232
+msgid "Test Image"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:233
+msgid "Upload an image or enter a URL."
+msgstr ""
+
+#: ../library/metabox/example-functions.php:238
+msgid "Multiple Files"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:239
+msgid "Upload or add multiple images/attachments."
+msgstr ""
+
+#: ../library/metabox/example-functions.php:245
+msgid "oEmbed"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:246
+msgid ""
+"Enter a youtube, twitter, or instagram URL. Supports services listed at <a "
+"href=\"http://codex.wordpress.org/Embeds\">http://codex.wordpress.org/"
+"Embeds</a>."
+msgstr ""
+
+#: ../library/metabox/example-functions.php:255
+msgid "About Page Metabox"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:276
+msgid "User Profile Metabox"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:282
+msgid "Extra Info"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:289
+msgid "Avatar"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:296
+msgid "Facebook URL"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:302
+msgid "Twitter URL"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:308
+msgid "Google+ URL"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:314
+msgid "Linkedin URL"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:320
+msgid "User Field"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:333
+msgid "Theme Options Metabox"
+msgstr ""
+
+#: ../library/metabox/example-functions.php:337
+msgid "Site Background Color"
+msgstr ""
+
+#: ../library/metabox/helpers/cmb_Meta_Box_ajax.php:47
+msgid "Please Try Again"
+msgstr ""
+
+#: ../library/metabox/helpers/cmb_Meta_Box_ajax.php:131
+msgid "Remove Embed"
+msgstr ""
+
+#: ../library/metabox/helpers/cmb_Meta_Box_ajax.php:134
+#, php-format
+msgid "No oEmbed Results Found for %s. View more info at"
+msgstr ""
+
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:150
+msgid "Add Row"
+msgstr ""
+
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:178
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:547
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:590
+msgid "Remove"
+msgstr ""
+
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:523
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:563
+msgid "Add or Upload File"
+msgstr ""
+
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:536
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:582
+msgid "Remove Image"
+msgstr ""
+
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:547
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:590
+msgid "File:"
+msgstr ""
+
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:547
+#: ../library/metabox/helpers/cmb_Meta_Box_types.php:590
+msgid "Download"
+msgstr ""
+
+#: ../library/metabox/init.php:243
+msgid "Clear"
+msgstr ""
+
+#: ../library/metabox/init.php:244
+msgid "Default"
+msgstr ""
+
+#: ../library/metabox/init.php:245
+msgid "Select Color"
+msgstr ""
+
+#: ../library/metabox/init.php:246
+msgid "Current Color"
+msgstr ""
+
+#: ../library/metabox/init.php:1185
+msgid "Save"
+msgstr ""
+
+#: ../partials/content-byline.php:2
+#, php-format
+msgid ""
+"Publicado por <span class=\"author\">%3$s</span> en <time class=\"updated\" "
+"datetime=\"%1$s\" pubdate>%2$s</time> %4$s"
+msgstr ""
+
+#: ../partials/content-missing.php:3
+msgid "Oops, Post Not Found!"
+msgstr ""
+
+#: ../partials/content-missing.php:6
+msgid "Uh Oh. Something is missing. Try double checking things."
+msgstr ""
+
+#: ../partials/content-missing.php:9
+msgid "This is the error message in the partials/missing-content.php template."
+msgstr ""
+
+#: ../partials/loop-archive.php:15 ../partials/loop-page.php:13
+msgid "Tags:"
+msgstr ""
+
+#: ../search.php:6
+msgid "Search Results for:"
+msgstr ""
+
+#: ../search.php:21
+msgid "Read more &raquo;"
+msgstr ""
+
+#: ../search.php:48
+msgid "Disculpa, no se econtraron resultados."
+msgstr ""
+
+#: ../search.php:51
+msgid "Intente la busqueda de nuevo."
+msgstr ""
+
+#: ../sidebar-offcanvas.php:12 ../sidebar.php:12
+msgid "Please activate some Widgets."
+msgstr ""
+
+#: ../taxonomy-custom_cat.php:24
+msgid "Posts Categorized:"
+msgstr ""
+
+#: ../taxonomy-custom_cat.php:38
+msgid "Read More &raquo;"
+msgstr ""

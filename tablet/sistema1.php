@@ -1,0 +1,5734 @@
+<?php
+ini_set('display_errors',1);
+ini_set('error_reporting',E_ERROR);
+require_once('../wp-config.php');
+require('fpdf17/fpdf.php');
+date_default_timezone_set("America/Mazatlan");
+$subtipo=array(1=>array(1=>"Torneos",2=>"Tianguis",3=>"Kermesse",4=>"Días Festivos",5=>"Cooperación vecinal",6=>"Rifa",7=>"Kermesse cultural",8=>"Función de cine",9=>"Carrera pedestre",10=>"Noche bohemia",11=>"Visita al MIA",12=>"Visita a Jardín Botánico",13=>"Activación Santa Ana",14=>"Activación Trizalet"),2=>array(1=>"Arborización y Fertilización",2=>"Jornadas de limpieza",3=>"Riego",4=>"Fumigación",5=>"Poda"),3=>array(1=>"Clínica de verano de fútbol infantil",2=>"Torneos",3=>"Campamentos",4=>"Eventos en días festivos",5=>"Club guardianes del parque",6=>"Convivios recreativos",7=>"Pintura",8=>"Alumbrado",9=>"Murales",10=>"Reciclaje",11=>"Agua"),4=>array(1=>"Honorable Ayuntamiento",2=>"Empresa"),5=>array(1=>"Orden"));
+$tipoevento=array(1=>"Generar ingresos y tejido social",2=>"Crear y mantener áreas verdes", 3=>"Organización", 4=>"Gestión", 5=>"Orden");
+$param=array(1=>"opera",2=>"formaliza",3=>"organiza",4=>"reunion",5=>"proyecto",6=>"disenio",7=>"ejecutivo",8=>"vespacio",9=>"estado",10=>"instalaciones",
+                  11=>"ingresop",12=>"ingresadop",13=>"mancomunado",14=>"eventosr",15=>"eventos",16=>"averdes",17=>"estaver",18=>"gente",19=>"respint",20=>"orden",21=>"limpieza");
+$nomparametros=array(1=>"El comité opera con",2=>"¿Cómo está formalizado?",3=>"Cuenta con buena organización",4=>"Existen reuniones",5=>"Tienen proyectos en proceso",
+                     6=>"Cuenta con Visión de Espacio",6.2=>"Cuenta con Proyecto de Diseño",6.3=>"Cuenta con Proyecto Ejecutivo",7=>"Estado actual de las instalaciones",8=>"Hay instalaciones en la mayoria del espacio",
+                     9=>"Tienen fuente de ingresos permanentes",10=>"Es suficiente lo ingresado para operar bien",11=>"Tienen cuenta mancomunada",
+                     12=>"Hay eventos con regularidad",13=>"Cuentan con un calendario anual de actividades",14=>"Cuenta con",15=>"Se encuentra en buen estado",
+                     16=>"Porcentaje de afluencia sobre lo existente",17=>"Las instalaciones se respetan",18=>"Se cuenta con un reglamento de orden",19=>"Se mantiene limpio");
+$inparametros=array(1=>"opera",2=>"formaliza",3=>"organiza",4=>"reunion",5=>"proyecto",6=>"vespacio",6.2=>"disenio",6.3=>"ejecutivo",7=>"estado",8=>"instalaciones",9=>"ingresop",10=>"ingresadop",
+                  11=>"mancomunado",12=>"eventosr",13=>"eventos",14=>"averdes",15=>"estaver",16=>"gente",17=>"respint",18=>"orden",19=>"limpieza");
+$statuscom=array(1=>"Pendiente",2=>"Postergado",3=>"Cumplido",4=>"No cumplido");
+$compromisos=array(1=>"Reestructuración del comité","Formalizar el comité ante el ayuntamiento","Elaborar por escrito las políticas de trabajo del comité",
+                   "Plan de trabajo (por lo menos para un periodo de seis meses)","Calendario de reuniones del comité. (Se sugiere una cada 30 días)",
+                   "Programa de reuniones vecinales (se sugiere una cada tres meses)","Verificar el estatus legal del parque","Elaborar la visión del espacio",
+                   "Gestionar el diseño arquitectónico","Gestionar el proyecto ejecutivo","Mantenimiento","Rehabilitación","Remodelación","Nueva adquisición",
+                   "Programa de pago vecinal para mantenimineto del parque","Organización cooperación vecinal pro rehabilitación del parque",
+                   "Organización de cooperación vecinal pro - adquisición infraestructura","Gestión de recibos deducibles de impuestos","Torneos deportivos",
+                   "Celebración de días festivos","Rifa","Evento cultural","Función de cine","Carrera pedestre","Noche bohemia","Informe de ingresos y egresos",
+                   "Generar recibos de ingresos","Archivar comprobante de gastos","Abrir cuenta mancomunada",
+                   "Participación activa en la organización de eventos (tener asignado un rol y una responsabilidad)","Particpación activa en la promoción de los eventos",
+                   "Función de cine","Carrera pedestre","Noche bohemia","Convivio recreativo","Calendario anual de eventos",
+                   "Expediente de evidencias fotográficas de eventos","Gestionar árboles en Ayuntamiento y Parque Botánico","Gestionar plantas de ornanto en Ayuntamiento",
+                   "Siembra de árboles","Colocación de cesped natural y/o sintético","Protección para árboles pequeños","Campaña de limpieza",
+                   "Ferlilizar árboles con componentes orgnánicos","Nomeclatura de la vegetación en el parque","Adquisición de herramientas de limpieza","Fumigación",
+                   "Instalar sistema de riego","Adquisición de herramientas de jardinería","Poda de árboles y/o cesped","Promotor deportivo","Clases y/o talleres deporivos",
+                   "Futbol","Basquetbol","Zumba","Clases y/o talleres culturales","Pintura","Danza","Clubes con diversos objetivos para niños, adolescentes y adultos",
+                   "Club de ciclismo",'Campaña de "invita a un vecino"',"Torneos","Deportivo","Cultural","Artístico","Comité de niños","Invitación a Voluntariado",
+                   "Curso de verano deportivo o cultural","Ciclo de pláticas y conferencias para Padres, Adolescentes y niños","Campañmentos","Murales",
+                   "Gestión de vigilancia para el parque","Delimitación de espacios","Contratar velador","Creación de reglamento del parque",
+                   "Instalación de reglamento de parque","Instalación de señalización","Botón de pánico","Instalación de Timer para control de recursos",
+                   "Jornada de limpieza","Contratar jardinero",84=>"Campañas",85=>"Fondos económicos",86=>"Tejido social");
+$compesp=array(1=>"Bancas","Cerca","Alumbrado","Baños","Fuentes","Botes de basura","Banquetas","Acceso para capacidades especiales","Anclaje para bicicletas",
+               "Cajones de estacionamiento","Canasta de reciclaje","Cancha de usos múltiples","Cancha de volibol","Cancha de futbol","Cancha de basquetbol",
+               "Cancha de beisbol","Cancha de softbol","Mesa de ping pong","Back Stop","Porterias","Tableros","Aros","Losa","Pintura","Andadores","Gradas","Ejercitadores",
+               "Ciclovía","Gimnasio","Techumbre","Área de adoquín","Bordillo de concreto","Piñateros","Comedores","Asadores","Juegos infantiles","Palapa","Alberca",
+               "Camastros","Regaderas","Césped","Árboles","Arbustos","Toma de agua","Sistema de riego");
+$compespecial=array(1=>"Instalaciones","Baños","Fuentes","Banquetas","Acceso para capacidades especiales","Anclaje para bicicletas","Cajones de estacionamiento",
+                    "Deportiva","Cancha de usos múltiples","Cancha de volibol","Cancha de futbol","Cancha de basquetbol","Cancha de beisbol","Cancha de softbol",
+                    "Porterias","Losa","Andadores","Gradas","Ciclovía","Gimnasio","Areas de esparcimiento","Techumbre","Área de adoquín","Comedores");
+$compesp2=array(1=>"Limpieza","Árboles");
+$compesp3=array(1=>"Torneos","Tianguis","Kermes","Dias festivos","Rifa","Evento cultural","Funcion de cine","Carrera pedestre","Noche bohemia");
+$roles_comite=array(1=>"Presidente",2=>"Secretario",3=>"Tesorero",4=>"Vocal",5=>"Comunicaci&oacute;n",6=>"Vecino");
+$organizacion_comite=array(1=>2,2=>2,3=>2,4=>2,5=>2,6=>2,7=>1,8=>1,9=>1,10=>1,11=>1,12=>1,13=>1,14=>1);
+//$asesores=array(13563=>1478, 14602=>1536, 24066=>1537, 26390=>1538, 29384=>1539, 32487=>1540, 47689=>1541, 48239=>1542, 50205=>1543, 51492=>1544, 51954=>1545,
+//                56838=>1546, 62493=>1547, 65093=>1548, 80139=>1549, 80859=>1550, 84375=>1551, 87396=>1552);
+//Para agregar un nuevo asesor se necesita el ID del usuario registrado en wordpress y se pone el indice de 5 numeros aleatorios.
+//Pendiente para el asesor que tome la cartera de Javier Villa 47689=>1512
+//$asesores=array(13563=>1478, 14602=>168, 24066=>38, 26390=>1225, 29384=>1232, 32487=>1438, 48239=>59, 50205=>1515, 51492=>11,56838=>1581, 62493=>1582, 65093=>1583, 80139=>1584, 80859=>1585, 84375=>1586, 87396=>1587,13728=>1824);
+// Se sustituye el arreglo por la tabla asesores.
+if($_POST['cmd']==99){
+    $sql99="select key1.post_title as experiencia, key2.meta_value as fecha, key3.meta_value as video, key4.meta_value as tipo, key5.meta_value as proposito,
+    key6.meta_value as comite, key7.meta_value as vecinos, key8.meta_value as actividades, key9.meta_value as asistentes, key10.meta_value as beneficios,
+    key11.meta_value as impacto, key12.meta_value as cantidad, key13.meta_value as descripcion, key14.meta_value as descripcion2, key15.meta_value as llave,
+    key16.meta_value as mejorar, key17.meta_value as contacto, key18.meta_value as costos, key19.meta_value as boletos, key20.meta_value as patrocinios from wp_posts key1
+    LEFT JOIN wp_postmeta key2 ON key1.id = key2.post_id AND key2.meta_key = '_cmb_event_date'
+    LEFT JOIN wp_postmeta key3 ON key1.id = key3.post_id AND key3.meta_key = '_cmb_video'
+    LEFT JOIN wp_postmeta key4 ON key1.id = key4.post_id AND key4.meta_key = '_cmb_event_type'
+    LEFT JOIN wp_postmeta key5 ON key1.id = key5.post_id AND key5.meta_key = '_cmb_event_proposito'
+    LEFT JOIN wp_postmeta key6 ON key1.id = key6.post_id AND key6.meta_key = '_cmb_participants_comite'
+    LEFT JOIN wp_postmeta key7 ON key1.id = key7.post_id AND key7.meta_key = '_cmb_participants_vecinos'
+    LEFT JOIN wp_postmeta key8 ON key1.id = key8.post_id AND key8.meta_key = '_cmb_actividades'
+    LEFT JOIN wp_postmeta key9 ON key1.id = key9.post_id AND key9.meta_key = '_cmb_asistentes'
+    LEFT JOIN wp_postmeta key10 ON key1.id = key10.post_id AND key10.meta_key = '_cmb_benefits'
+    LEFT JOIN wp_postmeta key11 ON key1.id = key11.post_id AND key11.meta_key = '_cmb_impacto'
+    LEFT JOIN wp_postmeta key12 ON key1.id = key12.post_id AND key12.meta_key = '_cmb_cant_impacto'
+    LEFT JOIN wp_postmeta key13 ON key1.id = key13.post_id AND key13.meta_key = '_cmb_desc_impacto'
+    LEFT JOIN wp_postmeta key14 ON key1.id = key14.post_id AND key14.meta_key = '_cmb_desc_impacto2'
+    LEFT JOIN wp_postmeta key15 ON key1.id = key15.post_id AND key15.meta_key = '_cmb_success_key'
+    LEFT JOIN wp_postmeta key16 ON key1.id = key16.post_id AND key16.meta_key = '_cmb_mejorar'
+    LEFT JOIN wp_postmeta key17 ON key1.id = key17.post_id AND key17.meta_key = '_cmb_contacto_exp'
+    LEFT JOIN wp_postmeta key18 ON key1.id = key18.post_id AND key18.meta_key = '_cmb_costos'
+    LEFT JOIN wp_postmeta key19 ON key1.id = key19.post_id AND key19.meta_key = '_cmb_boletos'
+    LEFT JOIN wp_postmeta key20 ON key1.id = key20.post_id AND key20.meta_key = '_cmb_patrocinios' where id='".$_POST['experiencia']."'";
+    $res99=mysql_query($sql99);
+    $row99=mysql_fetch_array($res99);
+    echo $row99['experiencia'].'|'.$row99['fecha'].'|'.$row99['video'].'|'.$row99['tipo'].'|'.$row99['proposito'].'|'.$row99['comite'].'|'.$row99['vecinos'].'|'.$row99['actividades'].'|'.$row99['asistentes'].'|'.$row99['beneficios'].'|'.$row99['impacto'].'|'.$row99['cantidad'].'|'.$row99['descripcion'].'|'.$row99['descripcion2'].'|'.$row99['llave'].'|'.$row99['mejorar'].'|'.$row99['contacto'].'|'.$row99['costos'].'|'.$row99['boletos'].'|'.$row99['patrocinios'];
+    exit();
+}
+if($_POST['cmd']==88){
+        $fecha=split("-",$_POST['fecha']);
+        if($_POST['tipo_visita']=="seguimiento"){
+            $sql88="select v.cve,v.cve_parque,v.fecha_visita,c.tipo_visita from wp_comites_parques v INNER JOIN wp_visitascom_parques c ON v.cve=c.cve_visita WHERE v.cve_parque='".$_POST['parque']."' AND fecha_visita>='".$fecha[0]."-".$fecha[1]."-01' AND fecha_visita<='".$fecha[0]."-".$fecha[1]."-31'";
+            $res88=mysql_query($sql88);
+            if(mysql_num_rows($res88)>0){
+                $siono='nope|No puedes guardar más de una visita de seguimiento o después de una visita de prospectación en el mismo mes.';
+            }
+            else{
+                $siono='ok';
+            }
+        }
+        elseif($_POST['tipo_visita']=="reforzamiento"){
+            $sql88="select id,cve_parque,fecha_visita from wp_visitas_reforzamiento WHERE cve_parque='".$_POST['parque']."' AND fecha_visita>='".$fecha[0]."-".$fecha[1]."-01' AND fecha_visita<='".$fecha[0]."-".$fecha[1]."-31'";
+            $res88=mysql_query($sql88);
+            if(mysql_num_rows($res88)<2){
+                $siono='ok';
+            }
+            else{
+                $siono='nope|No puedes guardar más de dos visitas de reforzamiento en el mismo mes.';
+            }
+        }
+        else{
+            $sql88="select v.cve,v.cve_parque,v.fecha_visita,c.tipo_visita,v.opera from wp_comites_parques v INNER JOIN wp_visitascom_parques c ON v.cve=c.cve_visita WHERE v.cve_parque='".$_POST['parque']."' AND fecha_visita>='".$fecha[0]."-".$fecha[1]."-01' AND fecha_visita<='".$fecha[0]."-".$fecha[1]."-31'";
+            $res88=mysql_query($sql88);
+            if(mysql_num_rows($res88)>0){
+                while($row88=mysql_fetch_array($res88)){
+                    if($row88['tipo_visita']==4){
+                        $siono='nope|No puedes guardar más de una visita de prospectación en el mismo mes.';
+                    }
+                    else{
+                        if($row88['opera']!=0){
+                            $siono='nope|No puedes guardar una visita de prospectación si el comite esta estructurado en la de seguimiento.';
+                        }
+                        else{
+                            $siono='ok';
+                        }
+                    }
+                }
+            }
+            else{
+                $siono='ok';
+            }
+        }
+        echo $siono;
+        exit();
+}
+if($_POST['cmd']==101){
+    $sql101="select * from checklist where cve_parque='".$_POST['parque']."' AND clasificacion='".$_POST['categoria']."' AND parametro='".$_POST['subcategoria']."' order by fecha DESC limit 1";
+    $res101=mysql_query($sql101);
+    if(mysql_num_rows($res101)>0){
+        $row101=mysql_fetch_array($res101);
+        $dat=explode(",",$row101['data']);
+        if(count($dat)>2){
+            echo trim($dat[2]);
+        }
+        else{
+            echo 'no tiene';
+        }
+    }
+    else{
+        echo 'no tiene';
+    }
+    exit();
+}
+$asesores=array();
+$sql="select ID,cod from asesores where cod>0 and stat<2";
+$res=mysql_query($sql);
+if(!$res){
+    die(mysql_error());
+}
+if(mysql_num_rows($res)>1){
+    while($row=mysql_fetch_array($res)) {
+	$asesores[$row['cod']]=$row['ID'];
+    }    
+}
+				
+$i=0;
+$asesor=$_GET['tablet'];
+$flag=0;
+foreach($asesores as $k=>$v){
+    if($k==$asesor){
+        $flag=1;
+    }
+}
+if($flag==0){
+    echo 'Lo sentimos, no puedes entrar a esta p&aacute;gina. Por favor ponte en contacto con el administrador de la aplicaci&oacute;n o con el director de Parques Alegres.';
+    exit();
+}
+
+$id_post=(int)$_POST["parque"];
+if($_POST['cmd']==4){
+    if($id_post>0){
+        update_post_meta($id_post, '_parque_vialidad_prin', $_POST['vialidadprin'] );
+        update_post_meta($id_post, '_parque_vialidad1', $_POST['vialidad1'] );
+        update_post_meta($id_post, '_parque_vialidad2', $_POST['vialidad2'] );
+        update_post_meta($id_post, '_parque_vialidad_pos', $_POST['vialidadpos'] );
+        update_post_meta($id_post, '_parque_tipoasentamiento', $_POST['tipoasentamiento'] );
+        update_post_meta($id_post, '_parque_nomasentamiento', $_POST['nomasentamiento'] );
+        update_post_meta($id_post, '_parque_desc_ubic', $_POST['descubic'] );
+        update_post_meta($id_post, '_parque_sec', $_POST['sector'] );
+        update_post_meta($id_post, '_parque_zona', $_POST['zona'] );
+        update_post_meta($id_post, '_parque_nivel', $_POST['nivel'] );
+        update_post_meta($id_post, '_parque_regimen', $_POST['regimen'] );
+        update_post_meta($id_post, '_parque_legal', $_POST['legal'] );
+        update_post_meta($id_post, '_parque_tipo', $_POST['tipo'] );
+        update_post_meta($id_post, '_parque_estado', $_POST['state'] );
+        update_post_meta($id_post, '_parque_ciudad', $_POST['ciudad'] );
+        update_post_meta($id_post, '_parque_localidad', $_POST['localidad'] );
+        if($_POST['apoyado']==1){
+            update_post_meta($id_post, '_parque_seg', 1);    
+        }
+        else{
+            update_post_meta($id_post, '_parque_seg', 0);
+        }
+        update_post_meta($id_post, '_parque_obs', $_POST['obsgenerales'] );
+        echo 'Parque guardado exitosamente';
+    }
+    else{
+        $my_post = array('post_name' => $_POST['nom_parque'],
+        'post_title' => $_POST['nom_parque'],
+        'post_status' => 'publish',
+        'post_author' => $asesores[$asesor],
+        'post_type' => 'parque',
+        'post_date' => date("Y-m-d").' 00:00:00'
+        );
+        $id_post = wp_insert_post( $my_post );
+        if($id_post>0){
+            /*add_post_meta($id_post, '_parque_ubic', $_POST['ubicacion'], true );
+            add_post_meta($id_post, '_parque_col', $_POST['colonia'], true );
+            add_post_meta($id_post, '_parque_sup', $_POST['superficie'], true );
+            add_post_meta($id_post, '_parque_colin', $_POST['colindancias'], true );
+            add_post_meta($id_post, '_parque_sec', $_POST['sector'], true );
+            add_post_meta($id_post, '_parque_nivel', $_POST['nivel'], true );
+            add_post_meta($id_post, '_parque_regimen', $_POST['regimen'], true );
+            add_post_meta($id_post, '_parque_legal', $_POST['legal'], true );
+            add_post_meta($id_post, '_parque_tipo', $_POST['tipo'], true );
+            add_post_meta($id_post, '_parque_estado', $_POST['state'], true );
+            add_post_meta($id_post, '_parque_ciudad', $_POST['ciudad'], true );
+            */
+            add_post_meta($id_post, '_parque_vialidad_prin', $_POST['vialidadprin'], true );
+            add_post_meta($id_post, '_parque_vialidad1', $_POST['vialidad1'], true );
+            add_post_meta($id_post, '_parque_vialidad2', $_POST['vialidad2'], true );
+            add_post_meta($id_post, '_parque_vialidad_pos', $_POST['vialidadpos'], true );
+            add_post_meta($id_post, '_parque_tipoasentamiento', $_POST['tipoasentamiento'], true );
+            add_post_meta($id_post, '_parque_nomasentamiento', $_POST['nomasentamiento'], true );
+            add_post_meta($id_post, '_parque_desc_ubic', $_POST['descubic'], true );
+            add_post_meta($id_post, '_parque_sec', $_POST['sector'], true );
+            add_post_meta($id_post, '_parque_zona', $_POST['zona'], true );
+            add_post_meta($id_post, '_parque_nivel', $_POST['nivel'], true );
+            add_post_meta($id_post, '_parque_regimen', $_POST['regimen'], true );
+            add_post_meta($id_post, '_parque_legal', $_POST['legal'], true );
+            add_post_meta($id_post, '_parque_tipo', $_POST['tipo'], true );
+            add_post_meta($id_post, '_parque_estado', $_POST['state'], true );
+            add_post_meta($id_post, '_parque_ciudad', $_POST['ciudad'], true );
+            add_post_meta($id_post, '_parque_localidad', $_POST['localidad'], true );
+            if($_POST['apoyado']==1){
+                add_post_meta($id_post, '_parque_seg', $_POST['apoyado'], true );    
+            }
+            else{
+                update_post_meta($id_post, '_parque_seg', 0);
+            }
+            add_post_meta($id_post, '_parque_obs', $_POST['obsgenerales'], true );
+            echo 'Parque guardado exitosamente';
+        }
+        else{
+            echo 'Error';
+        }
+    }
+}
+
+if ($id_post==0){
+        echo '<html><head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+        if($_GET['qu']==10){
+            echo '<meta http-equiv="cleartype" content="on">
+            <meta name="MobileOptimized" content="320">
+            <meta name="HandheldFriendly" content="True">
+            <meta name="apple-mobile-web-app-capable" content="yes">
+            <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">';
+        }
+        echo '<title>Tablet Parques Alegres</title>
+        <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+        <script>function parque(p) {document.forma.parque.value=p;document.forma.submit();}
+	function cambiaraction(){
+		document.forma.action="solicitar.php";
+		document.forma.submit();
+		document.forma.action="";
+	}
+        function camb(i){
+            if(i<0){
+                $("#perfil").show();
+                $("#lis_parques").hide();
+                $("#compromisos").hide();
+            }
+            else{
+                $("#perfil").hide();
+                if(i==3){
+                    $("#compromisos").show();
+                }
+                else{
+                    $("#compromisos").hide();
+                    $("#lis_parques").show();
+                    if(i==1){
+                        $("#vis_parques").show();
+                        $("#tod_parques").hide();
+                        $("#mej_parques").hide();
+                        $("#med_parques").hide();
+                        $("#mal_parques").hide();
+                    }
+                    else if(i==2){
+                        $("#tod_parques").show();
+                        $("#vis_parques").hide();
+                        $("#mej_parques").hide();
+                        $("#med_parques").hide();
+                        $("#mal_parques").hide();
+                    }
+                    else if(i==4){
+                        $("#tod_parques").hide();
+                        $("#vis_parques").hide();
+                        $("#mej_parques").show();
+                        $("#med_parques").hide();
+                        $("#mal_parques").hide();
+                    }
+                    else if(i==5){
+                        $("#tod_parques").hide();
+                        $("#vis_parques").hide();
+                        $("#mej_parques").hide();
+                        $("#med_parques").show();
+                        $("#mal_parques").hide();
+                    }
+                    else if(i==6){
+                        $("#tod_parques").hide();
+                        $("#vis_parques").hide();
+                        $("#mej_parques").hide();
+                        $("#med_parques").hide();
+                        $("#mal_parques").show();
+                    }
+                    
+                }
+            }
+        }
+        function swcomp(i){
+            if(i==1){
+                $("#todos").show();
+                $("#mes").hide();
+            }
+            else{
+                $("#todos").hide();
+                $("#mes").show();
+            }
+        }
+        function check(){
+            $.ajax({url: "notifica.php",
+            data: { cmd: 2, asesor: "'.$asesores[$asesor].'", fecha: "'.date("Y-m-d").'"},
+            dataType: "text",
+            type: "post",
+            success: function(result){
+                if(result!="no"){
+                    var res=result.split("|");
+                    $("#message").html("");
+                    var len=res.length;
+                    len=len-1;
+                    for(var i=0;i<len;i++){
+                        var msg=res[i].split("><");
+                        $("#message").append("<p id=\"msg"+msg[0]+"\" class=\"mensaje\">"+msg[1]+"<span style=\"float:right;cursor:pointer;\" onclick=\"leer(\'"+msg[0]+"\');\">Cerrar [x]</span></p>");
+                    }
+                    $("#message").show("slow");
+                }
+                else{
+                    $("#message").html("");
+                }
+                setTimeout(function(){ check(); }, 5000);
+            }});
+        }
+        function leer(msg){
+            $.ajax({url: "notifica.php",
+            data: { cmd: 3, cve_msg: msg},
+            dataType: "text",
+            type: "post",
+            success: function(result){
+                if(result!="no"){
+                    $("#msg"+msg).hide("slow");
+                }
+            }});
+        }
+        $(function() {
+            check();
+            var calif=$("#calif").text();
+            $({someValue: 0}).animate({someValue: calif}, {
+                duration: 2000,
+                easing:"swing", // can be anything
+                step: function() { // called on every step
+                    $("#calif").text(Math.round(this.someValue));
+                }
+            });
+            var rendi=$("#rendi").text();
+            $({someValue: 0}).animate({someValue: rendi}, {
+                duration: 2000,
+                easing:"swing", // can be anything
+                step: function() { // called on every step
+                    $("#rendi").text(Math.round(this.someValue));
+                }
+            });
+            var visi=$("#visi").text();
+            $({someValue: 0}).animate({someValue: visi}, {
+                duration: 2000,
+                easing:"swing", // can be anything
+                step: function() { // called on every step
+                    $("#visi").text(Math.round(this.someValue)+"%");
+                }
+            });
+            var comi=$("#comi").text();
+            $({someValue: 0}).animate({someValue: comi}, {
+                duration: 2000,
+                easing:"swing", // can be anything
+                step: function() { // called on every step
+                    $("#comi").text(Math.round(this.someValue));
+                }
+            });
+        });
+	</script>
+        <style>
+        span{
+            font-family: georgia;
+            color: #727272;
+        }
+        ul{
+            margin-bottom:20px;
+            margin-left:20px;
+            margin-top:10px;
+            overflow:hidden;
+        }
+        li{
+            line-height:1.5em;
+            float:left;
+            display:inline;
+            width:100%;
+        }
+        .doble li{
+            width:50%;
+        }
+        .triple li{
+            width:33.3%;
+        }
+        a:link {
+            text-decoration:none;
+            color: #0074a2;
+        }
+        a:visited {
+            text-decoration:none;
+            color: #0074a2;
+        }
+        a:hover {
+            text-decoration:underline;
+            color: #FF704D;
+        }
+        a:active {
+            text-decoration:underline;
+            color: #FF704D;
+        }
+        </style>';
+	echo '</head><body>';
+        //if($asesor==13563){
+            //if($_GET['qu']==10){
+                echo '<style>
+                    body{
+                        margin:0;
+                    }
+                    #message{
+                        position:absolute;
+                        left:6%;
+                        z-index:1;
+                    }
+                    .mensaje{
+                        -webkit-border-radius: 10px;
+                        -moz-border-radius: 10px;
+                        border-radius: 10px;
+                        display:block;
+                        margin-top:2px;
+                        margin-bottom:3px;
+                        background:white;
+                        font-weight:bold;
+                        font-size:14px;
+                        padding-left:10px;
+                        padding-top:2px;
+                        color:#727272;
+                        vertical-align:middle;
+                        width:400px;
+                        min-height:30px;
+                        border: 1px solid gray;
+                    }
+                    .mensaje span{
+                        font-size:12px;
+                    }
+                    .mensaje span:hover{
+                        color: green;
+                        text-decoration:underline;
+                    }
+                    #perfil{
+                        width:600px;
+                        height:100%;
+                    }
+                    #back{
+                        width:600px;
+                        height:100%;
+                        position: absolute;
+                        left: 0px;
+                        top: 0px;
+                        z-index: -1;
+                    }
+                    .mitad{
+                        width:39%;
+                        display:inline-block;
+                        vertical-align:top;
+                    }
+                    .linarb{
+                        width:50%;
+                        height:15%;
+                        float:left;
+                    }
+                    .compend{
+                        line-height:25px;
+                    }
+                    .listpa{
+                        line-height:15px;
+                    }
+                    .toppar{
+                        font-size:15px;
+                    }
+                    .round1{
+                        -webkit-border-radius: 50%;
+                        -moz-border-radius: 50%;
+                        border-radius: 50%;
+                        width:100px;
+                        height:100px;
+                        border: 4px solid #b8df84;
+                    }
+                    .round2{
+                        -webkit-border-radius: 50%;
+                        -moz-border-radius: 50%;
+                        border-radius: 50%;
+                        width:90px;
+                        height:90px;
+                        border: 4px solid #8fa9e4;
+                    }
+                    .round3{
+                        -webkit-border-radius: 50%;
+                        -moz-border-radius: 50%;
+                        border-radius: 50%;
+                        width:80px;
+                        height:80px;
+                        border: 4px solid #bd8e00;
+                    }
+                    .round4{
+                        -webkit-border-radius: 50%;
+                        -moz-border-radius: 50%;
+                        border-radius: 50%;
+                        width:70px;
+                        height:70px;
+                        border: 4px solid #99432a;
+                    }
+                    .big{
+                        line-height:45px;
+                        font-size:25px;
+                    }
+                    .small{
+                        line-height:11px;
+                        font-size:9px;
+                    }
+                    .CSSTableGenerator {
+                        margin:0px;padding:0px;
+                        width:99%;
+                        box-shadow: 10px 10px 5px #888888;
+                        border:1px solid #3f7f00;
+                        
+                        -moz-border-radius-bottomleft:10px;
+                        -webkit-border-bottom-left-radius:10px;
+                        border-bottom-left-radius:10px;
+                        
+                        -moz-border-radius-bottomright:10px;
+                        -webkit-border-bottom-right-radius:10px;
+                        border-bottom-right-radius:10px;
+                        
+                        -moz-border-radius-topright:10px;
+                        -webkit-border-top-right-radius:10px;
+                        border-top-right-radius:10px;
+                        
+                        -moz-border-radius-topleft:10px;
+                        -webkit-border-top-left-radius:10px;
+                        border-top-left-radius:10px;
+                    }.CSSTableGenerator table{
+                        border-collapse: collapse;
+                            border-spacing: 0;
+                            width:100%;
+                            margin:0px;padding:0px;
+                    }.CSSTableGenerator tr:last-child td:last-child {
+                            -moz-border-radius-bottomright:10px;
+                            -webkit-border-bottom-right-radius:10px;
+                            border-bottom-right-radius:10px;
+                    }
+                    .CSSTableGenerator table tr:first-child td:first-child {
+                            -moz-border-radius-topleft:10px;
+                            -webkit-border-top-left-radius:10px;
+                            border-top-left-radius:10px;
+                    }
+                    .CSSTableGenerator table tr:first-child td:last-child {
+                            -moz-border-radius-topright:10px;
+                            -webkit-border-top-right-radius:10px;
+                            border-top-right-radius:10px;
+                    }.CSSTableGenerator tr:last-child td:first-child{
+                            -moz-border-radius-bottomleft:10px;
+                            -webkit-border-bottom-left-radius:10px;
+                            border-bottom-left-radius:10px;
+                    }
+                    .CSSTableGenerator tr:nth-child(odd){ background-color:#d4ffaa; }
+                    .CSSTableGenerator tr:nth-child(even)    { background-color:#ffffff; }.CSSTableGenerator td{
+                            vertical-align:middle;
+                            
+                            
+                            border:1px solid #3f7f00;
+                            border-width:0px 1px 1px 0px;
+                            text-align:left;
+                            padding:7px;
+                            font-size:12px;
+                            font-family:Arial;
+                            font-weight:normal;
+                            color:#000000;
+                    }.CSSTableGenerator tr:last-child td{
+                            border-width:0px 1px 0px 0px;
+                    }.CSSTableGenerator tr td:last-child{
+                            border-width:0px 0px 1px 0px;
+                    }.CSSTableGenerator tr:last-child td:last-child{
+                            border-width:0px 0px 0px 0px;
+                    }
+                    .CSSTableGenerator tr:first-child td{
+                                    background:-o-linear-gradient(bottom, #5fbf00 5%, #3f7f00 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #5fbf00), color-stop(1, #3f7f00) );
+                            background:-moz-linear-gradient( center top, #5fbf00 5%, #3f7f00 100% );
+                            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#5fbf00", endColorstr="#3f7f00");	background: -o-linear-gradient(top,#5fbf00,3f7f00);
+                    
+                            background-color:#5fbf00;
+                            border:0px solid #3f7f00;
+                            text-align:center;
+                            border-width:0px 0px 1px 1px;
+                            font-size:15px;
+                            font-family:Arial;
+                            font-weight:bold;
+                            color:#ffffff;
+                    }
+                    .CSSTableGenerator tr:first-child:hover td{
+                            background:-o-linear-gradient(bottom, #5fbf00 5%, #3f7f00 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #5fbf00), color-stop(1, #3f7f00) );
+                            background:-moz-linear-gradient( center top, #5fbf00 5%, #3f7f00 100% );
+                            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#5fbf00", endColorstr="#3f7f00");	background: -o-linear-gradient(top,#5fbf00,3f7f00);
+                    
+                            background-color:#5fbf00;
+                    }
+                    .CSSTableGenerator tr:first-child td:first-child{
+                            border-width:0px 0px 1px 0px;
+                    }
+                    .CSSTableGenerator tr:first-child td:last-child{
+                            border-width:0px 0px 1px 1px;
+                    }
+                    @media screen and (max-width: 600px){
+                        #perfil{
+                            width:100%;
+                        }
+                        #back{
+                            width:100%;
+                        }
+                    }
+                    @media screen and (max-width: 500px){
+                        #perfil{
+                            width:100%;
+                        }
+                        #back{
+                            width:100%;
+                        }
+                        a{
+                            font-size:10px;
+                        }
+                        .compend{
+                            line-height:10px;
+                        }
+                        .listpa{
+                            line-height:10px;
+                        }
+                        .toppar{
+                            font-size:10px;
+                        }
+                        .round1{
+                            width:60px;
+                            height:60px;
+                            border: 2px solid #b8df84;
+                        }
+                        .round2{
+                            width:55px;
+                            height:55px;
+                            border: 2px solid #8fa9e4;
+                        }
+                        .round3{
+                            width:45px;
+                            height:45px;
+                            border: 2px solid #bd8e00;
+                        }
+                        .round4{
+                            width:40px;
+                            height:40px;
+                            border: 2px solid #99432a;
+                        }
+                        .big{
+                            line-height:22px;
+                            font-size:18px;
+                        }
+                        .small{
+                            line-height:6px;
+                            font-size:5px;
+                        }
+                    }
+                </style>';
+                echo '<div id="perfil">
+                    <img id="back" src="background.png" width="600" height="100%">
+                    <img src="imagenes/campana.png" align="left" style="width:6%;margin-top:3px;margin-left:3px;"><div id="message" style="display:inline;"></div>
+                    <img src="http://parquesalegres.org/wp-content/uploads/2015/02/logopa.png" align="right" style="width:16%;margin-top:3px;margin-right:3px;">
+                    <div style="clear:both;"></div>';
+                    $sql="SELECT display_name FROM wp_users where id='".$asesores[$asesor]."'";
+                    $res=mysql_query($sql);
+                    $row=mysql_fetch_array($res);
+                    $sql1="SELECT ID, post_title FROM wp_posts where post_author='".$asesores[$asesor]."' and post_type='parque' and post_status='publish'";
+                    $res1=mysql_query($sql1);
+                    $malo=0;
+                    $medio=0;
+                    $bueno=0;
+                    $toppe1=$toppe2=$toppe3=100;
+                    $topme1=$topme2=$topme3=0;
+                    $first=0;
+                    $parque1=$parque2=$parque3=$parque4=$parque5=$parque6="";
+                    $id1=$id2=$id3=$id4=$id5=$id6="";
+                    $parques_asesor=mysql_num_rows($res1);
+                    $diasmes=date("t");
+                    $diaactual=date('d');
+                    $rendimiento=$parques_asesor/$diasmes;
+                    $rend=$diaactual*$rendimiento;
+                    $totcalif=0;
+                    $cm=0;
+                    $cf=0;
+                    while($row1=mysql_fetch_array($res1)){
+                        $sql3="select * from compromisos where cve_parque='".$row1['ID']."' AND estatus='1'";
+                        $res3=mysql_query($sql3);
+                        if(mysql_num_rows($res3)>0){
+                            while($row3=mysql_fetch_array($res3)){
+                                $cm++;
+                            }
+                        }
+                        $sql2="select cve_parque, ";
+                        foreach($param as $v){
+                            $sql2.=$v."+";
+                        }
+                        $sql2 = substr($sql2, 0, -1);
+                        $sql2.=" as calif,opera from wp_comites_parques where cve_parque='".$row1['ID']."' order by fecha_visita DESC, cve DESC limit 1";
+                        $res2=mysql_query($sql2);
+                        while($row2=mysql_fetch_array($res2)){
+                            if($row2['opera']>=7){
+                                $cf++;
+                            }
+                            if(($row2['calif']/7)<60){
+                                $malo++;
+                                $parquesmalos[$row1['ID']]=$row1['post_title'];
+                            }
+                            elseif(($row2['calif']/7)<80){
+                                $medio++;
+                                $parquesmedios[$row1['ID']]=$row1['post_title'];
+                            }
+                            else{
+                                $bueno++;
+                                $parquesbuenos[$row1['ID']]=$row1['post_title'];
+                            }
+                            if($first<1){
+                                $topme1=round($row2['calif']/7);
+                                $toppe1=round($row2['calif']/7);
+                                $parque1=$row1['post_title'];
+                                $id1=$row1['ID'];
+                                $parque4=$row1['post_title'];
+                                $id4=$row1['ID'];
+                                $first=1;
+                            }
+                            else{
+                                if($topme1<round($row2['calif']/7)){
+                                    $parque3=$parque2;
+                                    $parque2=$parque1;
+                                    $parque1=$row1['post_title'];
+                                    $id3=$id2;
+                                    $id2=$id1;
+                                    $id1=$row1['ID'];
+                                    $topme3=$topme2;
+                                    $topme2=$topme1;
+                                    $topme1=round($row2['calif']/7);
+                                }
+                                else{
+                                    if($topme2<round($row2['calif']/7)){
+                                        $parque3=$parque2;
+                                        $parque2=$row1['post_title'];
+                                        $id3=$id2;
+                                        $id2=$row1['ID'];
+                                        $topme3=$topme2;
+                                        $topme2=round($row2['calif']/7);
+                                    }
+                                    else{
+                                        if($topme3<round($row2['calif']/7)){
+                                            $parque3=$row1['post_title'];
+                                            $id3=$row1['ID'];
+                                            $topme3=round($row2['calif']/7);   
+                                        }
+                                    }
+                                }
+                                if($toppe1>=round($row2['calif']/7)){
+                                    $parque6=$parque5;
+                                    $parque5=$parque4;
+                                    $parque4=$row1['post_title'];
+                                    $id6=$id5;
+                                    $id5=$id4;
+                                    $id4=$row1['ID'];
+                                    $toppe3=$toppe2;
+                                    $toppe2=$toppe1;
+                                    $toppe1=round($row2['calif']/7);
+                                }
+                                else{
+                                    if($toppe2>=round($row2['calif']/7)){
+                                        $parque6=$parque5;
+                                        $parque5=$row1['post_title'];
+                                        $id6=$id5;
+                                        $id5=$row1['ID'];
+                                        $toppe3=$toppe2;
+                                        $toppe2=round($row2['calif']/7);
+                                    }
+                                    else{
+                                        if($toppe3>=round($row2['calif']/7)){
+                                            $parque6=$row1['post_title'];
+                                            $id6=$row1['ID'];
+                                            $toppe3=round($row2['calif']/7);
+                                        }
+                                    }
+                                }
+                            }
+                            $totcalif=$totcalif+round($row2['calif']/7);
+                        }
+                    }
+                    $totcalif=round($totcalif/$parques_asesor);
+                    $sql0="select id, post_title from wp_posts where post_type='parque' and post_status='publish' and post_author='".$asesores[$asesor]."' order by post_title ASC";
+                    $res0=mysql_query($sql0);
+                    $c=0;
+                    while($row0=mysql_fetch_array($res0)){
+                        $sql000="SELECT cve from wp_comites_parques WHERE cve_parque='".$row0['id']."' AND fecha_visita>='".date("Y-m-")."01'";
+                        $res000=mysql_query($sql000);
+                        if(mysql_num_rows($res000)>0){
+                            $c++;
+                        }
+                    }
+                    echo '<div class="mitad"><center>';
+                        if(file_exists('imagenes/'.$asesores[$asesor].'.png')){
+                            $foto_asesor=$asesores[$asesor].'.png';
+                        }
+                        else{
+                            $foto_asesor='asesor.jpg';
+                        }
+                        echo '<img src="imagenes/'.$foto_asesor.'" width="45%"><br><span style="font-size:12px;">'.$row['display_name'].'</span><br><br>
+                        <span style="font-size:15px;"><b>Mis parques</b></span><br><br><a href="#" onclick="camb(4);"><img src="happy_face.png" width="15%"></a>&nbsp;
+                        <a href="#" onclick="camb(5);"><img src="normal_face.png" width="15%"></a>&nbsp;
+                        <a href="#" onclick="camb(6);"><img src="sad_face.png" width="15%"></a><br>
+                        <div style="display:inline-block;width:15%;"><a href="#" onclick="camb(4);"><span style="font-size:15px;">'.$bueno.'</span></a></div>&nbsp;
+                        <div style="display:inline-block;width:15%;"><a href="#" onclick="camb(5);"><span style="font-size:15px;">'.$medio.'</span></a></div>&nbsp;
+                        <div style="display:inline-block;width:15%;"><a href="#" onclick="camb(6);"><span style="font-size:15px;">'.$malo.'</span></a></div><br><br>
+                        <div class="linarb"><img src="arboliwi.jpg" style="margin-left:20%;" width="70%" height="100%"></div>
+                        <div class="listpa" style="width:45%;height:15%;float:right;margin-right:5%;"><br><a href="#" onclick="camb(1);">Visitar Parques</a><br><br><a href="#" onclick="camb(2);">Lista de Parques</a></div>
+                        <div style="clear:both"></div><br>
+                        <div style="display:inline-block;width:40%;"><div style="text-align:center;width:50px;height:50px;line-height:50px;background-image: url(pendientes.png);background-repeat:no-repeat;background-position:center;">'.$cm.'</div></div>
+                        <div class="compend" style="display:inline-block;width:40%;vertical-align:middle;"><a href="#" onclick="camb(3);">Compromisos Pendientes</a><br></div><br><br>
+                        <b><a href="javascript:void(0);" onclick="cambiaraction();">Solicitar una modificación</a></b><br>
+                        </center>
+                    </div>
+                    <div class="mitad" style="width:59%;"><center><b>Los mejores</b><br>
+                        <br><div style="float:left;width:20%;"><img src="best.png" width="100%"></div>
+                        <div class="toppar" style="display:inline-block;width:60%;text-align:left;">1.- <a href="javascript:parque('.$id1.');">'.$parque1.'</a></div><div class="toppar" style="display:inline-block;width:10%;text-align:center;">'.$topme1.'</div><br>
+                        <div class="toppar" style="display:inline-block;width:60%;text-align:left;">2.- <a href="javascript:parque('.$id2.');">'.$parque2.'</a></div><div class="toppar" style="display:inline-block;width:10%;text-align:center;">'.$topme2.'</div><br>
+                        <div class="toppar" style="display:inline-block;width:60%;text-align:left;">3.- <a href="javascript:parque('.$id3.');">'.$parque3.'</a></div><div class="toppar" style="display:inline-block;width:10%;text-align:center;">'.$topme3.'</div><br>
+                        <div style="clear:both;"></div><br><b>Parques a Mejorar</b><br>
+                        <div style="float:left;width:20%;"><img src="improve.png" width="60%"></div><br>
+                        <div class="toppar" style="display:inline-block;width:60%;text-align:left;">'.($parques_asesor-2).'.- <a href="javascript:parque('.$id6.');">'.$parque6.'</a></div><div class="toppar" style="display:inline-block;width:10%;text-align:center;">'.$toppe3.'</div><br>
+                        <div class="toppar" style="display:inline-block;width:60%;text-align:left;">'.($parques_asesor-1).'.- <a href="javascript:parque('.$id5.');">'.$parque5.'</a></div><div class="toppar" style="display:inline-block;width:10%;text-align:center;">'.$toppe2.'</div><br>
+                        <div class="toppar" style="display:inline-block;width:60%;text-align:left;">'.$parques_asesor.'.- <a href="javascript:parque('.$id4.');">'.$parque4.'</a></div><div class="toppar" style="display:inline-block;width:10%;text-align:center;">'.$toppe1.'</div><br>
+                        <div style="clear:both;"></div><div style="width:49%;display:inline-block;">
+                            <div class="round1"><span class="big" id="visi">'.round(($c*100)/$parques_asesor).'%</span><br><span class="small">Parques visitados</span></div><br>
+                            <div class="round2"><span class="big" id="comi">'.$cf.'</span><br><span class="small">Comités formados</span></div>
+                        </div>
+                        <div style="width:49%;display:inline-block;">
+                            <div class="round3"><span class="big" id="calif">'.$totcalif.'</span><br><span class="small">Calificación promedio de la cartera</span></div><br>
+                            <div class="round4"><span class="big" id="rendi">'.round($c-$rend).'</span><br><span class="small">Rendimiento en visitas</span></div>
+                        </div>
+                        </center>
+                    </div>
+                </div>';
+                echo '<div id="lis_parques" style="display:none;"><div><img src="http://parquesalegres.org/wp-content/uploads/2015/02/logopa.png" style="width:10%;vertical-align:middle"><span style="margin-left:15px;font-size:17px;"><b>Sistema de tablets</b></span></div><br>';
+                echo '<form name="forma" method="post" target="_blank"><input type="hidden" name="asesorpa" value="'.$asesores[$asesor].'"><input type="hidden" name="parque">';
+                echo '<b><a href="javascript:parque(-1);">Registrar un nuevo Parque</a></b><br><br>';
+                echo '<span>Parques registrados:</span><div id="tod_parques" style="display:none;">';
+                $sql0="select id, post_title from wp_posts where post_type='parque' and post_status='publish' and post_author='".$asesores[$asesor]."' order by post_title ASC";
+                $res0=mysql_query($sql0);
+                $c=0;
+                if(mysql_num_rows($res0)<=16){
+                    echo '<ul>';
+                }
+                elseif(mysql_num_rows($res0)<=32){
+                    echo '<ul class="doble">';
+                }
+                else{
+                    echo '<ul class="triple">';
+                }
+                while($row0=mysql_fetch_array($res0)){
+                    $parque[$row0["id"]]=$row0["post_title"];
+                    $sql000="SELECT cve from wp_comites_parques WHERE cve_parque='".$row0['id']."' AND fecha_visita>='".date("Y-m-")."01'";
+                    $res000=mysql_query($sql000);
+                    echo '<li><a href="javascript:parque('.$row0["id"].');">'.$row0["post_title"].'</a> ';
+                    if(mysql_num_rows($res000)>0){
+                        echo '<img src="bien.png" width="15px" height="15px">';
+                    }
+                    echo '</li>';
+                }
+                echo '</ul></div>
+                <div id="vis_parques" style="display:none;">';
+                $sql0="select id, post_title from wp_posts where post_type='parque' and post_status='publish' and post_author='".$asesores[$asesor]."' order by post_title ASC";
+                $res0=mysql_query($sql0);
+                $c=0;
+                if(mysql_num_rows($res0)<=16){
+                    echo '<ul>';
+                }
+                elseif(mysql_num_rows($res0)<=32){
+                    echo '<ul class="doble">';
+                }
+                else{
+                    echo '<ul class="triple">';
+                }
+                while($row0=mysql_fetch_array($res0)){
+                    $parque[$row0["id"]]=$row0["post_title"];
+                    $sql000="SELECT cve from wp_comites_parques WHERE cve_parque='".$row0['id']."' AND fecha_visita>='".date("Y-m-")."01'";
+                    $res000=mysql_query($sql000);
+                    if(mysql_num_rows($res000)>0){
+                    }else{
+                        echo '<li><a href="javascript:parque('.$row0["id"].');">'.$row0["post_title"].'</a></li>';
+                    }
+                }
+                echo '</ul></div>
+                <div id="mej_parques" style="display:none;">';
+                if(count($parquesbuenos)<=16){
+                    echo '<ul>';
+                }
+                elseif(count($parquesbuenos)<=32){
+                    echo '<ul class="doble">';
+                }
+                else{
+                    echo '<ul class="triple">';
+                }
+                foreach($parquesbuenos as $k=>$v){
+                    echo '<li><a href="javascript:parque('.$k.');">'.$v.'</a></li>';
+                }
+                echo '</ul></div>
+                <div id="med_parques" style="display:none;">';
+                if(count($parquesmedios)<=16){
+                    echo '<ul>';
+                }
+                elseif(count($parquesmedios)<=32){
+                    echo '<ul class="doble">';
+                }
+                else{
+                    echo '<ul class="triple">';
+                }
+                foreach($parquesmedios as $k=>$v){
+                    echo '<li><a href="javascript:parque('.$k.');">'.$v.'</a></li>';
+                }
+                echo '</ul></div>
+                <div id="mal_parques" style="display:none;">';
+                if(count($parquesmalos)<=16){
+                    echo '<ul>';
+                }
+                elseif(count($parquesmalos)<=32){
+                    echo '<ul class="doble">';
+                }
+                else{
+                    echo '<ul class="triple">';
+                }
+                foreach($parquesmalos as $k=>$v){
+                    echo '<li><a href="javascript:parque('.$k.');">'.$v.'</a></li>';
+                }
+                echo '</ul></div>';
+                echo '<b><a href="javascript:void(0);" onclick="camb(-1);">Volver al perfil</a></b><br>';
+                echo '</form></div>
+                <div id="compromisos" style="display:none;">
+                    <a href="#" onclick="swcomp(2);">Del mes</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" onclick="swcomp(1);">Todos</a>
+                    <div class="compromisos" id="todos">
+                    <div class="CSSTableGenerator">
+                    <table><tr><td>Id Parque</td><td>Parque</td><td>Parámetro</td><td>Compromiso</td><td>Meta</td><td>Fecha del compromiso</td><td>Promesa de Cumplimiento</td></tr>';
+                    $sql="select id, post_title from wp_posts where post_type='parque' and post_status='publish' and post_author='".$asesores[$asesor]."' order by post_title ASC";
+                    $res=mysql_query($sql);
+                    $totcomp=0;
+                    while($row=mysql_fetch_array($res)){
+                        $sql1="select c.*,v.fecha_visita from compromisos c INNER JOIN wp_comites_parques v ON v.cve=c.cve_visita where c.cve_parque='".$row['id']."' AND c.estatus='1'";
+                        $res1=mysql_query($sql1);
+                        if(mysql_num_rows($res1)>0){
+                            $i=11;
+                            while($row1=mysql_fetch_array($res1)){
+                                echo '<tr>
+                                <td>'.$row['id'].'</td><td>'.$row['post_title'].'</td><td>'.$nomparametros[array_search($row1['parametro'], $inparametros)].'</td>
+                                <td>';
+                                if($row1['parametro']=="instalaciones" || $row1['parametro']=="estado" || $row1['parametro']=="eventosr"){
+                                        $comp=explode(",",$row1['compromiso']);
+                                        if($comp[0]==13){
+                                                $namee=$compespecial[$comp[1]];
+                                        }
+                                        elseif($comp[0]==84){
+                                                $namee=$compesp2[$comp[1]];
+                                        }
+                                        elseif($comp[0]==85 || $comp[0]==86){
+                                                $namee=$compesp3[$comp[1]];
+                                        }
+                                        else{
+                                                $namee=$compesp[$comp[1]];
+                                                if($comp[1]==111){
+                                                        $namee="Instalaciones";
+                                                }
+                                                if($comp[1]==112){
+                                                        $namee="Deportiva";
+                                                }
+                                                if($comp[1]==113){
+                                                    $namee="Áreas de esparcimiento";
+                                                }
+                                                if($comp[1]==114){
+                                                    $namee="Áreas verdes";
+                                                }    
+                                        }
+                                        echo $compromisos[$comp[0]].': '.$namee;
+                                }
+                                else{
+                                        echo $compromisos[$row1['compromiso']];
+                                }
+                                echo '</td>
+                                <td>'.$row1['meta'].'</td><td>'.$row1['fecha_visita'].'</td><td>'.$row1['fecha_cumplimiento'].'</td></tr>';
+                            }
+                            $totcomp=$totcomp+mysql_num_rows($res1);
+                        }
+                    }
+                    echo '<tr><td>Total:</td><td colspan="8">'.$totcomp.'</td></tr>';
+                    echo '</table></div>
+                    </div><br>
+                    <div class="compromisos" id="mes" style="display:none;">
+                    <div class="CSSTableGenerator">
+                    <table><tr><td>Id Parque</td><td>Parque</td><td>Parámetro</td><td>Compromiso</td><td>Meta</td><td>Fecha del compromiso</td><td>Promesa de Cumplimiento</td></tr>';
+                    $sql="select id, post_title from wp_posts where post_type='parque' and post_status='publish' and post_author='".$asesores[$asesor]."' order by post_title ASC";
+                    $res=mysql_query($sql);
+                    $totcomp=0;
+                    while($row=mysql_fetch_array($res)){
+                        $sql1="select c.*,v.fecha_visita from compromisos c INNER JOIN wp_comites_parques v ON v.cve=c.cve_visita where c.cve_parque='".$row['id']."' AND c.estatus='1' AND c.fecha_cumplimiento>='".date("Y-m-01")."'";
+                        $res1=mysql_query($sql1);
+                        if(mysql_num_rows($res1)>0){
+                            $i=11;
+                            while($row1=mysql_fetch_array($res1)){
+                                echo '<tr>
+                                <td>'.$row['id'].'</td><td>'.$row['post_title'].'</td><td>'.$nomparametros[array_search($row1['parametro'], $inparametros)].'</td>
+                                <td>';
+                                if($row1['parametro']=="instalaciones" || $row1['parametro']=="estado" || $row1['parametro']=="eventosr"){
+                                        $comp=explode(",",$row1['compromiso']);
+                                        if($comp[0]==13){
+                                                $namee=$compespecial[$comp[1]];
+                                        }
+                                        elseif($comp[0]==84){
+                                                $namee=$compesp2[$comp[1]];
+                                        }
+                                        elseif($comp[0]==85 || $comp[0]==86){
+                                                $namee=$compesp3[$comp[1]];
+                                        }
+                                        else{
+                                                $namee=$compesp[$comp[1]];
+                                                if($comp[1]==111){
+                                                        $namee="Instalaciones";
+                                                }
+                                                if($comp[1]==112){
+                                                        $namee="Deportiva";
+                                                }
+                                                if($comp[1]==113){
+                                                    $namee="Áreas de esparcimiento";
+                                                }
+                                                if($comp[1]==114){
+                                                    $namee="Áreas verdes";
+                                                }    
+                                        }
+                                        echo $compromisos[$comp[0]].': '.$namee;
+                                }
+                                else{
+                                        echo $compromisos[$row1['compromiso']];
+                                }
+                                echo '</td>
+                                <td>'.$row1['meta'].'</td><td>'.$row1['fecha_visita'].'</td><td>'.$row1['fecha_cumplimiento'].'</td></tr>';
+                            }
+                            $totcomp=$totcomp+mysql_num_rows($res1);
+                        }
+                    }
+                    echo '<tr><td>Total:</td><td colspan="8">'.$totcomp.'</td></tr>';
+                    echo '</table></div>
+                    </div><br>
+                    <b><a href="javascript:void(0);" onclick="camb(-1);">Volver al perfil</a></b><br>
+                </div>';
+                echo '</body></html>';
+                exit();
+            /*}else{
+                echo '<div id="perfil">
+                <a href="#" onclick="camb();">Lista de parques</a>
+                </div>';
+                echo '<div id="lis_parques" style="display:none;"><div><img src="http://parquesalegres.org/wp-content/uploads/2015/02/logopa.png" style="width:10%;vertical-align:middle"><span style="margin-left:15px;font-size:17px;"><b>Sistema de tablets</b></span></div><br>';
+                $sql0="select id, post_title from wp_posts where post_type='parque' and post_status='publish' and post_author='".$asesores[$asesor]."' order by post_title ASC";
+                $res0=mysql_query($sql0);
+                $c=0;
+                echo '<form name="forma" method="post" target="_blank"><input type="hidden" name="asesorpa" value="'.$asesores[$asesor].'"><input type="hidden" name="parque">';
+                echo '<b><a href="javascript:parque(-1);">Registrar un nuevo Parque</a></b><br><br>';
+                echo '<span>Parques registrados:</span>';
+                if(mysql_num_rows($res0)<=16){
+                    echo '<ul>';
+                }
+                elseif(mysql_num_rows($res0)<=32){
+                    echo '<ul class="doble">';
+                }
+                else{
+                    echo '<ul class="triple">';
+                }
+                while($row0=mysql_fetch_array($res0)){
+                    $parque[$row0["id"]]=$row0["post_title"];
+                    $sql000="SELECT cve from wp_comites_parques WHERE cve_parque='".$row0['id']."' AND fecha_visita>='".date("Y-m-")."01'";
+                    $res000=mysql_query($sql000);
+                    echo '<li><a href="javascript:parque('.$row0["id"].');">'.$row0["post_title"].'</a> ';
+                    if(mysql_num_rows($res000)>0){
+                        echo '<img src="bien.png" width="15px" height="15px">';
+                    }
+                    echo '</li>';
+                }
+                echo '</ul>';
+                echo '<b><a href="javascript:void(0);" onclick="cambiaraction();">Solicitar una modificación</a></b><br>';
+                echo '</form></div>';
+                echo '</body></html>';
+                exit();
+            }*/
+        //}
+        /*else{
+            echo '<div><img src="http://parquesalegres.org/wp-content/uploads/2015/02/logopa.png" style="width:10%;vertical-align:middle"><span style="margin-left:15px;font-size:17px;"><b>Sistema de tablets</b></span></div><br>';
+            $sql0="select id, post_title from wp_posts where post_type='parque' and post_status='publish' and post_author='".$asesores[$asesor]."' order by post_title ASC";
+            $res0=mysql_query($sql0);
+            $c=0;
+            echo '<form name="forma" method="post" target="_blank"><input type="hidden" name="asesorpa" value="'.$asesores[$asesor].'"><input type="hidden" name="parque">';
+            echo '<b><a href="javascript:parque(-1);">Registrar un nuevo Parque</a></b><br><br>';
+            echo '<span>Parques registrados:</span>';
+            if(mysql_num_rows($res0)<=16){
+                echo '<ul>';
+            }
+            elseif(mysql_num_rows($res0)<=32){
+                echo '<ul class="doble">';
+            }
+            else{
+                echo '<ul class="triple">';
+            }
+            while($row0=mysql_fetch_array($res0)){
+                $parque[$row0["id"]]=$row0["post_title"];
+                $sql000="SELECT cve from wp_comites_parques WHERE cve_parque='".$row0['id']."' AND fecha_visita>='".date("Y-m-")."01'";
+                $res000=mysql_query($sql000);
+                echo '<li><a href="javascript:parque('.$row0["id"].');">'.$row0["post_title"].'</a> ';
+                if(mysql_num_rows($res000)>0){
+                    echo '<img src="bien.png" width="15px" height="15px">';
+                }
+                echo '</li>';
+            }
+            echo '</ul>';
+            echo '<b><a href="javascript:void(0);" onclick="cambiaraction();">Solicitar una modificación</a></b><br>';
+            echo '</form>';
+            echo '</body></html>';
+            exit();
+        }*/
+    /*}
+    else{
+	echo '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Tablet Parques Alegres</title>';
+	echo '<script>function parque(p) {document.forma.parque.value=p;document.forma.submit();}
+	function cambiaraction(){
+		document.forma.action="solicitar.php";
+		document.forma.submit();
+		document.forma.action="";
+	}
+	</script>';
+	echo '</head><body>';
+	echo '<h3>Tablets Parques Alegres</h3>';
+	$sql0="select id, post_title from wp_posts where post_type='parque' and post_status='publish' and post_author='".$asesores[$asesor]."' order by post_title ASC";
+	$res0=mysql_query($sql0);
+	$c=0;
+	echo '<form name="forma" method="post" target="_blank"><input type="hidden" name="asesorpa" value="'.$asesores[$asesor].'"><input type="hidden" name="parque">';
+	echo '<a href="javascript:parque(-1);">Nuevo Parque</a><br><br>';
+	echo '<table border=0 width=95% align="center"><tr><td valign="top">';
+	while($row0=mysql_fetch_array($res0)){
+		$parque[$row0["id"]]=$row0["post_title"];
+	    echo '<a href="javascript:parque('.$row0["id"].');">'.$row0["post_title"].'</a><br>';
+		$c++;
+		if ($c>20) {
+			echo '</td><td valign="top">';
+			$c=0;
+		}
+	}
+	echo '</td></tr></table>';
+	echo '<br><br><a href="javascript:void(0);" onclick="cambiaraction();";>Solicitar una modificación</a><br><br>';
+	echo '</form>';
+	echo '</body></html>';
+	exit;
+    }*/
+}
+if($id_post>1){
+    $_POST['parque']=$id_post;
+}
+$visita=array("reforzamiento"=>1,"seguimiento"=>2,"evento"=>3,"prospectacion"=>4,"formacion"=>5);
+$sql0="select id, post_title from wp_posts where post_type='parque' and post_status='publish' and post_author='".$asesores[$asesor]."' order by post_title ASC";
+$res0=mysql_query($sql0);
+while($row0=mysql_fetch_array($res0)){
+	$parque[$row0["id"]]=$row0["post_title"];
+    //echo $row0["post_title"].'<br>';
+}
+if ($id_post>0) $parquen=$parque[$id_post]; else $parquen="-- N U E V O --";
+
+$sql00="select * from wp_postmeta where post_id='".$_POST['parque']."'";
+$res00=mysql_query($sql00);
+while($row00=mysql_fetch_array($res00)){
+    $meta[$row00['meta_key']]=$row00['meta_value'];
+}
+/*$arrcomite=array(1=>"Formalizar el comité; ante el ayuntamiento",2=>"Registrar el parque en la p&aacute;gina de Parques Alegres",3=>"Reestructuraci&oacute;n de comit&eacute;",
+4=>"Calendario de reuniones del comit&eacute;. (Se sugiere una cada 30 d&iacute;as)",5=>"Elaborar por escrito las pol&iacute;ticas de trabajo del comit&eacute;",
+6=>"Plan de trabajo (por lo menos para un periodo de seis meses)",7=>"Programa de reuniones vecinales (se sugiere una cada tres meses)",
+8=>"Verificar el estatus legal del parque",9=>"Minuta de reuniones de comit&eacute;",10=>"Expediente de parque",11=>"Sello y/o hojas membretadas",12=>"Logotipo del parque",
+13=>"Tarjetas de presentaci&oacute;n",14=>"Playeras",15=>"Cuenta de Facebook del parque",16=>"Visitar la p&aacute;gina web de Parques Alegres");
+$arrinstalaciones=array(17=>"Elaborar visi&oacute;n del espacio",18=>"Gesti&oacute;n dise&ntilde;o del espacio",19=>"Gesti&oacute;n proyecto ejecutivo",20=>"Gesti&oacute;n rehabilitaci&oacute;n del parque. Pintar",
+21=>"Pintar",22=>"Reparar",23=>"Renovar o sustituir",24=>"Gesti&oacute;n de pago para mano de obra ante ayuntamiento",25=>"Gesti&oacute;n de recursos materiales",
+26=>"Gesti&oacute;n de toma de agua potalble",27=>"Gesti&oacute;n de toma de electricidad",28=>"Gesti&oacute;n Infraestructura",29=>"Espacio de usos multiples",30=>"Cancha basquetbol",
+31=>"Cancha futbol",32=>"Palapa",33=>"Ba&ntilde;os",34=>"Cerca",35=>"Juegos infantiles");
+$arringresos=array(36=>"Cuenta macomunada",37=>"Informe mensual de ingresos y egresos",38=>"Generar recibos de ingresos",39=>"Archivar comprobantes de gastos",
+40=>"Programa de pago vecinal por mantenimiento del parque",41=>"Organizaic&oacute;n de cooperaci&oacute;n vecianl pro - rehabilitaci&oacute;n del parque",
+42=>"Organizaci&oacute;n de cooperaci&oacute;n vecinal pro - adquisici&oacute;n infraestructura",43=>"Gesti&oacute;n de recibos deducibles de impuestos",44=>"Realizar eventos para generar fondos.",
+45=>"Torneos deportivos",46=>"Concursos culturales",47=>"Tianguis",48=>"Kermesses",49=>"Celebraci&oacute;n de d&iacute;as festivos",50=>"Rifa",51=>"Evento cultural",
+52=>"Funci&oacute;n de cine",53=>"Carrera pedestre",54=>"Noche bohemia");
+$arreventos=array(55=>"Calendario anual de eventos",56=>"Participaci&oacute;n activa en la organizaci&oacute;n de eventos (tener asignado un rol y una responsabilidad)",
+57=>"Particpaci&oacute;n activa en la promoci&oacute;n de los eventos",58=>"Expediente de evidencias fotogr&aacute;ficas de eventos",59=>"Publicar en Facebook los eventos",
+60=>"Eventos para generar tejido social",61=>"Celebraci&oacute;n de d&iacute;as festivos",62=>"Evento deportivo",63=>"Evento cultural",64=>"Funci&oacute;n de cine",65=>"Carrera pedestre",
+66=>"Noche bohemia",67=>"Convivio recreativo");
+$arrareas=array(68=>"Gestionar &aacute;rboles  en Ayuntamiento y Parque Bot&aacute;nico",69=>"Gestionar plantas de ornanto en Ayuntamiento",70=>"Siembra de &aacute;rboles",
+71=>"Poda de &aacute;rboles y/o cesped",72=>"Elaborar visi&oacute;n de &aacute;reas verdes",73=>"Protecci&oacute;n para &aacute;rboles peque&ntilde;os",74=>"Campa&ntilde;a de limpieza",
+75=>"Ferlilizar &aacute;rboles con componentes orgn&aacute;nicos",76=>"Colocaci&oacute;n de cesped natural y/o sint&eacute;tico",77=>"Nomeclatura de la vegetaci&oacute;n en el parque",
+78=>"Adquisici&oacute;n de herramientas de limpieza",79=>"Fumigaci&oacute;n",80=>"Instalar sistema de riego",81=>"Adquisici&oacute;n de herramientas de jardiner&iacute;a");
+$arrafluencia=array(82=>"Promotor deportivo",83=>"Clases y/o talleres deporivos",84=>"Futbol",85=>"Basquetbol",86=>"Zumba",87=>"Clases y/o talleres culturales",
+88=>"Pintura",89=>"Danza",90=>"Clubes con diversos objetivos para ni&ntilde;os, adolescentes y adultos",91=>"Club de ciclismo",92=>"Campa&ntilde;a de invita a un vecino",
+93=>"Torneos",94=>"Deportivo",95=>"Cultural",96=>"Art&iacute;stico",97=>"Comit&eacute; de ni&ntilde;os",98=>"Invitaci&oacute;n a Voluntariado",99=>"Curso de verano deportivo o cultural",
+100=>"Ciclo de pl&aacute;ticos y conferencias para Padres, Adolescentes y ni&ntilde;os",101=>"Campa&ntilde;mentos",102=>"Murales");
+$arraorden=array(103=>"Creaci&oacute;n de reglamento del parque",104=>"Instalaci&oacute;n de reglamento de parque",105=>"Instalaci&oacute;n de se&ntilde;alizaci&oacute;n",106=>"Jornada de limpieza",
+107=>"Gesti&oacute;n de vigilancia para el parque",108=>"Delimitaci&oacute;n de espacios",109=>"Bot&oacute;n de p&aacute;nico",110=>"Contratar jardinero",111=>"Contratar velador",
+112=>"Instalaci&oacute;n de Timer para control de recursos");
+$resultado = array_merge($arrcomite, $arrinstalaciones,$arringresos,$arreventos,$arrareas,$arrafluencia,$arraorden);
+*/
+$meses=array("01"=>"Enero","02"=>"Febrero","03"=>"Marzo","04"=>"Abril","05"=>"Mayo","06"=>"Junio","07"=>"Julio","08"=>"Agosto","09"=>"Septiembre","10"=>"Octubre",
+             "11"=>"Noviembre","12"=>"Diciembre");
+
+if($_POST['cmd']==2){
+    if($_POST['parque']>0){
+        $conti=0;
+        $sSQL222="SELECT * from comite_parque where cve_parque='".$_POST['parque']."'";
+        $res222=mysql_query($sSQL222);
+        if(mysql_num_rows($res222)>0){
+            $row222=mysql_fetch_array($res222);
+            //$sSQL2="UPDATE comite_parque SET fecha_alta='".$_POST['fecha_comite']."', telefono='".$_POST['telefono'][0]."', celular='".$_POST['celular'][0]."', email='".$_POST['email'][0]."', facebook='".$_POST['facebook'][0]."', twitter='".$_POST['twitter'][0]."', instagram='".$_POST['instagram'][0]."', skype='".$_POST['skype']."',otro='".$_POST['otro']."' WHERE id='".$row222['id']."'";
+            $sSQL2="UPDATE comite_parque SET fecha_alta='".$_POST['fecha_comite']."', email='".$_POST['email'][0]."', facebook='".$_POST['facebook'][0]."', twitter='".$_POST['twitter'][0]."', instagram='".$_POST['instagram'][0]."', skype='".$_POST['skype']."',otro='".$_POST['otro']."' WHERE id='".$row222['id']."'";
+            //echo $sSQL2.'<br>';
+            mysql_db_query("parquesa_ParquesAlegresWP",$sSQL2);
+            $conti=1;
+            $id_comite=$row222['id'];
+        }
+        else{
+            //$sSQL2="INSERT INTO `comite_parque`(`cve_parque`, `fecha_reg`, `fecha_alta`, `telefono`,`celular`,`email`, `facebook`, `twitter`, `instagram`, `skype`,`otro`) VALUES ('$_POST[parque]','".date("Y-m-d H:i:s")."','".$_POST['fecha_comite']."','".$_POST['telefono'][0]."','".$_POST['celular'][0]."','".$_POST['email'][0]."','".$_POST['facebook'][0]."','".$_POST['twitter'][0]."','".$_POST['instagram'][0]."','$_POST[skype]','$_POST[otro]')";
+            $sSQL2="INSERT INTO `comite_parque`(`cve_parque`, `fecha_reg`, `fecha_alta`, `email`, `facebook`, `twitter`, `instagram`, `skype`,`otro`) VALUES ('$_POST[parque]','".date("Y-m-d H:i:s")."','".$_POST['fecha_comite']."','".$_POST['email'][0]."','".$_POST['facebook'][0]."','".$_POST['twitter'][0]."','".$_POST['instagram'][0]."','$_POST[skype]','$_POST[otro]')";
+            //echo $sSQL2.'<br>';
+            mysql_db_query("parquesa_ParquesAlegresWP",$sSQL2);
+            $id_comite=mysql_insert_id();
+        }
+        //echo $sSQL2.'<br>';
+        $dmiembros=explode(",",$_POST['datos_miembros']);
+        $nmiembros=explode(",",$_POST['nuevos_miembros']);
+        foreach($dmiembros as $key=>$val){
+            if($val!=""){
+                $val=explode("|",$val);
+                for($i=0;$i<count($val);$i++){
+                    if($val[$i]=="undefined"){
+                        $val[$i]=0;
+                    }
+                }
+                $fecha_nac=$val[4].'-'.$val[3].'-'.$val[2];
+                $sSQL3="UPDATE `comite_miembro` SET nombre='".$val[1]."',fecha_nac='".$fecha_nac."',sexo='".$val[5]."', nivel='".$val[6]."', rol='".$val[7]."', telefono='".$val[8]."', celular='".$val[9]."',email='".$val[10]."', facebook='".$val[11]."', megusta='".$val[12]."',twitter='".$val[13]."', siguemet='".$val[14]."', instagram='".$val[15]."',siguemei='".$val[16]."', contacto='".$val[17]."' WHERE id='".$val[0]."'";
+                //echo $sSQL3.'<br>';
+                mysql_db_query("parquesa_ParquesAlegresWP",$sSQL3);
+            }
+        }
+        foreach($nmiembros as $k=>$v){
+            if($v!=""){
+                $v=explode("|",$v);
+                for($i=0;$i<count($v);$i++){
+                    if($v[$i]=="undefined"){
+                        $v[$i]=0;
+                    }
+                }
+                $fecha_nac=$v[3].'-'.$v[2].'-'.$v[1];
+                $sSQL3="INSERT INTO `comite_miembro`(`cve_comite`, `nombre`,`fecha_nac`,`sexo`, `nivel`, `rol`, `telefono`, `celular`,`email`, `facebook`, `megusta`,`twitter`, `siguemet`, `instagram`,`siguemei`, `contacto`) VALUES ('$id_comite','".$v[0]."','$fecha_nac','".$v[4]."','".$v[5]."','".$v[6]."','".$v[7]."','".$v[8]."','".$v[9]."','".$v[10]."','".$v[11]."','".$v[12]."','".$v[13]."','".$v[14]."','".$v[15]."','".$v[16]."')";
+                //echo $sSQL3.'<br>';
+                mysql_db_query("parquesa_ParquesAlegresWP",$sSQL3);
+            }
+        }
+        /*else{
+            for($i=1;$i<=count($_POST['nombre']);$i++){
+            $fecha_nac=$_POST['anio'][$i].'-'.$_POST['mes'][$i].'-'.$_POST['dia'][$i];
+            $sSQL3="INSERT INTO `comite_miembro`(`cve_comite`, `nombre`,`fecha_nac`,`sexo`, `nivel`, `rol`, `telefono`, `celular`,`email`, `facebook`, `megusta`,`twitter`, `siguemet`, `instagram`,`siguemei`, `contacto`) VALUES ('$id_comite','".$_POST['nombre'][$i]."','$fecha_nac','".$_POST['sexo'][$i]."','".$_POST['educacion'][$i]."','".$_POST['rol'][$i]."','".$_POST['telefono'][$i]."','".$_POST['celular'][$i]."','".$_POST['email'][$i]."','".$_POST['facebook'][$i]."','".$_POST['megusta'][$i]."','".$_POST['twitter'][$i]."','".$_POST['siguemet'][$i]."','".$_POST['instagram'][$i]."','".$_POST['siguemei'][$i]."','".$_POST['contacto'][$i]."')";
+            //echo $sSQL3.'<br>';
+            mysql_db_query("parquesa_ParquesAlegresWP",$sSQL3);
+            }
+        }*/
+        if($_POST['enviacorreo']==1){
+            if($conti==0){
+                $sql002="select * from comite_miembro where cve_comite='".$id_comite."'";
+                $res002=mysql_query($sql002);
+                $f=1;
+                $roles=array(1=>"Presidente",2=>"Secretario",3=>"Tesorero",4=>"Vocal",5=>"Comunicación",6=>"Vecino");
+                while($row002=mysql_fetch_array($res002)){
+                    if($row002['rol']==4){
+                        $miembro[$roles[$row002['rol']].' '.$f]=array("nombre"=>$row002['nombre'],"telefono"=>$row002['telefono'],"email"=>$row002['email'],"contacto"=>$row002['contacto']);
+                        $f++;
+                    }
+                    else{
+                        $miembro[$roles[$row002['rol']]]=array("nombre"=>$row002['nombre'],"telefono"=>$row002['telefono'],"email"=>$row002['email'],"contacto"=>$row002['contacto']);   
+                    }
+                }
+                    class PDF extends FPDF
+                    {
+                    // Page header
+                        function Header()
+                        {
+                            // Logo
+                            $this->SetFont('Arial','B',8);
+                            // Title
+                            //PG - ACP-1-1-4.
+                            $this->Cell(55,5,'Formato formación de comité.');
+                            // Line break
+                            $this->Ln(10);
+                        }
+                    }
+                    $fechaac=explode('-',$_POST['fecha_alta']);
+                    $ano=$fechaac[0];
+                    $mes=$fechaac[1];
+                    $dia=$fechaac[2];
+                    $mes=str_replace(array("01","02","03","04","05","06","07","08","09","10","11","12"),array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"),$mes);
+                    $pdf = new PDF();
+                    $pdf->AddPage('L','Letter');
+                    $pdf->SetFont('Arial','',7);
+                    $pdf->Image('logo_gobierno.png',10,20);
+                    $pdf->SetXY(20,25);
+                    $pdf->Cell(30,5,'COMITÉS DE VECINOS',0,2);
+                    $pdf->Cell(70,5,'DEPARTAMENTO DE PARQUES Y JARDINES',0,0);
+                    $pdf->SetXY(150,10);
+                    $pdf->Cell(60,5,'Fraccionamiento o colonia',1,0);
+                    $pdf->Cell(60,5,'Fecha',1,1);
+                    $pdf->SetX(150);
+                    $pdf->Cell(60,5,$meta['_parque_col'],1);
+                    $pdf->Cell(60,5,$dia.'-'.$mes.'-'.$ano,1,1);
+                    $pdf->SetX(150);
+                    $pdf->Cell(60,5,' ',1);
+                    $pdf->Cell(60,5,' ',1,1);
+                    $pdf->SetX(150);
+                    $pdf->Cell(60,5,'Fraccionamiento o colonia',1,0);
+                    $pdf->Cell(60,5,'Fecha',1,1);
+                    $pdf->SetX(150);
+                    $pdf->Cell(60,5,' ',1);
+                    $pdf->Cell(60,5,' ',1,1);
+                    $pdf->Line(10, 38, 260, 38);
+                    $pdf->Cell(30,4,' ',0,1);
+                    $pdf->Cell(13,7,'Siendo las',0,0);
+                    $pdf->SetFont('Arial','U',7);
+                    $pdf->Cell(9,7,' '.date("H:i").' ',0,0);
+                    $pdf->SetFont('Arial','',7);
+                    $pdf->Cell(44,7,'horas, en el lugar que ocupa el parque',0,0);
+                    $pdf->SetFont('Arial','U',7);
+                    $cellwidth=$pdf->GetStringWidth($parque[$_POST['parque']]);
+                    $pdf->Cell($cellwidth+6,7,'   '.$parque[$_POST['parque']].'   ,',0,0);
+                    $pdf->SetFont('Arial','',7);
+                    $pdf->Cell(27,7,'ubicado entre las calles',0,0);
+                    $pdf->SetFont('Arial','U',7);
+                    $cellwidth=$pdf->GetStringWidth($meta['_parque_colin']);
+                    $pdf->Cell($cellwidth+6,7,'   '.$meta['_parque_colin'].'   ',0,1);
+                    $pdf->SetFont('Arial','',7);
+                    $pdf->Cell(15,7,'De la colonia',0,0);
+                    $pdf->SetFont('Arial','U',7);
+                    $cellwidth=$pdf->GetStringWidth($meta['_parque_col']);
+                    $pdf->Cell($cellwidth+6,7,'   '.$meta['_parque_col'].'   ',0,0);
+                    $pdf->SetFont('Arial','',7);
+                    $pdf->Cell(215,7,'se reunieron los vecinos de dicho lugar con el propósito de constituir un comité de organización vecina para realizar la(s) obra(s) de mejora pertinente(s) para el espacio.',0,1);
+                    $pdf->Cell(95,7,'Dicho comité queda constituido por el consenso de los vecinos presentes.',0,1);
+                    $arreglo=array("Presidente","Secretario","Tesorero");
+                    $i=0;
+                    foreach($arreglo as $v){
+                        $pdf->SetY(59+$i);
+                        $pdf->Cell(13,7,$v,0,1);
+                        $pdf->SetXY(25,59+$i);
+                        $pdf->Cell(60,7,$miembro[$v]['nombre'],0,1);
+                        $pdf->Line(24, 64+$i, 120, 64+$i);
+                        $pdf->Cell(10,7,'Domicilio',0,1);
+                        $pdf->Line(22, 71+$i, 120, 71+$i);
+                        $pdf->Line(11, 78+$i, 70, 78+$i);
+                        $pdf->SetX(70);
+                        $pdf->Cell(5,7,'Tel.',0,1);
+                        $pdf->SetXY(77,73+$i);
+                        $pdf->Cell(60,7,$miembro[$v]['telefono'],0,1);
+                        $pdf->Line(75, 78+$i, 120, 78+$i);
+                        $pdf->Cell(23,7,'Correo Electrónico',0,1);
+                        $pdf->SetXY(33,80+$i);
+                        $pdf->Cell(60,7,$miembro[$v]['email'],0);
+                        $pdf->Line(33, 85+$i, 120, 85+$i);
+                        $pdf->Cell(25,9,' ',0,1);
+                        $i=$i+37;
+                    }
+                    $i=0;
+                    for($e=1;$e<=3;$e++){
+                        $pdf->SetXY(130,60+$i);
+                        $pdf->Cell(10,7,'Vocal '.$e,0,1);
+                        $pdf->SetXY(141,59+$i);
+                        $pdf->Cell(60,7,$miembro["Vocal ".$e]['nombre'],0,1);
+                        $pdf->Line(140, 64+$i, 250, 64+$i);
+                        $pdf->SetX(130);
+                        $pdf->Cell(10,7,'Domicilio',0,1);
+                        $pdf->Line(142, 71+$i, 250, 71+$i);
+                        $pdf->Line(131, 78+$i, 200, 78+$i);
+                        $pdf->SetX(200);
+                        $pdf->Cell(5,7,'Tel.',0,1);
+                        $pdf->Line(205, 78+$i, 250, 78+$i);
+                        $pdf->SetXY(208,73+$i);
+                        $pdf->Cell(60,7,$miembro["Vocal ".$e]['telefono'],0,1);
+                        $pdf->SetX(130);
+                        $pdf->Cell(23,7,'Correo Electrónico',0,1);
+                        $pdf->SetXY(153,80+$i);
+                        $pdf->Cell(60,7,$miembro["Vocal ".$e]['email'],0,1);
+                        $pdf->Line(153, 85+$i, 250, 85+$i);
+                        $pdf->Cell(25,9,' ',0,1);
+                        $i=$i+37;
+                    }
+                    $pdf->Cell(21,7,'Ubicación del área ',0,0);
+                    $pdf->Cell(90,7,'________________________________________________________________',0,1);
+                    $pdf->SetXY(130,180);
+                    $pdf->Cell(105,3,'____________________________________________________________________________',0,2);
+                    $pdf->Cell(105,4,'C. Ignacio Tapia Romero',0,2,'C');
+                    $pdf->Cell(105,5,'JEFE DEL DEPARTAMENTO DE PARQUES Y JARDINES',0,0,'R');
+                    $pdf->AddPage('L','Letter');
+                    $pdf->SetFont('Arial','',9);
+                    $pdf->MultiCell(0,5,"Apoyo para comité de vecinos los abajo firmantes nos comprometemos a apoyar los acuerdos y decisiones que para el mejoramiento del área tome el comité de vecinos. Favor de señalar nombre, firma y correo electrónico.");
+                    $pdf->Cell(80,5,'NOMBRE',1,0);
+                    $pdf->Cell(80,5,'FIRMA',1,0);
+                    $pdf->Cell(80,5,'CORREO ELECTRÓNICO',1,1);
+                    for($a=0;$a<21;$a++){
+                        $pdf->Cell(80,7,' ',1,0);
+                        $pdf->Cell(80,7,' ',1,0);
+                        $pdf->Cell(80,7,' ',1,1);
+                    }
+                    $pdf->AddPage('L','Letter');
+                    $pdf->SetFont('Arial','B',10);
+                    $pdf->Cell(115,5,'DESCRIPCIÓN DE LOS ROLES DE COMITÉ DE VECINOS',0,1);
+                    $pdf->Ln();
+                    $pdf->Cell(60,5,'ROL',1,0);
+                    $pdf->Cell(180,5,'DESCRIPCIÓN',1,1);
+                    $pdf->SetFont('Arial','',10);
+                    $pdf->MultiCell(60,100,"Presidente",1);
+                    $pdf->SetXY(70,35);
+                    $pdf->MultiCell(180,5,"Forma de Elección:
+                El presidente deberá ser elegido de manera democrática por los vecinos asistentes a la junta convocada por el Asesor de Comités de Parques con el propósito de Conformar un Comité. Los asistentes a la junta deberán proponer al menos dos candidatos para ocupar el puesto de Presidente. Una vez establecidos los dos candidatos, se organizará un procedimiento de votación democrática, quedando electo aquel vecino que obtenga la mayoría de votos, la cual se define por la mitad de asistentes más uno. En caso de que no sea posible realizar el procedimiento anterior, entonces se puede realizar la elección de presidente de comité de vecinos a través de auto-propuesta o propuesta directa entre los asistentes.
+                
+                Funciones: 
+                a. convocar a los vecinos a reuniones de comité o a asambleas generales de vecinos.
+                b. Cumplir y hacer cumplir los acuerdos y disposiciones del comité.
+                c. Desempeñar fiel y responsablemente las actividades que se establezcan en el plan de acción del comité.
+                d. Representar ante organismos Municipales, Estatales y Nacionales en la gestión de programas y proyectos sociales, culturales y económicos en conjunto con los miembros del Comité.
+                e. Informar a los miembros del comité y a la comunidad de las gestiones realizadas y presentar el informe anual de labores.
+                f. Dar seguimiento a los programas y proyectos que se estén ejecutando.
+                g. Firmar convenios con instituciones y actuar como testigo de honor según el caso, previo conocimiento de los miembros del Comité.",1,'L');
+                    $pdf->MultiCell(60,40,"Secretario",1);
+                    $pdf->SetXY(70,135);
+                    $pdf->MultiCell(180,5,"Forma de Elección:
+                El Secretario deberá ser elegido de manera democrática por los vecinos asistentes a la junta convocada por el Asesor de Comités de Parques con el propósito de Conformar un Comité. Los asistentes a la junta deberán proponer al menos dos candidatos para ocupar el puesto de Secretario. Una vez establecidos los dos candidatos, se organizará un procedimiento de votación democrática, quedando electo aquel vecino que obtenga la mayoría de votos, la cual se define por la mitad de asistentes más uno. En caso de que no sea posible realizar el procedimiento anterior, entonces se puede realizar la elección de Secretario de comité de vecinos a través de auto-propuesta o propuesta directa entre los asistentes.",1,'L');
+                    $pdf->MultiCell(60,35," ",1);
+                    $pdf->SetXY(70,20);
+                    $pdf->MultiCell(180,5,"Funciones:
+                a. Llevar el libro de actas y resoluciones de las reuniones realizadas por el Comité de Vecinos.
+                b. Dar lectura a la orden del día.
+                c. Llevar el libro de actas, acuerdos y resoluciones.
+                d. Redactar, firmar y lanzar convocatorias junto con el presidente.
+                e. Tener bajo su resguardo los documentos que son de interés para el comité.
+                f. Registrar la participación de los miembros de la asamblea.",1,'L');
+                    $pdf->MultiCell(60,70,"Comunicación",1);
+                    $pdf->SetXY(70,55);
+                    $pdf->MultiCell(180,5,"Forma de Elección:
+                El encargado de Comunicación deberá ser elegido de manera democrática por los vecinos asistentes a la junta convocada por el Asesor de Comités de Parques con el propósito de Conformar un Comité. Los asistentes a la junta deberán proponer al menos dos candidatos para ocupar el puesto de encargado de Comunicación. Una vez establecidos los dos candidatos, se organizará un procedimiento de votación democrática, quedando electo aquel vecino que obtenga la mayoría de votos, la cual se define por la mitad de asistentes más uno. En caso de que no sea posible realizar el procedimiento anterior, entonces se puede realizar la elección del encargado de  Comunicación de comité de vecinos a través de auto-propuesta o propuesta directa entre los asistentes.
+                
+                Funciones:
+                a. Tener a su cargo las redes sociales y canales de comunicación del Comité de Vecinos.
+                b. Publicar evidencias de eventos y actividades realizadas en redes sociales.
+                c. Cuidar que los mensajes en redes sociales se apeguen a criterios cívicos y morales.",1,'L');
+                    $pdf->MultiCell(60,40,"Vocal",1);
+                    $pdf->SetXY(70,125);
+                    $pdf->MultiCell(180,5,"Forma de Elección:
+                El Vocal deberá ser elegido de manera democrática por los vecinos asistentes a la junta convocada por el Asesor de Comités de Parques con el propósito de Conformar un Comité. Los asistentes a la junta deberán proponer al menos dos candidatos para ocupar el puesto de Vocal. Una vez establecidos los dos candidatos, se organizará un procedimiento de votación democrática, quedando electo aquel vecino que obtenga la mayoría de votos, la cual se define por la mitad de asistentes más uno. En caso de que no sea posible realizar el procedimiento anterior, entonces se puede realizar la elección de Vocal de comité de vecinos a través de auto-propuesta o propuesta directa entre los asistentes.",1,'L');
+                    $pdf->MultiCell(60,40,"",1);
+                    $pdf->SetXY(70,20);
+                    $pdf->MultiCell(180,5,"Funciones:
+                a. Asistir a todas las reuniones convocadas por el Comité Ciudadano que administra el Parque.
+                b. Contribuir a mantener la correcta participación de todos los miembros del Comité.
+                c. Coordinar acciones con las distintas comisiones que se hayan conformado en juntas del comité, junto con el Presidente y Secretario.
+                d. Apoyar en la elaboración y gestión de programas y proyectos que permitan alcanzar los fines y objetivos del comité.
+                e. Las que resulten derivadas de las juntas del Comité.",1,'L');
+                
+                //$to="gudart@gmail.com";
+                $to="";
+                foreach($miembro as $k=>$V){
+                    if($miembro[$k]['contacto']==1){
+                        $to = $miembro[$k]['email']; 
+                    }
+                }
+                $email="contacto@parquesalegres.org";
+                $from = "Parques Alegres $email"; 
+                $subject = "Formato de registro comité"; 
+                $message = "<p>El formato esta adjunto en PDF.</p>";
+                
+                // a random hash will be necessary to send mixed content
+                $separator = md5(time());
+                
+                // carriage return type (we use a PHP end of line constant)
+                $eol = PHP_EOL;
+                
+                // attachment name
+                $filename = "alta_comite.pdf";
+                
+                // encode data (puts attachment in proper format)
+                $pdfdoc = $pdf->Output("", "S");
+                $attachment = chunk_split(base64_encode($pdfdoc));
+                
+                // main header
+                $headers  = "From: ".$from.$eol;
+                $headers .= "MIME-Version: 1.0".$eol; 
+                $headers .= "Content-Type: multipart/mixed; boundary=\"".$separator."\"";
+                
+                // no more headers after this, we start the body! //
+                
+                $body = "--".$separator.$eol;
+                $body .= "Content-Transfer-Encoding: 7bit".$eol.$eol;
+                //$body .= "This is a MIME encoded message.".$eol;
+                
+                // message
+                $body .= "--".$separator.$eol;
+                $body .= "Content-Type: text/html; charset=\"iso-8859-1\"".$eol;
+                $body .= "Content-Transfer-Encoding: 8bit".$eol.$eol;
+                $body .= $message.$eol;
+                
+                // attachment
+                $body .= "--".$separator.$eol;
+                $body .= "Content-Type: application/octet-stream; name=\"".$filename."\"".$eol; 
+                $body .= "Content-Transfer-Encoding: base64".$eol;
+                $body .= "Content-Disposition: attachment".$eol.$eol;
+                $body .= $attachment.$eol;
+                $body .= "--".$separator."--";
+                
+                // send message
+                if($to!=""){
+                    mail($to, $subject, $body, $headers);
+                }
+                echo 'Comite registrado exitosamente! Revisa el correo electónico.';
+            }
+        }
+        else {
+            echo 'Comité registrado exitosamente';
+        }
+    }
+    else{
+        echo 'No ha seleccionado ningun parque';
+    }
+}
+if($_POST['cmd']==1){
+    if($_POST['parque']>0){
+        $fec=''.date("Y-m-d H:i:s").'';
+        if($_POST['visita']=="reforzamiento"){
+            if($_POST['clasvisita']==18){
+                $sSQL="INSERT INTO `wp_visitas_reforzamiento`(`cve_parque`,`asesor_captura`, `fec`,`fecha_visita`,`motivo_visita`,`logro`,`otro`) VALUES ('$_POST[parque]','$asesores[$asesor]','$fec','$_POST[fecha_visita]','".$_POST['clasvisita']."','".$_POST['logro']."','".$_POST['otroclas']."')";
+                mysql_db_query("parquesa_ParquesAlegresWP",$sSQL);
+            }
+            else{
+                $sSQL="INSERT INTO `wp_visitas_reforzamiento`(`cve_parque`,`asesor_captura`, `fec`,`fecha_visita`,`motivo_visita`,`logro`) VALUES ('$_POST[parque]','$asesores[$asesor]','$fec','$_POST[fecha_visita]','".$_POST['clasvisita']."','".$_POST['logro']."')";
+                mysql_db_query("parquesa_ParquesAlegresWP",$sSQL);    
+            }
+            $id_visita=mysql_insert_id();
+            $sSQL55="INSERT INTO `coordenadas_visita`(`cve_parque`, `longitud`,`latitud`,`cve_visita`) VALUES ('$_POST[parque]','$_POST[long]','$_POST[lati]','$id_visita')";
+            mysql_db_query("parquesa_ParquesAlegresWP",$sSQL55);
+            echo'<p align="center">';
+            echo'Visita guardada';
+            echo'</p>';
+            
+        }
+        else{
+            if($asesor==13563){
+                if($_POST['sin_comite']==0){
+                    $opera=0;
+                    $nummiembros=0;
+                    $sum=0;
+                    $org="";
+                    $miembros=count($_POST['nom_miembro']);
+                    if($miembros>0){
+                        $proyecto=0;
+                        if($_POST['proyecto']==20){
+                            if(count($_POST['nombre_proy'])>0){
+                                foreach($_POST['nombre_proy'] as $k=>$v){
+                                    if($v!=""){
+                                        if($_POST['id_proy'][$k]){
+                                            $sqlpr="UPDATE comite_proyectos SET nombre='".$v."', fecha='".$_POST['fecha_proy'][$k]."', tipo='".$_POST['tipo_proy'][$k]."', estatus='".$_POST['estatus_proy'][$k]."' WHERE id='".$_POST['id_proy'][$k]."'";
+                                        }
+                                        else{    
+                                            $sqlpr="INSERT INTO comite_proyectos(`cve_parque`,`nombre`,`fecha`,`tipo`,`estatus`) VALUES ('".$_POST['parque']."','".$v."','".$_POST['fecha_proy'][$k]."','".$_POST['tipo_proy'][$k]."','".$_POST['estatus_proy'][$k]."')";
+                                        }
+                                        if($_POST['estatus_proy'][$k]==1){
+                                            $proyecto=20;
+                                        }
+                                        mysql_db_query("parquesa_ParquesAlegresWP",$sqlpr);
+                                    }
+                                }
+                            }
+                        }
+                        if(count($_POST['organiza'])>0){
+                            foreach($organizacion_comite as $key=>$value){
+                                $entro=0;
+                                foreach($_POST['organiza'] as $k=>$v){
+                                    if($v==$key){
+                                        $sum=$sum+$value;
+                                        $org.='1,';
+                                        $entro=1;
+                                    }
+                                }
+                                if($entro!=1){
+                                    $org.='0,';
+                                }
+                            }
+                        }
+                        else{
+                            foreach($organizacion_comite as $key=>$value){
+                                $org.='0,';
+                            }
+                        }
+                        $org=substr($org,0,-1);
+                        if($sum<1){
+                            $organiza=0;
+                        }
+                        elseif($sum<15){
+                            $organiza=10;
+                        }
+                        else{
+                            $organiza=20;
+                        }
+                        $sqlco="SElECT id FROM comite_parque WHERE cve_parque='".$_POST['parque']."'";
+                        $resco=mysql_query($sqlco);
+                        if(mysql_num_rows($resco)>0){
+                            $rowco=mysql_fetch_array($resco);
+                            $cve_comite=$rowco['id'];
+                            $sqlor="UPDATE comite_parque SET organizacion='".$org."' WHERE id='".$cve_comite."'";
+                            mysql_db_query("parquesa_ParquesAlegresWP",$sqlor);
+                        }
+                        else{
+                            $sqlco1="INSERT INTO `comite_parque`(`cve_parque`,`fecha_reg`,`organizacion`) VALUES ('".$_POST['parque']."','".date("Y-m-d H:i:s")."','".$org."') ";
+                            mysql_db_query("parquesa_ParquesAlegresWP",$sqlco1);
+                            $cve_comite=mysql_insert_id();
+                        }
+                        foreach($_POST['nom_miembro'] as $k=>$v){
+                            if($_POST['id_miembro'][$k]){
+                                $sqlmi="UPDATE comite_miembro SET nombre='".$v."', celular='".$_POST['cel_miembro'][$k]."', rol='".$_POST['rol_miembro'][$k]."', estatus='".$_POST['estatus_miembro'][$k]."' WHERE id='".$_POST['id_miembro'][$k]."'";
+                                $nummiembros++;
+                            }
+                            else{
+                                $sqlmi="INSERT INTO comite_miembro(`cve_comite`, `nombre`,`celular`,`rol`,`estatus`) VALUES ('".$cve_comite."','$v','".$_POST['cel_miembro'][$k]."','".$_POST['rol_miembro'][$k]."','".$_POST['estatus_miembro'][$k]."')";
+                                $nummiembros++;
+                            }
+                            mysql_db_query("parquesa_ParquesAlegresWP",$sqlmi);
+                        }
+                        $ren=0;
+                        if(count($_POST['fecha_reunion'])>0){
+                            foreach($_POST['fecha_reunion'] as $k=>$v){
+                                if($v!=""){
+                                    $sqlre="INSERT INTO comite_reuniones(`cve_comite`,`cve_parque`,`fecha_registro`,`fecha_reunion`,`asistentes`) VALUES ('".$cve_comite."','".$_POST['parque']."','".date('Y-m-d')."','".$v."','".$_POST['num_asistentes'][$k]."')";
+                                    mysql_db_query("parquesa_ParquesAlegresWP",$sqlre);
+                                    $ren++;
+                                }
+                            }
+                        }
+                        if($ren<1){
+                            $reuniones=0;
+                        }
+                        elseif($ren<2){
+                            $reuniones=10;
+                        }
+                        else{
+                            $reuniones=20;
+                        }
+                        
+                    }
+                    if($nummiembros>0){
+                        $opera=7;
+                        if($nummiembros>1){
+                            $opera=14;
+                            if($nummiembros>2){
+                                $opera=20;
+                            }
+                        }
+                    }
+                }
+                else{
+                    $proyecto=0;
+                    $reuniones=0;
+                    $opera=0;
+                    $organiza=0;
+                    foreach($organizacion_comite as $key=>$value){
+                        $org.='0,';
+                    }
+                    $org=substr($org,0,-1);
+                    $sqlco="SElECT id FROM comite_parque WHERE cve_parque='".$_POST['parque']."'";
+                    $resco=mysql_query($sqlco);
+                    if(mysql_num_rows($resco)>0){
+                        $rowco=mysql_fetch_array($resco);
+                        $cve_comite=$rowco['id'];
+                        $sqlor="UPDATE comite_parque SET organizacion='".$org."' WHERE id='".$cve_comite."'";
+                        mysql_db_query("parquesa_ParquesAlegresWP",$sqlor);
+                        $sqlmi="SELECT id from comite_miembro WHERE cve_comite='".$cve_comite."'";
+                        $resmi=mysql_query($sqlmi);
+                        if(mysql_num_rows($resmi)>0){
+                            while($rowmi=mysql_fetch_array($resmi)){
+                                $sqldel="UPDATE comite_miembro SET estatus='2' WHERE id='".$rowmi['id']."'";
+                                mysql_db_query("parquesa_ParquesAlegresWP",$sqldel);
+                            }
+                        }
+                    }
+                }
+                
+            }
+            else{
+                $proyecto=$_POST['proyecto'];
+                $reuniones=$_POST['reunion'];
+                $organiza=$_POST['organiza'];
+                $opera=$_POST['opera'];
+            }
+            $result = count($_POST[averdes]);
+            if($result>0){
+                $coma=implode(',',$_POST[averdes]);   
+            }
+            //echo$coma;
+            $averdes21= array(1,2);
+            $averdes22= array(1,3);
+            $averdes23= array(2,3);
+            if($result==1){
+                $averdes1=17;
+            }
+            if($result==2){
+                //echo'entraaaaa 2';
+                if($averdes21==$_POST[averdes]){
+                    //if($coma=="1,2"){
+                    //echo'entraaaaa 34';
+                    $averdes1=34;
+                }
+                if($averdes22==$_POST[averdes]){
+                    //echo'entraaaaa 35';
+                    $averdes1=35;
+                }
+                if($averdes23==$_POST[averdes]){
+                    //echo'entraaaaa 36';
+                    $averdes1=36;
+                }
+            }
+            if($result==3){
+                $averdes1=50;
+            }
+            //date("Y-m-d H:i:s");
+            $disenio="";
+            $ejecutivo="";
+            $vespacio="";
+            if($_POST['tipo_proyecto']=="disenio"){
+                $disenio=40;
+            }
+            if($_POST['tipo_proyecto']=="ejecutivo"){
+                $ejecutivo=40;
+            }
+            if($_POST['tipo_proyecto']=="vespacio"){
+                $vespacio=40;
+            }
+            if($_POST['formaliza']!=""){
+                if($_POST['formaliza']=="interno"){
+                    $formal=10;
+                }
+                else{
+                    $formal=20;
+                }
+            }
+            if($_POST[eventos] || $_POST[eventosr]){
+                $eventos=$_POST[eventos];
+                $eventosr=$_POST[eventosr];
+            }
+            else{
+                $calen=0;
+                $evenr=0;
+                foreach($_POST as $k=>$v){
+                    if(substr($k, 0, 13)=="fecha_eventoc"){
+                        if($v!=""){
+                            if($_POST['id_eventoc'][substr($k, 13, 1)]){
+                                $query1="UPDATE `eventos_parques` SET `cve_parque`='$_POST[parque]',`asesor`='$asesores[$asesor]',`calendario`='1',`nombre`='".$_POST['nom_eventoc'][substr($k, 13, 1)]."',`fecha_cambio`='$v',`tipo`='".$_POST['tipo_eventoc'][substr($k, 13, 1)]."',`responsable`='".$_POST['contacto_evento'][substr($k, 13, 1)]."',`correo`='".$_POST['correo_contacto'][substr($k, 13, 1)]."',`estatus`='".$_POST['status_even'][substr($k, 13, 1)]."',`motivo`='".$_POST['motivo'][substr($k, 13, 1)]."' WHERE ID='".$_POST['id_eventoc'][substr($k, 13, 1)]."'";
+                                if($_POST['status_even'][substr($k, 13, 1)]==2){
+                                    if($evenr<4){
+                                        $evenr++;
+                                    }
+                                }
+                            }
+                            else{
+                                $query1="INSERT INTO `eventos_parques`(`cve_parque`,`asesor`, `calendario`,`nombre`,`fecha_reg`, `fecha`, `tipo`, `responsable`,`correo`, `estatus`,`motivo`) VALUES ('$_POST[parque]','$asesores[$asesor]','1','".$_POST['nom_eventoc'][substr($k, 13, 1)]."','".date("Y-m-d")."','$v','".$_POST['tipo_eventoc'][substr($k, 13, 1)]."','".$_POST['contacto_evento'][substr($k, 13, 1)]."','".$_POST['correo_contacto'][substr($k, 13, 1)]."','1','".$_POST['motivo'][substr($k, 13, 1)]."')";
+                            }
+                            mysql_db_query("parquesa_ParquesAlegresWP",$query1);
+                            $calen++;
+                        }
+                    }
+                    if(substr($k, 0, 12)=="status_evenf"){
+                        if($_POST['id_eventof'][substr($k, 13, 1)]){
+                            $query1="UPDATE `eventos_parques` SET `cve_parque`='$_POST[parque]',`asesor`='$asesores[$asesor]',`calendario`='0',`nombre`='".$_POST['nom_eventof'][substr($k, 13, 1)]."',`fecha_cambio`='".$_POST['fecha_eventof'.substr($k, 12, 1)]."',`tipo`='".$_POST['tipo_eventof'][substr($k, 12, 1)]."',`responsable`='".$_POST['contacto_eventof'][substr($k, 12, 1)]."',`correo`='".$_POST['correo_contactof'][substr($k, 12, 1)]."',`estatus`='$v',`motivo`='".$_POST['motivof'][substr($k, 12, 1)]."' WHERE ID='".$_POST['id_eventof'][substr($k, 13, 1)]."'";
+                        }
+                        else{
+                            $query1="INSERT INTO `eventos_parques`(`cve_parque`,`asesor`, `calendario`,`nombre`,`fecha_reg`, `fecha`, `tipo`, `responsable`,`correo`, `estatus`,`motivo`) VALUES ('$_POST[parque]','$asesores[$asesor]','0','".$_POST['nom_eventof'][substr($k, 12, 1)]."','".date("Y-m-d")."','".$_POST['fecha_eventof'.substr($k, 12, 1)]."','".$_POST['tipo_eventof'][substr($k, 12, 1)]."','".$_POST['contacto_eventof'][substr($k, 12, 1)]."','".$_POST['correo_contactof'][substr($k, 12, 1)]."','$v','".$_POST['motivof'][substr($k, 12, 1)]."')";
+                        }
+                        mysql_db_query("parquesa_ParquesAlegresWP",$query1);
+                        if($v==2){
+                            if($evenr<4){
+                                $evenr++;
+                            }
+                        }
+                    }
+                }
+                if($calen>=4){
+                    $eventos=50;
+                }
+                else{
+                    $eventos=0;
+                }
+                if($evenr!=0){
+                    $eventosr=($evenr*50)/4;
+                }
+                else{
+                    $eventosr=0;
+                }
+            }
+            $cal=$opera+$formal+$organiza+$reuniones+$proyecto+$disenio+$ejecutivo+$vespacio+$_POST[instalaciones]+$_POST[estado]+$_POST[ingresop]+$_POST[ingresadop]+$_POST[mancomunado]+$eventos+$eventosr+$averdes1+$_POST[estaver]+$_POST[gente]+$_POST[limpieza]+$_POST[orden]+$_POST[respint];
+            $cal=$cal/7;
+            $sSQL="INSERT INTO `wp_comites_parques`(`cve_parque`,`asesor_captura`, `fec`,`fecha_visita`,`opera`, `formaliza`, `tipoformaliza`, `organiza`, `reunion`, `proyecto`,`disenio`,`ejecutivo`,`vespacio`, `instalaciones`, `estado`, `ingresop`, `ingresadop`, `mancomunado`, `eventos`, `eventosr`, `averdes`, `estaver`,  `gente`, `limpieza`, `orden`, `respint`) VALUES ('$_POST[parque]','$asesores[$asesor]','$fec','$_POST[fecha_visita]','".$opera."','$formal','$_POST[formaliza]','".$organiza."','".$reuniones."','".$proyecto."','$disenio','$ejecutivo','$vespacio','$_POST[instalaciones]','$_POST[estado]','$_POST[ingresop]','$_POST[ingresadop]','$_POST[mancomunado]','$eventos','$eventosr','$averdes1','$_POST[estaver]','$_POST[gente]','$_POST[limpieza]','$_POST[orden]','$_POST[respint]')";
+            //,'$_POST[semana]','$_POST[finsem]' `semana`, `finsem`,
+            //`riego`,'$riego',
+            //`gente`, `diario`,
+            //'$gente','$diario',
+            //echo $sSQL;
+            mysql_db_query("parquesa_ParquesAlegresWP",$sSQL);
+            $id_visita=mysql_insert_id();
+            $sSQL55="INSERT INTO `coordenadas_visita`(`cve_parque`, `longitud`,`latitud`,`cve_visita`) VALUES ('$_POST[parque]','$_POST[long]','$_POST[lati]','$id_visita')";
+            //echo $sSQL55;
+            mysql_db_query("parquesa_ParquesAlegresWP",$sSQL55);
+            $sSQL1="INSERT INTO `wp_visitascom_parques`(`cve_parque`, `cve_visita`,`tipo_visita`,clasvisita) VALUES ('$_POST[parque]','$id_visita','".$visita[$_POST['visita']]."','".$_POST['clasvisita']."')";
+            //echo $sSQL1;
+            mysql_db_query("parquesa_ParquesAlegresWP",$sSQL1);
+            echo'<p align="center">';
+            echo'Visita guardada';
+            echo'</p>';
+            $sql005="SELECT c.nombre, c.email, c.contacto FROM comite_miembro c INNER JOIN comite_parque c2 ON c.cve_comite = c2.id WHERE c2.cve_parque='".$_POST['parque']."' and c.contacto='1'";
+            $res005=mysql_query($sql005);
+            $row005=mysql_fetch_array($res005);
+            $to="";
+            if($row005['email']!=""){
+                $to=$row005['email'];
+                $nombre=$row005['nombre'];
+            }
+            /*else{
+                $to="gudart@gmail.com";    
+            }*/
+            $link=get_permalink($_POST['parque']).'?utm_source=newsletter&utm_medium=email&utm_campaign=calificacion_visita';
+            $email="contacto@parquesalegres.org";
+            $headers = "From: " . $email . "\r\n";
+            $headers .= "MIME-Version: 1.0\r\n";
+            $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n"; 
+            $subject = "Calificación de tu parque ".$parque[$_POST['parque']]; 
+            $message = '<html><body><h2>¡Hola '.$nombre.'!</h2><p>La calificación de tu parque es: <b>'.round($cal).'</b>';
+            $message .= '<br><br>Entra a tu parque y ve todos los detalles: <a href="'.$link.'" target="_blank">'.get_permalink($_POST['parque']).'</a>';
+            $message .= "<br><br>Ayúdanos a mejorar, envía tus comentarios y sugerencias a: contacto@parquesalegres.org<br><br></p><center><h3>¡Gracias por tu gran labor para tener espacios más agradables para todos!</h3>";
+            $message .= "<br><br><img src='http://parquesalegres.org/wp-content/uploads/2015/02/logopa.png'></center></body></html>";
+            if($to!=""){
+                mail($to, $subject, $message, $headers);
+            }   
+        }
+        if($_POST['needcom']=="si"){
+            $_POST['cmd']=3;
+        }
+    }
+    else{
+        echo'No ha seleccionado ningun parque';
+    }
+    /*$sql="select * from wp_posts where ID='$_POST[parque]'";
+	$res=mysql_query($sql);
+	$row3 = mysql_fetch_array($res);
+            $cuerpob = "El usuario: " . $current_user->user_email . "\n<br>";
+            $cuerpob .= "Ha agregado una nueva visita al parque: " . $_POST['parque'] . "\n<br>";
+            $cuerpob .= "Nombre del parque: " . $row3["post_title"] . "\n<br>";
+            $cuerpob .= "Fecha y Hora de edici&oacute;n: " .date('d-m-Y : H:i:s'). "\n";
+            $fromb = "From: contacto@parquesalegres.org\r\nContent-type: text/html\r\n";
+
+            //$res2=mail($current_user->user_email,"Parques Alegres(Parque nuevo)",$cuerpob,$fromb);
+            //este es el que se envia segun $res2=mail("mikee.vale@gmail.com","Parques Alegres(Parametros nuevos)",$cuerpob,$fromb);
+            //$res2=mail("contacto@parquesalegres.org","Parques Alegres(Parque nuevo)",$cuerpob,$fromb);
+            //$res2=mail("albertocoppel@gmail.com","Parques Alegres(Parque nuevo)",$cuerpob,$fromb);
+
+            if($res2){
+                echo'<p align="center">';
+                echo'Par&aacute;metros guardados con exito<input type="button" value="Cerrar" onClick="window.close()">';
+                echo'<A href="http://parquesalegres.org/parques/evaluacion/">Ir al listado de parques</a>';
+                echo'</p>';
+            }*/
+}
+if($_POST['cmd']==3){
+    if($_POST['parque']>0){
+        $sqll="select * from wp_comites_parques where cve_parque='".$_POST['parque']."' order by fecha_visita DESC, cve DESC limit 1";
+        $ress=mysql_query($sqll);
+        $rowz=mysql_fetch_array($ress);
+        $sSQL8="UPDATE wp_visitascom_parques SET opera='$_POST[comopera]', formaliza='$_POST[comformaliza]', organiza='$_POST[comorganiza]', reunion='$_POST[comreunion]', proyecto='$_POST[comproyecto]', disenio='$_POST[comdisenio]', ejecutivo='$_POST[comejecutivo]', vespacio='$_POST[comvespacio]', instalaciones='$_POST[cominstalaciones]', estado='$_POST[comestado]', ingresop='$_POST[comingresop]', ingresadop='$_POST[comingresadop]', mancomunado='$_POST[commancomunado]', eventos='$_POST[comeventos]', eventosr='$_POST[comeventosr]', averdes='$_POST[comaverdes]', estaver='$_POST[comestaver]', gente='$_POST[comgente]', limpieza='$_POST[comlimpieza]', orden='$_POST[comorden]', respint='$_POST[comrespint]', genvisita='$_POST[comgenvisita]' WHERE cve_visita='".$rowz['cve']."'";
+        //echo $sSQL8.'<br>';
+        mysql_db_query("parquesa_ParquesAlegresWP",$sSQL8);
+        $entro=0;
+        foreach($_POST as $k=>$v){
+            if(substr($k, 0, 4)=="meta"){
+                if($_POST['comp'.substr($k, 5)]!=""){
+                    if(substr($k, 5)=="instalaciones"){
+                        $sSQL9="INSERT INTO compromisos(cve_parque, cve_visita, parametro, compromiso, meta, fecha_cumplimiento, estatus) VALUES ('".$_POST['parque']."','".$rowz['cve']."','".substr($k, 5)."','".$_POST['comp'.substr($k, 5)].",".$_POST['compinstal']."','".$v."','".$_POST['cumplimiento_'.substr($k, 5)]."',1)";
+                    }
+                    else if(substr($k, 5)=="estado"){
+                        $sSQL9="INSERT INTO compromisos(cve_parque, cve_visita, parametro, compromiso, meta, fecha_cumplimiento, estatus) VALUES ('".$_POST['parque']."','".$rowz['cve']."','".substr($k, 5)."','".$_POST['comp'.substr($k, 5)].",".$_POST['compest']."','".$v."','".$_POST['cumplimiento_'.substr($k, 5)]."',1)";
+                    }
+                    else if(substr($k, 5)=="eventosr"){
+                        $sSQL9="INSERT INTO compromisos(cve_parque, cve_visita, parametro, compromiso, meta, fecha_cumplimiento, estatus) VALUES ('".$_POST['parque']."','".$rowz['cve']."','".substr($k, 5)."','".$_POST['comp'.substr($k, 5)].",".$_POST['compevent']."','".$v."','".$_POST['cumplimiento_'.substr($k, 5)]."',1)";
+                    }
+                    else{
+                        $sSQL9="INSERT INTO compromisos(cve_parque, cve_visita, parametro, compromiso, meta, fecha_cumplimiento, estatus) VALUES ('".$_POST['parque']."','".$rowz['cve']."','".substr($k, 5)."','".$_POST['comp'.substr($k, 5)]."','".$v."','".$_POST['cumplimiento_'.substr($k, 5)]."',1)";
+                    }
+                    $entro=1;
+                    //echo $sSQL9.'<br>';
+                    mysql_db_query("parquesa_ParquesAlegresWP",$sSQL9);
+                }
+            }
+        }
+        if($entro==1){
+            class PDF extends FPDF{
+                // Page header
+                function Header(){
+                    // Logo
+                    $this->SetFont('Arial','',9);
+                    // Title
+                    $this->Image('logo_parques.png',170,10);
+                    //Anexo PG-ACP-1-1-5-
+                    $this->Cell(55,5,'Formato de Compromiso solidario.');
+                    // Line break
+                    $this->Ln(10);
+                }
+            }
+            $fechav=explode('-',$rowz['fecha_visita']);
+            $ano=$fechav[0];
+            $mes=$meses[$fechav[1]];
+            $dia=$fechav[2];
+            $mes=str_replace(array("01","02","03","04","05","06","07","08","09","10","11","12"),array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"),$mes);
+            $pdf = new PDF();
+            $pdf->AddPage('P','Letter');
+            $pdf->SetFont('Arial','',11);
+            $pdf->Cell(30,5,'CARTA DE COMPROMISO SOLIDARIO',0,1);
+            $pdf->Ln();
+            $pdf->SetX(130);
+            $pdf->Cell(50,5,'Culiacán, Sin. a____ de_____________ del_______.',0,1);
+            $pdf->SetXY(160,30);
+            $pdf->Cell(30,5,$dia,0,1);
+            $pdf->SetXY(172,30);
+            $pdf->Cell(29,5,$mes,0,1,'C');
+            $pdf->SetXY(207,30);
+            $pdf->Cell(29,5,$ano,0,1,'C');
+            $pdf->Ln(30);
+            $pdf->MultiCell(0,7,"Por medio del presente, el comité del parque ____________________________________________________ de la colonia ______________________________________________________, ubicado entre las calles __________________________________________________________, Nos comprometemos a realizar las actividades siguientes. ",0,'J');
+            $pdf->MultiCell(0,7,"___________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+    Dichos acuerdos para llevarlos a cabo a la fecha de ______________________, sabiendo lo importante que es el cumplimiento de estos compromisos solidarios para el desarrollo de nuestro espacio público. Con el cumplimiento de estos acuerdos nuestro espacio público aumentaría de _____ a _____ en puntaje de parámetros.
+    
+    Nota. Es importante cuidar los avances con los que ya contamos, para que nuestra calificación sea favorable en nuestra siguiente visita. 
+        ",0,'J');
+            $pdf->SetFont('Arial','BU',11);
+            $pdf->Ln(18);
+            $pdf->Cell(190,5,'Hacemos el compromiso solidario para dar nuestro mejor esfuerzo para el cumplimiento de acuerdos.',0,1);
+            $pdf->SetFont('Arial','',11);
+            $pdf->Ln(25);
+            $pdf->Cell(200,5,'Firma del comité y/o vecinos.',0,1,'C');
+            $pdf->Ln(25);
+            $pdf->Cell(200,5,'Firma de Asesor de Parques Alegres.',0,1,'C');
+            $pdf->SetXY(90,65);
+            $pdf->Cell(110,5,$parque[$_POST['parque']],0,1,'C');
+            $pdf->SetXY(40,72);
+            $pdf->Cell(113,5,$meta['_parque_col'],0,1,'C');
+            $pdf->SetXY(13,79);
+            $pdf->Cell(122,5,$meta['_parque_colin'],0,1,'C');
+            $sql003="select * from compromisos where cve_parque='".$_POST['parque']."' and cve_visita='".$rowz['cve']."'";
+            $res003=mysql_query($sql003);
+            $c=0;
+            $h=0;
+            while($row003=mysql_fetch_array($res003)){
+                if($row003['parametro']=="instalaciones" || $row003['parametro']=="estado" || $row003['parametro']=="eventosr"){
+                    $fecha_cumpl=$row003['fecha_cumplimiento'];
+                    $comp=explode(",",$row003['compromiso']);
+                    if($comp[0]==13){
+                        $namee=$compespecial[$comp[1]];
+                    }
+                    elseif($comp[0]==84){
+                        $namee=$compesp2[$comp[1]];
+                    }
+                    elseif($comp[0]==85 || $comp[0]==86){
+                        $namee=$compesp3[$comp[1]];
+                    }
+                    else{
+                        $namee=$compesp[$comp[1]];
+                        if($comp[1]==111){
+                            $namee="Instalaciones";
+                        }
+                        if($comp[1]==112){
+                            $namee="Deportiva";
+                        }
+                        if($comp[1]==113){
+                            $namee="Áreas de esparcimiento";
+                        }
+                        if($comp[1]==114){
+                            $namee="Áreas verdes";
+                        }
+                        
+                    }
+                    $cellwidth=$pdf->GetStringWidth($compromisos[$comp[0]].': '.$namee);
+                    if($c+$cellwidth>=177){
+                        $h=$h+7;
+                        $c=0;
+                    }
+                    if($h<20){
+                        $pdf->SetXY(13+$c,93+$h);
+                        $pdf->Cell($cellwidth,5,$compromisos[$comp[0]].': '.$namee,0,0,'C');
+                        $c=$c+$cellwidth;
+                    }
+                }
+                else{
+                    $fecha_cumpl=$row003['fecha_cumplimiento'];
+                    $cellwidth=$pdf->GetStringWidth($compromisos[$row003['compromiso']]);
+                    if($c+$cellwidth>=177){
+                        $h=$h+7;
+                        $c=0;
+                    }
+                    if($h<20){
+                        $pdf->SetXY(13+$c,93+$h);
+                        $pdf->Cell($cellwidth,5,$compromisos[$row003['compromiso']],0,0,'C');
+                        $c=$c+$cellwidth;
+                    }
+                }
+            }
+            $pdf->SetXY(105,114);
+            $pdf->Cell(43,5,$fecha_cumpl,0,1,'C');
+            $pdf->SetXY(145,129);
+            $pdf->Cell(9,5,$_POST['totalvis'],0,1,'C');
+            $pdf->SetXY(162,129);
+            $pdf->Cell(9,5,$_POST['totalmeta'],0,1,'C');
+            $sql005="SELECT c.email,c.contacto FROM comite_miembro c INNER JOIN comite_parque c2 ON c.cve_comite = c2.id WHERE c2.cve_parque='".$_POST['parque']."' and c.contacto='1'";
+            $res005=mysql_query($sql005);
+            $row005=mysql_fetch_array($res005);
+            $to="";
+            if($row005['email']!=""){
+                $to=$row005['email'];
+            }
+            /*else{
+                $to="gudart@gmail.com";    
+            }*/
+            $email="contacto@parquesalegres.org";
+            $from = "Parques Alegres $email"; 
+            $subject = "Formato compromisos solidarios"; 
+            $message = "<p>El formato esta adjunto en PDF.</p>";
+            
+            // a random hash will be necessary to send mixed content
+            $separator = md5(time());
+            
+            // carriage return type (we use a PHP end of line constant)
+            $eol = PHP_EOL;
+            
+            // attachment name
+            $filename = "compromisos.pdf";
+            
+            // encode data (puts attachment in proper format)
+            $pdfdoc = $pdf->Output("", "S");
+            $attachment = chunk_split(base64_encode($pdfdoc));
+            
+            // main header
+            $headers  = "From: ".$from.$eol;
+            $headers .= "MIME-Version: 1.0".$eol; 
+            $headers .= "Content-Type: multipart/mixed; boundary=\"".$separator."\"";
+            
+            // no more headers after this, we start the body! //
+            
+            $body = "--".$separator.$eol;
+            $body .= "Content-Transfer-Encoding: 7bit".$eol.$eol;
+            //$body .= "This is a MIME encoded message.".$eol;
+            
+            // message
+            $body .= "--".$separator.$eol;
+            $body .= "Content-Type: text/html; charset=\"iso-8859-1\"".$eol;
+            $body .= "Content-Transfer-Encoding: 8bit".$eol.$eol;
+            $body .= $message.$eol;
+            
+            // attachment
+            $body .= "--".$separator.$eol;
+            $body .= "Content-Type: application/octet-stream; name=\"".$filename."\"".$eol; 
+            $body .= "Content-Transfer-Encoding: base64".$eol;
+            $body .= "Content-Disposition: attachment".$eol.$eol;
+            $body .= $attachment.$eol;
+            $body .= "--".$separator."--";
+            
+            // send message
+            if($to!=""){
+                mail($to, $subject, $body, $headers);
+            }
+            echo 'Compromisos registrados exitosamente! Revisa el correo electónico.';
+        }
+        else{
+            echo 'Comentarios registrados exitosamente!';
+        }
+    }
+    else{
+        echo 'No ha seleccionado ningun parque';
+    }
+}
+echo '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>PA:'.$parquen.'</title>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+<link type="text/css" rel="stylesheet" href="qtip/jquery.qtip.min.css" />
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+<script type="text/javascript" src="qtip/jquery.qtip.min.js"></script>
+<link href="form_style.css" rel="stylesheet" type="text/css" />
+<style>
+    .listeven{
+        margin-left:0%;
+    }
+    .listeven label>span{
+        width:100%;
+        text-align:center;
+    }
+    .listeven label{
+        display:inline-block;
+        width:13%;
+    }
+    .listeven input[type="text"]{
+        width:100%;
+    }
+    .listeven select{
+        width:100%;
+    }
+    .listevenf{
+        margin-left:0%;
+    }
+    .listevenf label>span{
+        width:100%;
+        text-align:center;
+    }
+    .listevenf label{
+        display:inline-block;
+        width:13%;
+    }
+    .listevenf input[type="text"]{
+        width:100%;
+    }
+    .listevenf select{
+        width:100%;
+    }
+    #comite_miem label>span{
+        width:21%;
+        text-align:center;
+    }
+    #comite_miem input[type="text"], #comite_miem select{
+        width:24%;
+        text-align:center;
+    }
+    .listorg label>span{
+        width:75%;
+    }
+    .listorg label{
+        display:inline-block;
+        width:45%;
+    }
+    .listorg .sm{
+        width:30%;
+    }
+    .listreun{
+        margin-left:25%;
+    }
+    .listreun label>span{
+        width:25%;
+        text-align:center;
+    }
+    .listreun label{
+        width:100%;
+    }
+    .listreun input[type="text"]{
+        width:25%;
+    }
+    </style>
+</head>';
+
+echo '<body>
+<h3><label><span><a href="javascript:void(0)" onclick="cambio(1)">Visita</a></span><span><a href="javascript:void(0)" onclick="cambio(8)">Asistencia</a></span><span><a href="javascript:void(0)" onclick="cambio(3)">Compromisos</a></span></label>
+<label><span><a href="javascript:void(0)" onclick="cambio(4)">Datos del Parque</a></span><span><a href="javascript:void(0)" onclick="cambio(2)">Datos del Comit&eacute</a></span><span><a href="javascript:void(0)" onclick="cambio(11);">Estatus compromisos</a></span></label><div style="clear:both"></div>
+<label><span><a href="javascript:void(0)" onclick="cambio(6)">Experiencia Exitosa</a></span><span><a href="javascript:void(0)" onclick="cambio(5)">Check list</a></span><span><a href="javascript:void(0)" onclick="cambio(10)">Nueva Infraestructura</a></span></label></h3>';
+ $sqll="select * from wp_comites_parques where cve_parque='".$_POST['parque']."' order by fecha_visita DESC, cve DESC limit 1";
+    $ress=mysql_query($sqll);
+    $rowz=mysql_fetch_array($ress);
+echo '<div style="clear:both;"></div><form name="forma" method="post" class="white-envolve">
+        <span>Parque:</span><input type="hidden" name="parque" value="'.$id_post.'">
+		<strong>'.$parquen.' </strong>'; if($id_post>0){ echo '&nbsp;<a href="'; echo get_permalink($id_post); echo '" target="_blank">Ver parque en el sitio web</a>'; } echo '<br><br>
+<div id="screen1">
+<div class="white-half">
+    <h1>Visita
+        <span>Ingrese los parametros del parque</span>
+    </h1>
+    <label>
+        <span>Fecha de la visita: </span><input name="fecha_visita" type="text" readonly id="datepicker4" value="'.date("Y-m-d").'">
+    </label>
+    <label>
+        <span>Tipo de visita: </span><select name="visita" onchange="change_vis(this.value);"><option value="" selected> -- Seleccione --</option>
+        <option value="prospectacion">Prospectacion</option>
+        <option value="seguimiento">Seguimiento</option>
+        <option value="reforzamiento">Reforzamiento</option>
+        </select>
+    </label>
+    <label>
+        <span>Clasificación de visita: </span><select name="clasvisita" id="clasvisita" onchange="change_clas(this.value);"><option value="" selected> -- Seleccione --</option>
+        <option value="1">Repartir volantes</option>
+        <option value="2">Formación del comité</option>
+        <option value="3">Reestructuración del comité</option>
+        <option value="4">Elaboración de la visión del espacio</option>
+        <option value="5">Presentación de la visión del espacio a los vecinos</option>
+        <option value="6">Reestructuración de la visión del espacios</option>
+        <option value="7">Presentación del diseño del espacio a los vecinos</option>
+        <option value="8">Eventos organizados por el comité</option>
+        <option value="9">Eventos rganizados por parques alegres</option>
+        <option value="10">Talleres</option>
+        <option value="11">Elaboración del calendario anual de actividades</option>
+        <option value="12">Presentación de la planeación del calendario anual de actividades</option>
+        <option value="13">Asesoría para realizar el reglamento de orden</option>
+        <option value="14">Elaboración de carpetas para rifa</option>
+        </select>
+    </label>
+    <label id="otroclaslabel" style="display:none;">
+        <span>Otro: </span><input type="text" name="otroclas" id="otroclas">
+    </label>
+    <div id="logro_visita" style="display:none;">
+    <label>
+    <span>Se logró el objetivo:</span><select name="logro"><option value=""> -- Seleccione -- </option>
+    <option value="Sí">Sí</option>
+    <option value="No">No</option>
+    </select>
+    </label>
+    </div>
+    <div id="normal">
+    <h2><label class="white-pinkon">Comit&eacute;</label><label class="white-pinkon">Actual</label></h2>';
+    if($asesor==13563){
+        echo '<label>
+            <span>Integrado por: </span></label>';
+            $sqlmi="select cm.*,cp.organizacion from comite_miembro cm INNER JOIN comite_parque cp ON cp.id=cm.cve_comite where cp.cve_parque='".$_POST['parque']."' AND cm.estatus!=2";
+            $resmi=mysql_query($sqlmi);
+            $mi=0;
+            if(mysql_num_rows($resmi)>0){
+                $checked="";
+                $show="";
+                while($rowmi=mysql_fetch_array($resmi)){
+                    $mi++;
+                    $organizacion=$rowmi['organizacion'];
+                    $miem.='<label><input type="hidden" name="id_miembro['.$mi.']" value="'.$rowmi['id'].'"><input type="text" name="nom_miembro['.$mi.']" value="'.$rowmi['nombre'].'"><input type="text" name="cel_miembro['.$mi.']" value="'.$rowmi['celular'].'"><select name="rol_miembro['.$mi.']"><option value=""> -- Seleccione -- </option>';
+                    foreach($roles_comite as $k=>$v){
+                        $miem.='<option value="'.$k.'"'; if($rowmi['rol']==$k){ $miem.=' selected';} $miem.='>'.$v.'</option>';
+                    }
+                    $miem.='</select><input type="checkbox" name="estatus_miembro['.$mi.']"';
+                    if($rowmi['estatus']==2){ $miem.=' checked ';}
+                    $miem.=' value="2">';
+                }
+            }
+            else{
+                $show='style="display:none;"';
+                $checked="checked disabled";
+            }
+            echo '<input type="button" class="button" value="Agregar miembro" onclick="add_miembro();">&nbsp;<input id="sin_comite" type="checkbox" '.$checked.' onclick="hid_comite();" value="0">Sin comité
+            <input type="hidden" name="sin_comite">
+            <div style="clear:both;"></div>
+            <div id="comite_miem" '.$show.'>
+                <label><span>Nombre</span><span>Celular</span><span>Rol</span><span>Inactivo</span></label>'.$miem.'
+            </div>
+            <input type="hidden" id="miem_comite" name="miem_comite" value="'.$mi.'">
+            <div id="comite_esp" '.$show.'>
+                <label>
+                    <span>C&oacute;mo est&aacute; formalizado? </span><select name="formaliza">
+                    <option value="interno"'; if($rowz['tipoformaliza']=="interno"){echo ' selected';} echo '>Solo comit&eacute interno</option>
+                    <option value="ayuntamiento"'; if($rowz['formaliza']==20){if($rowz['tipoformaliza']=="ayuntamiento" || $rowz['tipoformaliza']==""){echo ' selected';}} echo '>Solo registro en Ayuntamiento</option>
+                    <option value="AC"'; if($rowz['tipoformaliza']=="AC"){echo ' selected';} echo '>Solo es una AC</option>
+                    <option value="AC_ayuntamiento"'; if($rowz['tipoformaliza']=="AC_ayuntamiento"){echo ' selected';} echo '>AC con registro en Ayuntamiento</option>
+                    <option value=""'; if($rowz['formaliza']==0){echo ' selected';} echo '>Ninguna de las anteriores</option>
+                    </select>
+                </label>
+                <label>';
+                $orgs=explode(",",$organizacion);
+                $osum=0;
+                foreach($organizacion_comite as $k=>$v){
+                    if($orgs[$k-1]==1){
+                        $osum=$osum+$v;
+                    }
+                }
+                if($osum<1){
+                    $resultorg='<span id="resultorg" style="color:red;width:30%;margin-bottom:20px;">Sin organización</span>';
+                }
+                elseif($osum<15){
+                    $resultorg='<span id="resultorg" style="color:orange;width:30%;margin-bottom:20px;">Regular</span>';
+                }
+                else{
+                    $resultorg='<span id="resultorg" style="color:green;width:30%;margin-bottom:20px;">Buena organización</span>';
+                }
+                echo '
+                        <span>Nivel de organización:</span>
+                        <span style="width:30%;">En el comité existe al menos una persona que se encarga de:</span>'.$resultorg.'
+                </label>
+                <div style="clear:both"></div>
+                <div class="listorg">
+                        <label class="sm"><span>Organización</span></label>
+                        <label class="sm"><span>Invitar a los vecinos a las juntas.</span><input type="checkbox" name="organiza[]" '; if($orgs[0]==1){ echo 'checked ';} echo 'value="1"></label>
+                        <label class="sm"><span>De moderar la participación de los asistentes a las juntas de comité</span><input type="checkbox" name="organiza[]" '; if($orgs[1]==1){ echo 'checked ';} echo 'value="2"></label>
+                        <label class="sm" style="margin-left:30%;"><span>Elaborar las minutas de las juntas.</span><input type="checkbox" name="organiza[]" '; if($orgs[2]==1){ echo 'checked ';} echo 'value="3"></label>
+                        <label class="sm"><span>Manejar un expediente con los documentos del comité</span><input type="checkbox" name="organiza[]" '; if($orgs[3]==1){ echo 'checked ';} echo 'value="4"></label>
+                        <label class="sm" style="margin-left:30%;"><span>Lleva un control de los fondos del comité</span><input type="checkbox" name="organiza[]" '; if($orgs[4]==1){ echo 'checked ';} echo 'value="5"></label>
+                        <label class="sm"><span>Presenta reportes de ingresos y egresos</span><input type="checkbox" name="organiza[]" '; if($orgs[5]==1){ echo 'checked ';} echo 'value="6"></label>
+                        <label class="sm" style="margin-left:30%;"><span>El comité somete a votación las decisiones que toma</span><input type="checkbox" name="organiza[]" '; if($orgs[6]==1){ echo 'checked ';} echo 'value="7"></label>
+                        <label class="sm"><span>Los miembros del comité se organizan en comisiones para realizar sus acciones</span><input type="checkbox" name="organiza[]" '; if($orgs[7]==1){ echo 'checked ';} echo 'value="8"></label>
+                        <label class="sm"><span>Formalidad</span></label>
+                        <label class="sm"><span>El comité cuenta con un sello</span><input type="checkbox" name="organiza[]" '; if($orgs[8]==1){ echo 'checked ';} echo 'value="9"></label>
+                        <label class="sm"><span>El comité utiliza hojas membretadas</span><input type="checkbox" name="organiza[]" '; if($orgs[9]==1){ echo 'checked ';} echo 'value="10"></label>
+                        <label class="sm" style="margin-left:30%;margin-right:35%;"><span>El comité utiliza uniforme</span><input type="checkbox" name="organiza[]" '; if($orgs[10]==1){ echo 'checked ';} echo 'value="11"></label>
+                        <label class="sm"><span>Medios electrónicos</span></label>
+                        <label class="sm"><span>El comité cuenta con Facebook</span><input type="checkbox" name="organiza[]" '; if($orgs[11]==1){ echo 'checked ';} echo 'value="12"></label>
+                        <label class="sm"><span>El comité cuenta con correo electrónico</span><input type="checkbox" name="organiza[]" '; if($orgs[12]==1){ echo 'checked ';} echo 'value="13"></label>
+                        <label class="sm" style="margin-left:30%;"><span>El comité cuenta con Whatsapp</span><input type="checkbox" name="organiza[]" '; if($orgs[13]==1){ echo 'checked ';} echo 'value="14"></label>
+                </div>
+                <label>
+                    <span>Núm de reuniones en el mes:</span><input type="text" name="nreuniones" onkeyup="add_reunion(this.value)" maxlength="2">
+                </label>
+                <div class="listreun" style="display:none;">
+                    <label><span>Fecha</span><span>No. de Asistentes</span><span id="resultreun" style="color:red;">Ninguna reunión</span></label>
+                    <div id="reun">
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
+                <label>
+                    <span>Tienen proyectos en proceso:</span>
+                    <input type="radio" '; if($rowz['proyecto']==20){echo ' checked';} echo ' value=20 id="proyectos" name="proyecto" onclick="sh_proy(this.value);"><label class="white-pinked" for="proyectos">S&iacute</label>
+                    <input type="radio" '; if($rowz['proyecto']==0 && $rowz['proyecto']!=""){echo ' checked';} echo ' value=0 id="proyecton" name="proyecto" onclick="sh_proy(this.value);"><label class="white-pinked" for="proyecton">No</label>
+                </label>
+                <div id="datosproy" '; if($rowz['proyecto']==0 && $rowz['proyecto']!=""){ echo 'style="display:none;"';} echo '>';
+                if($rowz['proyecto']==20){
+                    $sqlproy="SELECT * FROM comite_proyectos WHERE cve_parque='".$_POST['parque']."' AND estatus=1";
+                    $resproy=mysql_query($sqlproy);
+                    $p=0;
+                    $proys="";
+                    if(mysql_num_rows($resproy)>0){
+                        while($rowproy=mysql_fetch_array($resproy)){
+                            $p++;
+                            $proys.='<label><span>Datos del Proyecto:</span>';
+                            $proys.='<label><span>Nombre:</span><input type="hidden" name="id_proy['.$p.']" value="'.$rowproy['id'].'"><input type="text" name="nombre_proy['.$p.']" value="'.$rowproy['nombre'].'"></label>';
+                            $proys.='<label style="margin-left:35%;"><span>Fecha:</span><input type="text" id="fecha_proy'.$p.']" name="fecha_proy['.$p.']" value="'.$rowproy['fecha_proyecto'].'"></label>';
+                            $proys.='<label style="margin-left:35%;"><span>Tipo:</span>';
+                            $proys.='<select name="tipo_proy['.$p.']"><option value="" selected> -- Seleccione -- </option><option value="1"';
+                            if($rowproy['tipo']==1){ $proys.= " selected";}
+                            $proys.='>Tejido Social</option><option value="2"'; if($rowproy['tipo']==2){ $proys.= ' selected';} $proys.= '>Generación de Ingresos</option><option value="3"'; if($rowproy['tipo']==3){ $proys.= ' selected';} $proys.= '>Gestión</option></select></label>';
+                            $proys.='<label style="margin-left:35%;"><span>Estatus:</span>';
+                            $proys.='<select name="estatus_proy['.$p.']"><option value="" selected> -- Seleccione -- </option><option value="1"'; if($rowproy['estatus']==1){ $proys.= ' selected';} $proys.= '>En proceso</option><option value="2"'; if($rowproy['estatus']==2){ $proys.= ' selected';} $proys.= '>Terminado</option><option value="3"'; if($rowproy['estatus']==3){ $proys.= ' selected';} $proys.= '>Cancelado</option></select></label>';
+                        }
+                        echo $proys.'<input type="hidden" id="num_proy" name="num_proy" value='.$p.'>';
+                    } else{
+                        echo '<label><span>Datos del Proyecto:</span>
+                        <label><span>Nombre:</span><input type="text" name="nombre_proy[1]"></label>
+                        <label style="margin-left:35%;"><span>Fecha:</span><input type="text" id="fecha_proy1" name="fecha_proy[1]"></label>
+                        <label style="margin-left:35%;"><span>Tipo:</span><select name="tipo_proy[1]">
+                            <option value="" selected> -- Seleccione -- </option>
+                            <option value="1">Tejido Social</option>
+                            <option value="2">Generación de Ingresos</option>
+                            <option value="3">Gestión</option>
+                        </select></label>
+                        <label style="margin-left:35%;"><span>Estatus:</span><select name="estatus_proy[1]"><option value="" selected> -- Seleccione -- </option><option value="1">En proceso</option><option value="2">Terminado</option><option value="3">Cancelado</option></select></label>
+                        <input type="hidden" id="num_proy" name="num_proy" value=1>';
+                    }
+                }
+                    echo '<div id="nproy"></div>
+                        <label style="margin-left:35%;"><input type="button" class="button" value="Agregar proyecto" onclick="add_proy();"></label>
+                    </label>
+                </div>
+            </div>';
+    }
+    else{
+        echo '<label>
+            <span>El comit&eacute; opera con: </span><select name="opera">
+            <option value="" selected> -- Selecciona --</option>
+            <option value=20'; if($rowz['opera']==20){echo ' selected';} echo '>Tres o m&aacute;s personas</option>
+            <option value=14'; if($rowz['opera']==14){echo ' selected';} echo '>Dos personas</option>
+            <option value=7'; if($rowz['opera']==7){echo ' selected';} echo '>Una persona</option>
+            <option value=0'; if($rowz['opera']==0 && $rowz['opera']!=""){echo ' selected';} echo '>No hay comit&eacute;</option>
+            </select>
+        </label>
+        <label>
+            <span>C&oacute;mo est&aacute; formalizado? </span><select name="formaliza">
+            <option value="interno"'; if($rowz['tipoformaliza']=="interno"){echo ' selected';} echo '>Solo comit&eacute interno</option>
+            <option value="ayuntamiento"'; if($rowz['formaliza']==20){if($rowz['tipoformaliza']=="ayuntamiento" || $rowz['tipoformaliza']==""){echo ' selected';}} echo '>Solo registro en Ayuntamiento</option>
+            <option value="AC"'; if($rowz['tipoformaliza']=="AC"){echo ' selected';} echo '>Solo es una AC</option>
+            <option value="AC_ayuntamiento"'; if($rowz['tipoformaliza']=="AC_ayuntamiento"){echo ' selected';} echo '>AC con registro en Ayuntamiento</option>
+            <option value=""'; if($rowz['formaliza']==0){echo ' selected';} echo '>Ninguna de las anteriores</option>
+            </select>
+        </label>
+        <label>
+            <span>Cuenta con buena organizaci&oacute;n(con orden-formalidad): </span><select name="organiza">
+            <option value="" selected> -- Selecciona -- </option>
+            <option value=20'; if($rowz['organiza']==20){echo ' selected';} echo '>Buena</option>
+            <option value=10'; if($rowz['organiza']==10){echo ' selected';} echo '>Regular</option>
+            <option value=0'; if($rowz['organiza']==0 && $rowz['organiza']!=""){echo ' selected';} echo '>Sin organizaci&oacute;n</option>
+            </select>
+        </label><br>
+        <label>
+            <span>Existen reuniones:</span><select name="reunion">
+            <option value="" selected> -- Selecciona -- </option>
+            <option value=20'; if($rowz['reunion']==20){echo ' selected';} echo '>Frecuentemente</option>
+            <option value=10'; if($rowz['reunion']==10){echo ' selected';} echo '>Regularmente</option>
+            <option value=0'; if($rowz['reunion']==0 && $rowz['reunion']!=""){echo ' selected';} echo '>No hay reuniones</option>
+            </select>
+        </label>
+        <label>
+            <span>Tienen proyectos en proceso:</span>
+            <input type="radio" '; if($rowz['proyecto']==20){echo ' checked';} echo ' value=20 id="proyectos" name="proyecto" ><label class="white-pinked" for="proyectos">S&iacute</label>
+            <input type="radio" '; if($rowz['proyecto']==0 && $rowz['proyecto']!=""){echo ' checked';} echo ' value=0 id="proyecton" name="proyecto" ><label class="white-pinked" for="proyecton">No</label>
+        </label>';
+    }
+    echo '
+    <h2>Instalaciones</h2>
+    <label>
+        <span>Cuenta con Proyecto:</span><select name="tipo_proyecto">
+        <option value="" selected> -- Selecciona -- </option>
+        <option value="vespacio"'; if($rowz['vespacio']==40){echo ' selected';} echo '>Visi&oacute;n de espacio</option>
+        <option value="disenio"'; if($rowz['disenio']==40){echo ' selected';} echo '>Dise&ntilde;o</option>
+        <option value="ejecutivo"'; if($rowz['ejecutivo']==40){echo ' selected';} echo '>Ejecutivo</option>
+        <option value=0'; if($rowz['ejecutivo']==0 && $rowz['disenio']==0 && $rowz['vespacio']==0 && $rowz['ejecutivo']!="" && $rowz['disenio']!="" && $rowz['vespacio']!=""){echo' selected';}echo'>No</option>
+        </select>
+    </label>
+    <label>
+        <span>Estado actual de las instalaciones:</span><select name="estado">
+        <option value="" selected> -- Selecciona -- </option>
+        <option value=30'; if($rowz['estado']==30){echo ' selected';} echo '>Excelente</option>
+        <option value=25'; if($rowz['estado']==25){echo ' selected';} echo '>Muy bueno</option>
+        <option value=20'; if($rowz['estado']==20){echo ' selected';} echo '>Bueno</option>
+        <option value=15'; if($rowz['estado']==15){echo ' selected';} echo '>Regular</option>
+        <option value=10'; if($rowz['estado']==10){echo ' selected';} echo '>Malo</option>
+        <option value=5'; if($rowz['estado']==5){echo ' selected';} echo '>Muy malo</option>
+        <option value=0'; if($rowz['estado']==0 && $rowz['estado']!=""){echo ' selected';} echo '>P&eacute;simo</option>
+        </select>
+    </label>
+    <label>
+        <span>Hay instalaciones en la mayoria del espacio, cancha, andador, banquetas, etc:</span><select name="instalaciones">
+        <option value="" selected> -- Selecciona -- </option>
+        <option value=30'; if($rowz['instalaciones']==30){echo ' selected';} echo '>100%</option>
+        <option value=25'; if($rowz['instalaciones']==25){echo ' selected';} echo '>80%</option>
+        <option value=20'; if($rowz['instalaciones']==20){echo ' selected';} echo '>64%</option>
+        <option value=15'; if($rowz['instalaciones']==15){echo ' selected';} echo '>48%</option>
+        <option value=10'; if($rowz['instalaciones']==10){echo ' selected';} echo '>32%</option>
+        <option value=5'; if($rowz['instalaciones']==5){echo ' selected';} echo '>16%</option>
+        <option value=0'; if($rowz['instalaciones']==0 && $rowz['instalaciones']!=""){echo ' selected';} echo '>0%</option>
+        </select>
+    </label>
+    <h2>Ingresos</h2>
+    <label>
+        <span>Tienen fuente de ingresos permanentes:</span>
+        <input type="radio" value=30'; if($rowz['ingresop']==30){echo ' checked';} echo ' id="ingresops" name="ingresop"><label class="white-pinked" for="ingresops">S&iacute</label>
+        <input type="radio" value=0'; if($rowz['ingresop']==0 && $rowz['ingresop']!=""){echo ' checked';} echo ' id="ingresopn" name="ingresop"><label class="white-pinked" for="ingresopn">No</label>
+    </label>
+    <label>
+        <span>Es suficiente lo ingresado para operar bien:</span><select name="ingresadop">
+        <option value="" selected> -- Seleccione -- </option>
+        <option value=40'; if($rowz['ingresadop']==40){echo ' selected';} echo '>S&iacute;</option>
+        <option value=20'; if($rowz['ingresadop']==20){echo ' selected';} echo '>Regular</option>
+        <option value=0'; if($rowz['ingresadop']==0 && $rowz['ingresadop']!=""){echo ' selected';} echo '>No</option>
+        </select>
+    </label>
+    <label>
+        <span>Tienen cuenta mancomunada:</span>
+        <input type="radio" value=30'; if($rowz['mancomunado']==30){echo ' checked';} echo ' id="mancomunados" name="mancomunado"><label class="white-pinked" for="mancomunados">S&iacute</label>
+        <input type="radio" value=0'; if($rowz['mancomunado']==0 && $rowz['mancomunado']!=""){echo ' checked';} echo ' id="mancomunadon" name="mancomunado"><label class="white-pinked" for="mancomunadon">No</label>
+    </label>
+    <h2>Eventos</h2>';
+        //if($asesor==13563 && $_GET['p']==1){
+            echo '<label>
+                <span>Calendario de Eventos</span><span id="num_events">Agregar núm de eventos:</span><input type="text" name="neventos" style="width:10%;" onkeyup="agregar_e(this.value,1)" maxlength="2">
+            </label>
+            <div class="listeven">
+                <label><span>Fecha:</span></label><label><span>Tipo:</span></label><label><span>Subtipo:</span></label><label><span>Responsable:</span></label><label><span>Correo:</span></label><label><span>Estatus:</span></label><label><span>Motivo:</span></label>
+                <div id="even">';
+                    $sqlca="select * from eventos_parques where cve_parque='".$_POST['parque']."' AND calendario='1'";
+                    $resca=mysql_query($sqlca);
+                    $u=1;
+                    while($rowca=mysql_fetch_array($resca)){
+                        if($rowca['estatus']==2 || $rowca['estatus']==4){
+                            echo '<input type="hidden" name="id_eventoc['.$u.']" value="'.$rowca['ID'].'">
+                            <input type="hidden" id="datepickere'.$u.'" name="fecha_eventoc'.$u.'" value="'.$rowca['fecha'].'"/>
+                            <input type="hidden" id="tipo_eventoc'.$u.'" name="tipo_eventoc['.$u.']" value="'.$rowca['tipo'].'>
+                            <input type="hidden" id="nom_eventoc'.$u.'" name="nom_eventoc['.$u.']" value="'.$rowca['nombre'].'>
+                            <input type="hidden" name="contacto_evento['.$u.']" value="'.$rowca['responsable'].'"/>
+                            <input type="hidden" name="correo_contacto['.$u.']" value="'.$rowca['correo'].'"/>
+                            <input type="hidden" id="status_even'.$u.'" name="status_even['.$u.']" value="'.$rowca['estatus'].'">
+                            <input type="hidden" name="motivo['.$u.']" value="'.$rowca['motivo'].'">';
+                            echo '<label><input type="text" value="'.$rowca['fecha'].'" disabled/></label>
+                            <label><select disabled>
+                            <option value=""> -- Seleccione -- </option>';
+                            foreach($tipoevento as $k=>$v){
+                                echo '<option value="'.$k.'"'; if($rowca['tipo']==$k){ echo ' selected'; }echo '>'.$v.'</option>';
+                            }
+                            echo '</select></label>
+                            <label><select disabled>';
+                            foreach($subtipo as $k=>$v){
+                                if($k==$rowca['tipo']){
+                                    foreach($v as $key=>$value){
+                                        echo '<option value="'.$key.'"'; if($rowca['nombre']==$key){ echo ' selected'; }echo '>'.$value.'</option>';
+                                    }
+                                }   
+                            }
+                            echo '</select></label>
+                            <label><input type="text" value="'.$rowca['responsable'].'" disabled/></label>
+                            <label><input type="text" value="'.$rowca['correo'].'" disabled/></label>
+                            <label><select disabled><option value=""> -- Seleccione -- </option>
+                            <option value="1"'; if($rowca['estatus']==1){ echo ' selected';} echo '>En espera</option>
+                            <option value="2"'; if($rowca['estatus']==2){ echo ' selected';} echo '>Realizado</option>
+                            <option value="3"'; if($rowca['estatus']==3){ echo ' selected';} echo '>Postergado</option>
+                            <option value="4"'; if($rowca['estatus']==4){ echo ' selected';} echo '>Cancelado</option></select></label>
+                            <label><input type="text" value="'.$rowca['motivo'].'" disabled></label>';
+                            $u++;
+                        }
+                        else{
+                            echo '<label><input type="hidden" name="id_eventoc['.$u.']" value="'.$rowca['ID'].'"><input type="text" id="datepickere'.$u.'" name="fecha_eventoc'.$u.'" value="'.$rowca['fecha'].'"/></label>
+                            <label><select id="tipo_eventoc'.$u.'" name="tipo_eventoc['.$u.']" onchange="cambiarsub(this.id);">
+                            <option value=""> -- Seleccione -- </option>';
+                            foreach($tipoevento as $k=>$v){
+                                echo '<option value="'.$k.'"'; if($rowca['tipo']==$k){ echo ' selected'; }echo '>'.$v.'</option>';
+                            }
+                            echo '</select></label>
+                            <label><select id="nom_eventoc'.$u.'" name="nom_eventoc['.$u.']">';
+                            foreach($subtipo as $k=>$v){
+                                if($k==$rowca['tipo']){
+                                    foreach($v as $key=>$value){
+                                        echo '<option value="'.$key.'"'; if($rowca['nombre']==$key){ echo ' selected'; }echo '>'.$value.'</option>';
+                                    }
+                                }   
+                            }
+                            echo '</select></label>
+                            <label><input type="text" name="contacto_evento['.$u.']" value="'.$rowca['responsable'].'"/></label>
+                            <label><input type="text" name="correo_contacto['.$u.']" value="'.$rowca['correo'].'"/></label>
+                            <label><select id="status_even'.$u.'" name="status_even['.$u.']"><option value=""> -- Seleccione -- </option>
+                            <option value="1"'; if($rowca['estatus']==1){ echo ' selected';} echo '>En espera</option>
+                            <option value="2"'; if($rowca['estatus']==2){ echo ' selected';} echo '>Realizado</option>
+                            <option value="3"'; if($rowca['estatus']==3){ echo ' selected';} echo '>Postergado</option>
+                            <option value="4"'; if($rowca['estatus']==4){ echo ' selected';} echo '>Cancelado</option></select></label>
+                            <label><input type="text" name="motivo['.$u.']" value="'.$rowca['motivo'].'"></label>';
+                            $u++;
+                        }
+                    }
+                echo '<input type="hidden" value="'.$u.'" name="evenbd" id="evenbd"></div>
+            </div>
+            <div style="clear:both;"></div><br>
+            <label>
+            <span>Núm de eventos realizados al año:</span><span id="num_events">Agregar núm de eventos fuera del calendario:</span><input type="text" name="neventosfc" style="width:10%;" onkeyup="agregar_e(this.value,2)" maxlength="2">
+            </label>
+            <div class="listevenf">
+                <label><span>Fecha:</span></label><label><span>Tipo:</span></label><label><span>Subtipo:</span></label><label><span>Responsable:</span></label><label><span>Correo:</span></label><label><span>Estatus:</span></label><label><span>Motivo:</span></label>
+                <div id="evenf">';
+                    $sqlca="select * from eventos_parques where cve_parque='".$_POST['parque']."' AND calendario='0'";
+                    $resca=mysql_query($sqlca);
+                    $u=1;
+                    while($rowca=mysql_fetch_array($resca)){
+                        if($rowca['estatus']==2 || $rowca['estatus']==4){
+                            echo '<input type="hidden" name="id_eventof['.$u.']" value="'.$rowca['ID'].'">
+                            <input type="hidden" id="datepickeref'.$u.'" name="fecha_eventof'.$u.'" value="'.$rowca['fecha'].'"/>
+                            <input type="hidden" id="tipo_eventof'.$u.'" name="tipo_eventof['.$u.']" value="'.$rowca['tipo'].'>
+                            <input type="hidden" id="nom_eventof'.$u.'" name="nom_eventof['.$u.']" value="'.$rowca['nombre'].'>
+                            <input type="hidden" name="contacto_eventof['.$u.']" value="'.$rowca['responsable'].'"/>
+                            <input type="hidden" name="correo_contactof['.$u.']" value="'.$rowca['correo'].'"/>
+                            <input type="hidden" id="status_evenf'.$u.'" name="status_evenf'.$u.'" value="'.$rowca['estatus'].'">
+                            <input type="hidden" name="motivof['.$u.']" value="'.$rowca['motivo'].'">';
+                            echo '<label><input type="text" value="'.$rowca['fecha'].'" disabled/></label>
+                            <label><select disabled>
+                            <option value=""> -- Seleccione -- </option>';
+                            foreach($tipoevento as $k=>$v){
+                                echo '<option value="'.$k.'"'; if($rowca['tipo']==$k){ echo ' selected'; }echo '>'.$v.'</option>';
+                            }
+                            echo '</select></label>
+                            <label><select disabled>';
+                            foreach($subtipo as $k=>$v){
+                                if($k==$rowca['tipo']){
+                                    foreach($v as $key=>$value){
+                                        echo '<option value="'.$key.'"'; if($rowca['nombre']==$key){ echo ' selected'; }echo '>'.$value.'</option>';
+                                    }
+                                }   
+                            } echo '</select></label>
+                            <label><input type="text" value="'.$rowca['responsable'].'" disabled/></label>
+                            <label><input type="text" value="'.$rowca['correo'].'" disabled/></label>
+                            <label><select disabled><option value=""> -- Seleccione -- </option>
+                            <option value="1"'; if($rowca['estatus']==1){ echo ' selected';} echo '>En espera</option>
+                            <option value="2"'; if($rowca['estatus']==2){ echo ' selected';} echo '>Realizado</option>
+                            <option value="3"'; if($rowca['estatus']==3){ echo ' selected';} echo '>Postergado</option>
+                            <option value="4"'; if($rowca['estatus']==4){ echo ' selected';} echo '>Cancelado</option></select></label>
+                            <label><input type="text" value="'.$rowca['motivo'].'" disabled></label>';
+                            $u++;
+                        }
+                        else{
+                            echo '<label><input type="hidden" name="id_eventof['.$u.']" value="'.$rowca['ID'].'"><input type="text" id="datepickeref'.$u.'" name="fecha_eventof'.$u.'" value="'.$rowca['fecha'].'"/></label>
+                            <label><select id="tipo_eventof'.$u.'" name="tipo_eventof['.$u.']" onchange="cambiarsub(this.id);">
+                            <option value=""> -- Seleccione -- </option>';
+                            foreach($tipoevento as $k=>$v){
+                                echo '<option value="'.$k.'"'; if($rowca['tipo']==$k){ echo ' selected'; }echo '>'.$v.'</option>';
+                            }
+                            echo '</select>
+                            <select id="nom_eventof'.$u.'" name="nom_eventof['.$u.']">';
+                            foreach($subtipo as $k=>$v){
+                                if($k==$rowca['tipo']){
+                                    foreach($v as $key=>$value){
+                                        echo '<option value="'.$key.'"'; if($rowca['nombre']==$key){ echo ' selected'; }echo '>'.$value.'</option>';
+                                    }
+                                }   
+                            } echo '</select></label>
+                            <label><input type="text" name="contacto_eventof['.$u.']" value="'.$rowca['responsable'].'"/></label>
+                            <label><input type="text" name="correo_contactof['.$u.']" value="'.$rowca['correo'].'"/></label>
+                            <label><select id="status_evenf'.$u.'" name="status_evenf'.$u.'"><option value=""> -- Seleccione -- </option>
+                            <option value="1"'; if($rowca['estatus']==1){ echo ' selected';} echo '>En espera</option>
+                            <option value="2"'; if($rowca['estatus']==2){ echo ' selected';} echo '>Realizado</option>
+                            <option value="3"'; if($rowca['estatus']==3){ echo ' selected';} echo '>Postergado</option>
+                            <option value="4"'; if($rowca['estatus']==4){ echo ' selected';} echo '>Cancelado</option></select></label>
+                            <label><input type="text" name="motivof['.$u.']" value="'.$rowca['motivo'].'"></label>';
+                            $u++;
+                        }
+                    }
+                echo '<input type="hidden" value="'.$u.'" name="evenfbd" id="evenfbd">
+                </div>
+            </div><div style="clear:both;"></div>';
+        /*}
+        else{
+            echo '<label>
+                <span>Hay eventos con regularidad:</span><select name="eventosr">
+                <option value="" selected> -- Seleccione -- </option>
+                <option value=50'; if($rowz['eventosr']==50){echo ' selected';} echo '>4 al a&ntilde;o o 1 cada 3 meses</option>
+                <option value=25'; if($rowz['eventosr']==25){echo ' selected';} echo '>Menos de 4 al a&ntilde;o</option>
+                <option value=0'; if($rowz['eventosr']==0 && $rowz['eventosr']!=""){echo ' selected';} echo '>Ninguno</option>
+                </select>
+            </label>
+            <label>
+                <span>Cuentan con un calendario anual de actividades:</span>
+                <input type="radio" value=50'; if($rowz['eventos']==50){echo ' checked';} echo ' id="eventoss" name="eventos"><label class="white-pinked" for="eventoss">S&iacute</label>
+                <input type="radio" value=0'; if($rowz['eventos']==0 && $rowz['eventos']!=""){echo ' checked';} echo ' id="eventosn" name="eventos"><label class="white-pinked" for="eventosn">No</label>
+            </label>';
+        }*/
+    echo '<h2>&Aacute;reas verdes</h2>
+    <label>
+        <span>Cuenta con:</span>
+        <input type="checkbox" id="arboles" name="averdes[]" value="1"'; if($rowz['averdes']==50 || $rowz['averdes']==34 || $rowz['averdes']==35){ echo ' checked';} echo '><label class="white-pinky" for="arboles" >&aacute;rboles</label>
+        <input type="checkbox" id="cesped" name="averdes[]" value="2"'; if($rowz['averdes']==50 || $rowz['averdes']==34 || $rowz['averdes']==36){ echo ' checked';} echo '><label class="white-pinky" for="cesped" >c&eacute;sped</label>
+        <input type="checkbox" id="jardin" name="averdes[]" value="3"'; if($rowz['averdes']==50 || $rowz['averdes']==35 || $rowz['averdes']==36){ echo ' checked';} echo '><label class="white-pinky" for="jardin" >jard&iacute;n</label>
+    </label>
+    <label>
+        <span>Se encuentra en buen estado:</span><select name="estaver">
+        <option value="" selected> -- Selecciona -- </option>
+        <option value=50'; if($rowz['estaver']==50){echo ' selected';} echo '>Excelente</option>
+        <option value=40'; if($rowz['estaver']==40){echo ' selected';} echo '>Muy bueno</option>
+        <option value=32'; if($rowz['estaver']==32){echo ' selected';} echo '>Bueno</option>
+        <option value=24'; if($rowz['estaver']==24){echo ' selected';} echo '>Regular</option>
+        <option value=16'; if($rowz['estaver']==16){echo ' selected';} echo '>Malo</option>
+        <option value=8'; if($rowz['estaver']==8){echo ' selected';} echo '>Muy malo</option>
+        <option value=0'; if($rowz['estaver']==0 && $rowz['estaver']!=""){echo ' selected';} echo '>P&eacute;simo</option>
+        </select>
+    </label>
+    <h2>Afluencia</h2>
+    <label>
+        <span>Porcentaje de afluencia sobre lo existente:</span><select name="gente">
+        <option value="" selected> -- Selecciona -- </option>
+        <option value=100'; if($rowz['gente']==100){echo ' selected';} echo '>100%</option>
+        <option value=90'; if($rowz['gente']==90){echo ' selected';} echo '>90%</option>
+        <option value=80'; if($rowz['gente']==80){echo ' selected';} echo '>80%</option>
+        <option value=70'; if($rowz['gente']==70){echo ' selected';} echo '>70%</option>
+        <option value=60'; if($rowz['gente']==60){echo ' selected';} echo '>60%</option>
+        <option value=50'; if($rowz['gente']==50){echo ' selected';} echo '>50%</option>
+        <option value=40'; if($rowz['gente']==40){echo ' selected';} echo '>40%</option>
+        <option value=30'; if($rowz['gente']==30){echo ' selected';} echo '>30%</option>
+        <option value=20'; if($rowz['gente']==20){echo ' selected';} echo '>20%</option>
+        <option value=10'; if($rowz['gente']==10){echo ' selected';} echo '>10%</option>
+        <option value=0'; if($rowz['gente']==0 && $rowz['gente']!=""){echo ' selected';} echo '>0%</option>
+        </select>
+    </label>
+    <h2>Orden</h2>
+    <label>
+        <span>Las instalaciones se respetan:</span><select name="respint">
+        <option value="" selected> -- Seleccione -- </option>
+        <option value=40'; if($rowz['respint']==40){echo ' selected';} echo '>S&iacute;</option>
+        <option value=20'; if($rowz['respint']==20){echo ' selected';} echo '>Regular</option>
+        <option value=0'; if($rowz['respint']==0 && $rowz['respint']!=""){echo ' selected';} echo '>No</option>
+        </select>
+    </label>
+    <label>
+        <span>Se cuenta con un reglamento de orden:</span><select name="orden">
+        <option value="" selected> -- Seleccione -- </option>
+        <option value=30'; if($rowz['orden']==30){echo ' selected';} echo '>Instalado en el parque</option>
+        <option value=15'; if($rowz['orden']==15){echo ' selected';} echo '>Solo compatido por escrito</option>
+        <option value=0'; if($rowz['orden']==0 && $rowz['orden']!=""){echo ' selected';} echo '>No</option>
+        </select>
+    </label>
+    <label>
+        <span>Se mantiene limpio:</span><select name="limpieza">
+        <option value="" selected> -- Selecciona -- </option>
+        <option value=30'; if($rowz['limpieza']==30){echo ' selected';} echo '>Excelente</option>
+        <option value=25'; if($rowz['limpieza']==25){echo ' selected';} echo '>Muy bueno</option>
+        <option value=20'; if($rowz['limpieza']==20){echo ' selected';} echo '>Bueno</option>
+        <option value=15'; if($rowz['limpieza']==15){echo ' selected';} echo '>Regular</option>
+        <option value=10'; if($rowz['limpieza']==10){echo ' selected';} echo '>Malo</option>
+        <option value=5'; if($rowz['limpieza']==5){echo ' selected';} echo '>Muy malo</option>
+        <option value=0'; if($rowz['limpieza']==0 && $rowz['limpieza']!=""){echo ' selected';} echo '>P&eacute;simo</option>
+        </select>
+    </label>
+    <label>
+        <span id="promedio">Promedio: </span><span id="total"></span>
+    </label>
+    </div>';
+    $total=0;
+    if(is_array($rowz)){
+        foreach($rowz as $k=>$v){
+            if(!is_int($k)){
+                if($k!="asesor_captura" && $k!="cve" && $k!="fec" && $k!="fecha_visita" && $k!="cve_parque" && $k!="tipoformaliza" && $k!="riego" && $k!="diario" && $k!="semana" && $k!="finsem"){
+                    $total=$total+$v;
+                }
+            }
+        }
+    }
+    $total=$total/7;
+    echo '<div align="center"><input class="button" type="button" value="Calcular Promedio" id="boton_calcular" name="boton_calcular" onclick="calcular();">&nbsp;&nbsp;&nbsp;&nbsp;<input class="button" type="button" value="Guardar Par&aacute;mentros" name="boton_enviar" id="boton_enviar" onclick="validar(1,this.id);"></div>
+'; echo '<input type="hidden" name="long" id="long">
+<input type="hidden" name="lati" id="lati">
+<input type="hidden" name="cmd"><input type="hidden" id="calant" name="calant" value="'.round($total).'"><input type="hidden" id="needcom" name="needcom"><input type="hidden" id="sinvisitas" name="sinvisitas"'; if(mysql_num_rows($ress)<1){ echo ' value="1"';} echo '><input type="hidden" id="diferencias" name="diferencias">
+<input type=hidden name="pods_meta__cmb_parque"><input type=hidden name="buscarvisita" value="0">'; echo '
+</div>
+</div>';
+$sqlc="SELECT * FROM comite_parque WHERE cve_parque='".$_POST['parque']."'";
+$resc=mysql_query($sqlc);
+$rowc=mysql_fetch_array($resc);
+$fecha_comite=date("Y-m-d");
+if($rowc['fecha_alta']){
+    $fecha_comite=$rowc['fecha_alta'];   
+}
+echo '<div id="screen2"><div class="white-pink">
+<h1>Comit&eacute; de Parque</h1>
+    <label>
+        <span>Fecha de creación del Comité:</span><input type="text" readonly id="datepicker5" name="fecha_comite" value="'.$fecha_comite.'"/>
+    </label>';
+    /*<label>
+        <span>Teléfono:</span><input type="text" name="telefono[0]" value="'.$rowc['telefono'].'">
+    </label>
+    <label>
+        <span>Celular:</span><input type="text" name="celular[0]" value="'.$rowc['celular'].'">
+    </label>*/
+    echo '<label>
+        <span>Correo electr&oacute;nico:</span><input type="text" name="email[0]" value="'.$rowc['email'].'">
+    </label>
+<h2>Redes sociales</h2>
+    <label>
+        <span>Facebook (del comité):</span><input type="text" name="facebook[0]" value="'.$rowc['facebook'].'">
+    </label>
+    <label>
+        <span>Twitter (del comité):</span><input type="text" name="twitter[0]" value="'.$rowc['twitter'].'">
+    </label>
+    <label>
+        <span>Instagram (del comité):</span><input type="text" name="instagram[0]" value="'.$rowc['instagram'].'">
+    </label>
+    <label>
+        <span>Skype (del comité):</span><input type="text" name="skype" value="'.$rowc['skype'].'">
+    </label>
+    <label>
+        <span>Otro (del comité):</span><input type="text" name="otro" value="'.$rowc['otro'].'">
+    </label>
+    <label>
+        <span>Enviar correo:</span><input type="checkbox" class="megusta" value="1" name="enviacorreo"'; if(mysql_num_rows($resc)>0){ echo 'disabled="disabled"';} echo '>
+    </label>
+    <h2>Miembros</h2>';
+    if(mysql_num_rows($resc)>0){
+        $sqlm="SELECT * FROM comite_miembro WHERE cve_comite='".$rowc['id']."'";
+        $resm=mysql_query($sqlm);
+        if(mysql_num_rows($resm)>0){
+            while($rowm=mysql_fetch_array($resm)){
+                $nacim=explode("-",$rowm['fecha_nac']);
+                $miembros[$rowm['id']]=array($rowm['nombre'],$nacim[0],$nacim[1],$nacim[2],$rowm['sexo'],$rowm['nivel'],$rowm['rol'],$rowm['telefono'],$rowm['celular'],$rowm['email'],$rowm['facebook'],$rowm['megusta'],$rowm['twitter'],$rowm['siguemet'],$rowm['instagram'],$rowm['siguemei'],$rowm['contacto'],$rowm['fecha_nac']);
+                echo '<label><span>'.$rowm['nombre'].'</span><input type="button" class="button" value="Editar" name="boton_editar" id="boton_editar" onclick="editar(\''.$rowm["id"].'\');"></label>';
+            }
+        }
+    }
+    echo '<div align="center"><input type="button" class="button" value="Agregar miembro" name="agregar_miembro" onclick="editar(\'0\');"></div>';
+    echo '<div id="editmi" style="display:none;">
+        <label>
+            <span>Nombre Completo:</span><input type="text" id="nombre1" name="nombre[1]" size="50"/>
+        </label>
+        <label>
+            <span>Fecha de nacimiento:</span><label class="white-pinkt" for="dia[1]">D&iacute;a</label>&nbsp;<select class="pinked" id="dia1" name="dia[1]">';
+            for($i=0;$i<=31;$i++){
+                if($i==0){
+                    echo '<option value="" selected> -- </option>';
+                }
+                else{
+                    echo '<option value="'.$i.'">'.$i.'</option>';
+                }
+            }
+            echo '</select>&nbsp<label class="white-pinkt" for="mes[1]">Mes</label>&nbsp;<select class="pinked" id="mes1" name="mes[1]">';
+            for($i=0;$i<=12;$i++){
+                if($i==0){
+                    echo '<option value="" selected> -- </option>';
+                }
+                else{
+                    echo '<option value="'.$i.'">'.$i.'</option>';
+                }
+            }
+            echo '</select>&nbsp<label class="white-pinkt" for="anio1">A&ntildeo</label>&nbsp<select class="pinked" id="anio1" name="anio[1]">';
+            for($i=1909;$i<=2015;$i++){
+                if($i==1909){
+                    echo '<option value="" selected> ---- </option>';
+                }
+                else{
+                    echo '<option value="'.$i.'">'.$i.'</option>';
+                }
+            }
+            echo '</select></label>
+        <label>
+            <span>Sexo:</span><input type="radio" id="masculino1" name="sexo[1]" value="Masculino"><label class="white-pinked" for="masculino1">Masculino</label><input type="radio" id="femenino1" name="sexo[1]" value="Femenino"><label class="white-pinked" for="femenino1">Femenino</label>
+        </label>
+        <label>
+            <span>Nivel Educativo:</span><select id="educacion1" name="educacion[1]">
+            <option value="" selected> -- Seleccione -- </option>
+            <option value="primaria">Primaria</option>
+            <option value="secundaria">Secundaria</option>
+            <option value="preparatoria">Preparatoria</option>
+            <option value="profesional">Carrera Profesional</option>
+            <option value="tecnicos">Estudios T&eacute;cnicos</option>
+            </select>
+        </label>
+        <label>
+            <span>Rol en el comit&eacute;:</span><select id="rol1" name="rol[1]">
+            <option value="" selected> -- Seleccione -- </option>
+            <option value="1">Presidente</option>
+            <option value="2">Secretario</option>
+            <option value="3">Tesorero</option>
+            <option value="4">Vocal</option>
+            <option value="5">Comunicaci&oacute;n</option>
+            <option value="6">Vecino</option>
+            </select>
+        </label>
+        <label>
+            <span>Tel&eacute;fono:</span><input type="text" id="telefono1" name="telefono[1]">
+        </label>
+        <label>
+            <span>Celular:</span><input type="text" id="celular1" name="celular[1]">
+        </label>
+        <label>
+            <span>Tiene Facebook?</span>Sí <input type="radio" class="megusta" name="facebook[1]" id="siface1" value="1"> No <input type="radio" class="megusta" id="noface1" name="facebook[1]" value="2">
+        </label>
+        <label>
+            <span>"Me gusta" a Parques Alegres en Facebook?</span><input type="checkbox" class="megusta" id="megusta1" name="megusta[1]" value="1">
+        </label>
+        <label>
+            <span>Tiene Twitter?</span>Sí <input type="radio" class="megusta" id="sitwitter1" name="twitter[1]" value="1"> No <input type="radio" class="megusta" id="notwitter1" name="twitter[1]" value="2">
+        </label>
+        <label>
+            <span>"Sigue" a Parques Alegres en Twitter?</span><input type="checkbox" class="megusta" id="siguemet1" name="siguemet[1]" value="1">
+        </label>
+        <label>
+            <span>Tiene Instagram?</span>Sí <input type="radio" class="megusta" id="siinsta1" name="instagram[1]" value="1"> No <input type="radio" class="megusta" id="noinsta1" name="instagram[1]" value="2">
+        </label>
+        <label>
+            <span>"Sigue" a Parques Alegres en Instagram?</span><input type="checkbox" class="megusta" id="siguemei1" name="siguemei[1]" value="1">
+        </label>
+        <label>
+            <span>Correo electr&oacute;nico:</span><input type="text" id="email1" name="email[1]">
+        </label>
+        <label>
+            <span>Contacto:</span><input type="radio" value="1" id="sicont1" name="contacto[1]"><label class="white-pinked" for="sicont1">S&iacute;</label><input type="radio" value="2" id="nocont1" name="contacto[1]"><label class="white-pinked" for="nocont1">No</label>
+        </label>
+        <input type="hidden" name="num_miembro" id="num_miembro" value="0">
+        <div align="center"><input type="button" class="button" value="Cerrar" name="boton_cerrar" id="boton_cerrar" onclick="cerrar();"></div>
+    </div><br>
+    <input type="hidden" name="datos_miembros">
+    <input type="hidden" name="nuevos_miembros">
+<div align="center"><input type="button" class="button" value="Guardar" name="boton_guardar" id="boton_guardar" onclick="validar(2,this.id);"></div>
+</div>
+</div>';
+/*else{
+    echo '<div id="screen2"><div class="white-pink">
+    <h1>Comit&eacute; de Parque</h1>
+        <label>
+            <span>Fecha de creación del Comité:</span><input type="text" readonly id="datepicker5" value="'.date("Y-m-d").'" name="fecha_comite"/>
+        </label>
+    <h2>Miembros</h2>
+    <div id="miembros">
+    <h2>Miembro 1</h2>
+        <label>
+            <span>Nombre Completo:</span><input type="text" id="nombre1" name="nombre[1]" size="50"/>
+        </label>
+        <label>
+            <span>Fecha de nacimiento:</span><label class="white-pinkt" for="dia[1]">D&iacute;a</label>&nbsp;<select class="pinked" name="dia[1]">';
+            for($i=0;$i<=31;$i++){
+                if($i==0){
+                    echo '<option value="" selected> -- </option>';
+                }
+                else{
+                    echo '<option value="'.$i.'">'.$i.'</option>';
+                }
+            }
+            echo '</select>&nbsp<label class="white-pinkt" for="mes[1]">Mes</label>&nbsp;<select class="pinked" name="mes[1]">';
+            for($i=0;$i<=12;$i++){
+                if($i==0){
+                    echo '<option value="" selected> -- </option>';
+                }
+                else{
+                    echo '<option value="'.$i.'">'.$i.'</option>';
+                }
+            }
+            echo '</select>&nbsp<label class="white-pinkt" for="anio[1]">A&ntildeo</label>&nbsp<select class="pinked" name="anio[1]">';
+            for($i=1909;$i<=2015;$i++){
+                if($i==1909){
+                    echo '<option value="" selected> ---- </option>';
+                }
+                else{
+                    echo '<option value="'.$i.'">'.$i.'</option>';
+                }
+            }
+            echo '</select></label>
+        <label>
+            <span>Sexo:</span><input type="radio" id="masculino[1]" name="sexo[1]" value="Masculino"><label class="white-pinked" for="masculino[1]">Masculino</label><input type="radio" id="femenino[1]" name="sexo[1]" value="Femenino"><label class="white-pinked" for="femenino[1]">Femenino</label>
+        </label>
+        <label>
+            <span>Nivel Educativo:</span><select name="educacion[1]">
+            <option value="" selected> -- Seleccione -- </option>
+            <option value="primaria">Primaria</option>
+            <option value="secundaria">Secundaria</option>
+            <option value="preparatoria">Preparatoria</option>
+            <option value="profesional">Carrera Profesional</option>
+            <option value="tecnicos">Estudios T&eacute;cnicos</option>
+            </select>
+        </label>
+        <label>
+            <span>Rol en el comit&eacute;:</span><select name="rol[1]">
+            <option value="" selected> -- Seleccione -- </option>
+            <option value="1">Presidente</option>
+            <option value="2">Secretario</option>
+            <option value="3">Tesorero</option>
+            <option value="4">Vocal</option>
+            <option value="5">Comunicaci&oacute;n</option>
+            <option value="6">Vecino</option>
+            </select>
+        </label>
+        <label>
+            <span>Tel&eacute;fono:</span><input type="text" name="telefono[1]">
+        </label>
+        <label>
+            <span>Celular:</span><input type="text" name="celular[1]">
+        </label>
+        <label>
+            <span>Tiene Facebook?</span>Sí <input type="radio" class="megusta" name="facebook[1]" value="1"> No <input type="radio" class="megusta" name="facebook[1]" value="2">
+        </label>
+        <label>
+            <span>"Me gusta" a Parques Alegres en Facebook?</span><input type="checkbox" class="megusta" name="megusta[1]" value="1">
+        </label>
+        <label>
+            <span>Tiene Twitter?</span>Sí <input type="radio" class="megusta" name="twitter[1]" value="1"> No <input type="radio" class="megusta" name="twitter[1]" value="2">
+        </label>
+        <label>
+            <span>"Sigue" a Parques Alegres en Twitter?</span><input type="checkbox" class="megusta" name="siguemet[1]" value="1">
+        </label>
+        <label>
+            <span>Tiene Instagram?</span>Sí <input type="radio" class="megusta" name="instagram[1]" value="1"> No <input type="radio" class="megusta" name="instagram[1]" value="2">
+        </label>
+        <label>
+            <span>"Sigue" a Parques Alegres en Instagram?</span><input type="checkbox" class="megusta" name="siguemei[1]" value="1">
+        </label>
+        <label>
+            <span>Correo electr&oacute;nico:</span><input type="text" name="email[1]">
+        </label>
+        <label>
+            <span>Contacto:</span><input type="radio" value="1" id="cont_a[1]" name="contacto[1]" onclick="contacto(1);"><label class="white-pinked" for="cont_a[1]">S&iacute;</label><input type="radio" value="0" id="cont_b[1]" name="contacto[1]"><label class="white-pinked" for="cont_b[1]">No</label>
+        </label>
+    </div>
+    <div align="center"><input type="button" class="button" value="Agregar miembro" name="agregar_miembro" onclick="agregar(document.getElementById(\'num_miembro\').value);"></div>
+    <h2>Comit&eacute;</h2>
+        <label>
+            <span>Tel&eacute;fono:</span><input type="text" name="telefono[0]">
+        </label>
+        <label>
+            <span>Celular:</span><input type="text" name="celular[0]">
+        </label>
+        <label>
+            <span>Correo electr&oacute;nico:</span><input type="text" name="email[0]">
+        </label>
+    <h2>Redes sociales</h2>
+        <label>
+            <span>Facebook (del comité):</span><input type="text" name="facebook[0]">
+        </label>
+        <label>
+            <span>Twitter (del comité):</span><input type="text" name="twitter[0]">
+        </label>
+        <label>
+            <span>Instagram (del comité):</span><input type="text" name="instagram[0]">
+        </label>
+        <label>
+            <span>Skype (del comité):</span><input type="text" name="skype">
+        </label>
+        <label>
+            <span>Otro (del comité):</span><input type="text" name="otro">
+        </label>
+        <label>
+            <span>Enviar correo:</span><input type="checkbox" class="megusta" value="1" name="enviacorreo">
+        </label>
+    <div align="center"><input type="button" class="button" value="Guardar" name="boton_guardar" id="boton_guardar" onclick="validar(2,this.id);"></div>
+    <input type="hidden" name="num_miembro" id="num_miembro" value=1>
+    </div>
+    </div>';
+}*/
+    $sqll="select * from wp_comites_parques where cve_parque='".$_POST['parque']."' order by fecha_visita DESC, cve DESC limit 1,1";
+    $ress=mysql_query($sqll);
+    $roww=mysql_fetch_array($ress);
+    $totala=0;
+    if(is_array($roww)){
+        foreach($roww as $k=>$v){
+            if(!is_int($k)){
+                if($k!="asesor_captura" && $k!="cve" && $k!="fec" && $k!="fecha_visita" && $k!="cve_parque" && $k!="tipoformaliza" && $k!="riego" && $k!="diario" && $k!="semana" && $k!="finsem"){
+                    $totala=$totala+$v;
+                }
+            }
+        }
+    }
+    $total=0;
+    $totala=$totala/7;
+    if(is_array($rowz)){
+        foreach($rowz as $k=>$v){
+            if(!is_int($k)){
+                if($k!="asesor_captura" && $k!="cve" && $k!="fec" && $k!="fecha_visita" && $k!="cve_parque" && $k!="tipoformaliza" && $k!="riego" && $k!="diario" && $k!="semana" && $k!="finsem"){
+                    $total=$total+$v;
+                }
+            }
+        }
+    }
+    $total=$total/7;
+    $parametros=array("opera"=>array(0,7,14,20),"formaliza"=>array(0,10,20),"organiza"=>array(0,10,20),"reunion"=>array(0,10,20),"proyecto"=>array(0,20),
+                      "disenio"=>array(0,40),"ejecutivo"=>array(0,40),"vespacio"=>array(0,40),"instalaciones"=>array(0,5,10,15,20,25,30),
+                      "estado"=>array(0,5,10,15,20,25,30),"ingresop"=>array(0,30),"ingresadop"=>array(0,20,40),"mancomunado"=>array(0,30),"eventos"=>array(0,50),
+                      "eventosr"=>array(0,25,50),"averdes"=>array(17,34,35,36,50),"estaver"=>array(0,8,16,24,32,40,50),"gente"=>array(0,10,20,30,40,50,60,70,80,90,100),
+                      "limpieza"=>array(0,5,10,15,20,25,30),"orden"=>array(0,15,30),"respint"=>array(0,20,40));
+echo '
+<div id="screen11">
+<div class="compromisos">
+<div class="CSSTableGenerator"><table>
+<tr><td>Parámetro</td><td>Compromiso</td><td>Meta</td><td>Fecha del compromiso</td><td>Promesa de Cumplimiento</td><td>Estatus</td></tr>';
+	$sql="select id, post_title from wp_posts where post_type='parque' and post_status='publish' and post_author='".$asesores[$asesor]."' and id='".$_POST['parque']."' order by post_title ASC";
+	$res=mysql_query($sql);
+	$totcomp=0;
+	while($row=mysql_fetch_array($res)){
+		$sql1="select c.*,v.fecha_visita from compromisos c INNER JOIN wp_comites_parques v ON v.cve=c.cve_visita where c.cve_parque='".$row['id']."'";
+		$res1=mysql_query($sql1);
+		if(mysql_num_rows($res1)>0){
+                    $i=11;
+			while($row1=mysql_fetch_array($res1)){
+				echo '<tr>
+				<td>'.$nomparametros[array_search($row1['parametro'], $inparametros)].'</td>
+				<td>';
+				if($row1['parametro']=="instalaciones" || $row1['parametro']=="estado" || $row1['parametro']=="eventosr"){
+					$comp=explode(",",$row1['compromiso']);
+					if($comp[0]==13){
+						$namee=$compespecial[$comp[1]];
+					}
+					elseif($comp[0]==84){
+						$namee=$compesp2[$comp[1]];
+					}
+					elseif($comp[0]==85 || $comp[0]==86){
+						$namee=$compesp3[$comp[1]];
+					}
+					else{
+						$namee=$compesp[$comp[1]];
+						if($comp[1]==111){
+							$namee="Instalaciones";
+						}
+						if($comp[1]==112){
+							$namee="Deportiva";
+						}
+						if($comp[1]==113){
+						    $namee="Áreas de esparcimiento";
+						}
+						if($comp[1]==114){
+						    $namee="Áreas verdes";
+						}    
+					}
+					echo $compromisos[$comp[0]].': '.$namee;
+				}
+				else{
+					echo $compromisos[$row1['compromiso']];
+				}
+				echo '</td>
+				<td>'.$row1['meta'].'</td><td>'.$row1['fecha_visita'].'</td><td>'.$row1['fecha_cumplimiento'].'</td><td><select name="estatuscomp'.$row1['cve'].'" onchange="new_fecha(this.name);"';
+                                if($row1['estatus']!=1 && $row1['estatus']!=2){
+                                    echo ' disabled';    
+                                }
+                                echo '>';
+                                foreach($statuscom as $k=>$v){
+                                    echo '<option value="'.$k.'"';
+                                    if($row1['estatus']==$k){
+                                        echo ' selected';
+                                    }
+                                    echo '>'.$v.'</option>';
+                                }
+                                echo '</select><input type="date" style="display:none;" value="'.date("Y-m-d").'" id="nueva_fecha'.$row1['cve'].'" name="nueva_fecha'.$row1['cve'].'"/></td></tr>';
+			}
+			$totcomp=$totcomp+mysql_num_rows($res1);
+		}
+		else{
+			echo '<tr><td colspan="8">No tiene compromisos</td></tr>';
+		}
+	}
+	echo '<tr><td>Total:</td><td colspan="7">'.$totcomp.'</td></tr>';
+echo '</table></div><br><br>
+<input type="button" id="guardar_compromisos" class="button" value="Guardar" name="guardar_compromisos" onclick="validar(11,this.id);">
+</div>
+</div>
+<div id="screen3">
+<div class="white-coment">
+<input type="hidden" name="asesorpa" value="'.$asesores[$asesor].'">
+    <table border="0" width="940px" style="table-layout:fixed;">
+    <tr><th colspan="1" width="14%">Comit&eacute;</th><th colspan="1" width="11%">Visita anterior</th><th colspan="1" width="11%">Visita</th><th colspan="1" width="11%">Meta</th><th colspan="1" width="26%">Compromisos</th><th colspan="1" width="26%">Comentarios</th></tr>
+    <tr>
+        <td>Opera con 3 personas o m&aacute;s:</td>
+        <td align="center">'.$roww['opera'].'</td>
+        <td align="center">'.$rowz['opera'].'</td>
+        <td align="center">';
+        if($rowz['opera']==max($parametros['opera'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_opera" value="'.max($parametros['opera']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_opera" value="'.$rowz['opera'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['opera']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="compopera"><option value="" selected> -- Seleccione --</option><option value="1">'.$compromisos[1].'</option></select><br>
+        <input type="text" readonly id="fcumplimiento1" value="'.date("Y-m-d").'" name="cumplimiento_opera" onchange="filldates(this.value);"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comopera"></textarea></td><td id="needopera"><img src="alert.png"></td>
+    </tr>
+    <tr>
+        <td>C&oacute;mo est&aacute; formalizado?:</td>
+        <td align="center">'.$roww['formaliza'].'</td>
+        <td align="center">'.$rowz['formaliza'].'</td>
+        <td align="center">';
+        if($rowz['formaliza']==max($parametros['formaliza'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_formaliza" value="'.max($parametros['formaliza']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_formaliza" value="'.$rowz['formaliza'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['formaliza']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="compformaliza"><option value="" selected> -- Seleccione --</option><option value="2">'.$compromisos[2].'</option></select><br>
+        <input type="text" readonly id="fcumplimiento2" value="'.date("Y-m-d").'" name="cumplimiento_formaliza"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comformaliza"></textarea></td><td id="needformaliza"><img src="alert.png"></td>
+    </tr>
+    <tr>
+        <td>Cuenta con buena organizaci&oacute;n:</td>
+        <td align="center">'.$roww['organiza'].'</td>
+        <td align="center">'.$rowz['organiza'].'</td>
+        <td align="center">';
+        if($rowz['organiza']==max($parametros['organiza'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_organiza" value="'.max($parametros['organiza']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_organiza" value="'.$rowz['organiza'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['organiza']).'"><img src="help.png" border="0"></a></td>';
+        }
+       echo '<td><select name="comporganiza"><option value="" selected> -- Seleccione --</option><option value="3">'.$compromisos[3].'</option><option value="4">'.$compromisos[4].'</option></select><br>
+        <input type="text" readonly id="fcumplimiento3" value="'.date("Y-m-d").'" name="cumplimiento_organiza"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comorganiza"></textarea></td><td id="needorganiza"><img src="alert.png"></td>
+    </tr>
+    <tr>
+        <td>Existen reuniones con regularidad:</td>
+        <td align="center">'.$roww['reunion'].'</td>
+        <td align="center">'.$rowz['reunion'].'</td>
+        <td align="center">';
+        if($rowz['reunion']==max($parametros['reunion'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_reunion" value="'.max($parametros['reunion']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_reunion" value="'.$rowz['reunion'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['reunion']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="compreunion"><option value="" selected> -- Seleccione --</option><option value="5">'.$compromisos[5].'</option><option value="6">'.$compromisos[6].'</option></select><br>
+        <input type="text" readonly id="fcumplimiento4" value="'.date("Y-m-d").'" name="cumplimiento_reunion"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comreunion"></textarea></td><td id="needreunion"><img src="alert.png"></td>
+    </tr>
+    <tr>
+        <td>Tienen proyectos en proceso:</td>
+        <td align="center">'.$roww['proyecto'].'</td>
+        <td align="center">'.$rowz['proyecto'].'</td>
+        <td align="center">';
+        if($rowz['proyecto']==max($parametros['proyecto'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_proyecto" value="'.max($parametros['proyecto']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_proyecto" value="'.$rowz['proyecto'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['proyecto']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="compproyecto"><option value="" selected> -- Seleccione --</option><option value="7">'.$compromisos[7].'</option></select><br>
+        <input type="text" readonly id="fcumplimiento5" value="'.date("Y-m-d").'" name="cumplimiento_proyecto"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comproyecto"></textarea></td><td id="needproyecto"><img src="alert.png"></td>
+    </tr>
+    <tr><th colspan="1">Instalaciones</th><th colspan="1">Visita anterior</th><th colspan="1">Visita</th><th colspan="1">Meta</th><th colspan="1">Compromisos</th><th colspan="1">Comentarios</th></tr>
+    <tr>
+        <td>Cuenta con Visi&oacute;n del espacio:</td>
+        <td align="center">'.$roww['vespacio'].'</td>
+        <td align="center">'.$rowz['vespacio'].'</td>
+        <td align="center">';
+        if($rowz['vespacio']==max($parametros['vespacio'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_vespacio" value="'.max($parametros['vespacio']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_vespacio" value="'.$rowz['vespacio'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['vespacio']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="compvespacio"><option value="" selected> -- Seleccione --</option><option value="8">'.$compromisos[8].'</option></select><br>
+        <input type="text" readonly id="fcumplimiento6" value="'.date("Y-m-d").'" name="cumplimiento_vespacio"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comvespacio"></textarea></td><td id="needvespacio"><img src="alert.png"></td>
+    </tr>
+    <tr>
+        <td>Cuenta con Proyecto de dise&ntilde;o:</td>
+        <td align="center">'.$roww['disenio'].'</td>
+        <td align="center">'.$rowz['disenio'].'</td>
+        <td align="center">';
+        if($rowz['disenio']==max($parametros['disenio'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_disenio" value="'.max($parametros['disenio']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_disenio" value="'.$rowz['disenio'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['disenio']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="compdisenio"><option value="" selected> -- Seleccione --</option><option value="9">'.$compromisos[9].'</option></select><br>
+        <input type="text" readonly id="fcumplimiento7" value="'.date("Y-m-d").'" name="cumplimiento_disenio"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comdisenio"></textarea></td><td id="needdisenio"><img src="alert.png"></td>
+    </tr>
+    <tr>
+        <td>Cuenta con Proyecto ejecutivo:</td>
+        <td align="center">'.$roww['ejecutivo'].'</td>
+        <td align="center">'.$rowz['ejecutivo'].'</td>
+        <td align="center">';
+        if($rowz['ejecutivo']==max($parametros['ejecutivo'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_ejecutivo" value="'.max($parametros['ejecutivo']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_ejecutivo" value="'.$rowz['ejecutivo'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['ejecutivo']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="compejecutivo"><option value="" selected> -- Seleccione --</option><option value="10">'.$compromisos[10].'</option></select><br>
+        <input type="text" readonly id="fcumplimiento8" value="'.date("Y-m-d").'" name="cumplimiento_ejecutivo"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comejecutivo"></textarea></td><td id="needejecutivo"><img src="alert.png"></td>
+    </tr>
+    <tr>
+        <td>Esta en buen estado lo que existe:</td>
+        <td align="center">'.$roww['estado'].'</td>
+        <td align="center">'.$rowz['estado'].'</td>
+        <td align="center">';
+        if($rowz['estado']==max($parametros['estado'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_estado" value="'.max($parametros['estado']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_estado" value="'.$rowz['estado'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['estado']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="compestado" id="compestado" onchange="addsel(3);"><option value="" selected> -- Seleccione --</option><option value="11">'.$compromisos[11].'</option>
+        <option value="12">'.$compromisos[12].'</option><option value="13">'.$compromisos[13].'</option><option value="14">'.$compromisos[14].'</option></select><select name="compest" id="compest">
+        <option value="" selected> -- Seleccione -- </option>';
+        foreach($compesp as $k=>$v){
+            if($k==1){
+                echo '<option value="111">Instalaciones</option>';
+            }
+            if($k==12){
+                echo '<option value="112">Deportiva</option>';
+            }
+            if($k==30){
+                echo '<option value="113">Áreas de esparcimiento</option>';
+            }
+            if($k==41){
+                echo '<option value="114">Áreas verdes</option>';
+            }
+            echo '<option value="'.$k.'">'.$v.'</option>';
+        }
+        echo '</select><br>
+        <input type="text" readonly id="fcumplimiento9" value="'.date("Y-m-d").'" name="cumplimiento_estado"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comestado"></textarea></td><td id="needestado"><img src="alert.png"></td>
+    </tr>
+    <tr>
+        <td width="35%" style="word-wrap:break-word;">Hay instalaciones en la mayoria del espacio cancha, &aacute;reas verdes, banquetas:</td>
+        <td align="center">'.$roww['instalaciones'].'</td>
+        <td align="center">'.$rowz['instalaciones'].'</td>
+        <td align="center">';
+        if($rowz['instalaciones']==max($parametros['instalaciones'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_instalaciones" value="'.max($parametros['instalaciones']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_instalaciones" value="'.$rowz['instalaciones'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['instalaciones']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="compinstalaciones"><option value="" selected> -- Seleccione --</option><option value="14">'.$compromisos[14].'</option></select><select name="compinstal">
+        <option value="" selected> -- Seleccione -- </option>';
+        foreach($compesp as $k=>$v){
+            if($k==1){
+                echo '<optgroup label="Instalaciones">';
+            }
+            if($k==12){
+                echo '<optgroup label="Deportiva">';
+            }
+            if($k==30){
+                echo '<optgroup label="Áreas de esparcimiento">';
+            }
+            if($k==41){
+                echo '<optgroup label="Áreas verdes">';
+            }
+            echo '<option value="'.$k.'">'.$v.'</option>';
+        }
+        echo '</select><br>
+        <input type="text" readonly id="fcumplimiento10" value="'.date("Y-m-d").'" name="cumplimiento_instalaciones"/></td>
+        <td><textarea style="width:200px;height:90px;" name="cominstalaciones"></textarea></td><td id="needinstalaciones"><img src="alert.png"></td>
+    </tr>
+    <tr><th colspan="1">Ingresos</th><th colspan="1">Visita anterior</th><th colspan="1">Visita</th><th colspan="1">Meta</th><th colspan="1">Compromisos</th><th colspan="1">Comentarios</th></tr>
+    <tr>
+        <td>Tienen fuente de ingresos permanentes:</td>
+        <td align="center">'.$roww['ingresop'].'</td>
+        <td align="center">'.$rowz['ingresop'].'</td>
+        <td align="center">';
+        if($rowz['ingresop']==max($parametros['ingresop'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_ingresop" value="'.max($parametros['ingresop']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_ingresop" value="'.$rowz['ingresop'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['ingresop']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="compingresop"><option value="" selected> -- Seleccione --</option>';
+        for($i=15;$i<=25;$i++){
+            echo '<option value="'.$i.'">'.$compromisos[$i].'</option>';
+        }
+        echo '</select><br>
+        <input type="text" readonly id="fcumplimiento11" value="'.date("Y-m-d").'" name="cumplimiento_ingresop"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comingresop"></textarea></td><td id="needingresop"><img src="alert.png"></td>
+    </tr>
+    <tr>
+        <td>Es suficiente lo ingresado para operar bien:</td>
+        <td align="center">'.$roww['ingresadop'].'</td>
+        <td align="center">'.$rowz['ingresadop'].'</td>
+        <td align="center">';
+        if($rowz['ingresadop']==max($parametros['ingresadop'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_ingresadop" value="'.max($parametros['ingresadop']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_ingresadop" value="'.$rowz['ingresadop'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['ingresadop']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="compingresadop"><option value="" selected> -- Seleccione --</option><option value="26">'.$compromisos[26].'</option><option value="27">'.$compromisos[27].'</option>
+        <option value="28">'.$compromisos[28].'</option></select><br>
+        <input type="text" readonly id="fcumplimiento12" value="'.date("Y-m-d").'" name="cumplimiento_ingresadop"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comingresadop"></textarea></td><td id="needingresadop"><img src="alert.png"></td>
+    </tr>
+    <tr>
+        <td>Tienen cuenta mancomunada:</td>
+        <td align="center">'.$roww['mancomunado'].'</td>
+        <td align="center">'.$rowz['mancomunado'].'</td>
+        <td align="center">';
+        if($rowz['mancomunado']==max($parametros['mancomunado'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_mancomunado" value="'.max($parametros['mancomunado']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_mancomunado" value="'.$rowz['mancomunado'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['mancomunado']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="compmancomunado"><option value="" selected> -- Seleccione --</option><option value="29">'.$compromisos[29].'</option></select><br>
+        <input type="text" readonly id="fcumplimiento13" value="'.date("Y-m-d").'" name="cumplimiento_mancomunado"/></td>
+        <td><textarea style="width:200px;height:90px;" name="commancomunado"></textarea></td><td id="needmancomunado"><img src="alert.png"></td>
+    </tr>
+    <tr><th colspan="1">Eventos</th><th colspan="1">Visita anterior</th><th colspan="1">Visita</th><th colspan="1">Meta</th><th colspan="1">Compromisos</th><th colspan="1">Comentarios</th></tr>
+    <tr>
+        <td>Hay eventos con regularidad:</td>
+        <td align="center">'.$roww['eventosr'].'</td>
+        <td align="center">'.$rowz['eventosr'].'</td>
+        <td align="center">';
+        if($rowz['eventosr']==max($parametros['eventosr'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_eventosr" value="'.max($parametros['eventosr']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_eventosr" value="'.$rowz['eventosr'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['eventosr']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="compeventosr" id="compeventosr" onchange="addsel(4);">
+        <option value="" selected> -- Seleccione --</option>
+        <option value="84">Campa&ntilde;as</option>
+        <option value="85">Fondos econ&oacute;micos</option>
+        <option value="86">Tejido social</option></select>
+        <select name="compevent" id="compevent"><option value="" selected> -- Seleccione --</select><br>
+        <input type="text" readonly id="fcumplimiento14" value="'.date("Y-m-d").'" name="cumplimiento_eventosr"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comeventosr"></textarea></td><td id="needeventosr"><img src="alert.png"></td>
+    </tr>
+    <tr>
+        <td>Cuentan con un calendario anual de actividades:</td>
+        <td align="center">'.$roww['eventos'].'</td>
+        <td align="center">'.$rowz['eventos'].'</td>
+        <td align="center">';
+        if($rowz['eventos']==max($parametros['eventos'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_eventos" value="'.max($parametros['eventos']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_eventos" value="'.$rowz['eventos'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['eventos']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="compeventos"><option value="" selected> -- Seleccione --</option><option value="36">'.$compromisos[36].'</option><option value="37">'.$compromisos[37].'</option></select><br>
+        <input type="text" readonly id="fcumplimiento15" value="'.date("Y-m-d").'" name="cumplimiento_eventos"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comeventos"></textarea></td><td id="needeventos"><img src="alert.png"></td>
+    </tr>
+    <tr><th colspan="1">&Aacute;reas verdes</th><th colspan="1">Visita anterior</th><th colspan="1">Visita</th><th colspan="1">Meta</th><th colspan="1">Compromisos</th><th colspan="1">Comentarios</th></tr>
+    <tr>
+        <td>Cuenta con &aacute;reas verdes, c&eacute;sped y jard&iacute;n etc:</td>
+        <td align="center">'.$roww['averdes'].'</td>
+        <td align="center">'.$rowz['averdes'].'</td>
+        <td align="center">';
+        if($rowz['averdes']==max($parametros['averdes'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_averdes" value="'.max($parametros['averdes']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_averdes" value="'.$rowz['averdes'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['averdes']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="compaverdes"><option value="" selected> -- Seleccione --</option><option value="38">'.$compromisos[38].'</option><option value="39">'.$compromisos[39].'</option>
+        <option value="40">'.$compromisos[40].'</option><option value="41">'.$compromisos[41].'</option></select><br>
+        <input type="text" readonly id="fcumplimiento16" value="'.date("Y-m-d").'" name="cumplimiento_averdes"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comaverdes"></textarea></td><td id="needaverdes"><img src="alert.png"></td>
+    </tr>
+    <tr>
+        <td>Se encuentra en buen estado:</td>
+        <td align="center">'.$roww['estaver'].'</td>
+        <td align="center">'.$rowz['estaver'].'</td>
+        <td align="center">';
+        if($rowz['estaver']==max($parametros['estaver'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_estaver" value="'.max($parametros['estaver']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_estaver" value="'.$rowz['estaver'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['estaver']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="compestaver"><option value="" selected> -- Seleccione --</option>';
+        for($i=42;$i<=50;$i++){
+            echo '<option value="'.$i.'">'.$compromisos[$i].'</option>';
+        }
+        echo '</select><br>
+        <input type="text" readonly id="fcumplimiento17" value="'.date("Y-m-d").'" name="cumplimiento_estaver"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comestaver"></textarea></td><td id="needestaver"><img src="alert.png"></td>
+    </tr>
+    <tr><th colspan="1">Afluencia</th><th colspan="1">Visita anterior</th><th colspan="1">Visita</th><th colspan="1">Meta</th><th colspan="1">Compromisos</th><th colspan="1">Comentarios</th></tr>
+    <tr>
+        <td>Porcentaje de afluencia sobre lo existente:</td>
+        <td align="center">'.$roww['gente'].'</td>
+        <td align="center">'.$rowz['gente'].'</td>
+        <td align="center">';
+        if($rowz['gente']==max($parametros['gente'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_gente" value="'.max($parametros['gente']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_gente" value="'.$rowz['gente'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['gente']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="compgente"><option value="" selected> -- Seleccione --</option>';
+        for($i=51;$i<=71;$i++){
+            echo '<option value="'.$i.'">'.$compromisos[$i].'</option>';
+        }
+        echo '</select><br>
+        <input type="text" readonly id="fcumplimiento18" value="'.date("Y-m-d").'" name="cumplimiento_gente"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comgente"></textarea></td><td id="needgente"><img src="alert.png"></td>
+    </tr>
+    <tr><th colspan="1">Orden</th><th colspan="1">Visita anterior</th><th colspan="1">Visita</th><th colspan="1">Meta</th><th colspan="1">Compromisos</th><th colspan="1">Comentarios</th></tr>
+    <tr>
+        <td>Las instalaciones se respetan:</td>
+        <td align="center">'.$roww['respint'].'</td>
+        <td align="center">'.$rowz['respint'].'</td>
+        <td align="center">';
+        if($rowz['respint']==max($parametros['respint'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_respint" value="'.max($parametros['respint']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_respint" value="'.$rowz['respint'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['respint']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="comprespint"><option value="" selected> -- Seleccione --</option><option value="72">'.$compromisos[72].'</option><option value="73">'.$compromisos[73].'</option>
+        <option value="74">'.$compromisos[74].'</option></select><br>
+        <input type="text" readonly id="fcumplimiento19" value="'.date("Y-m-d").'" name="cumplimiento_respint"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comrespint"></textarea></td><td id="needrespint"><img src="alert.png"></td>
+    </tr>
+    <tr>
+        <td>Se cuenta con un reglamento de orden:</td>
+        <td align="center">'.$roww['orden'].'</td>
+        <td align="center">'.$rowz['orden'].'</td>
+        <td align="center">';
+        if($rowz['orden']==max($parametros['orden'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_orden" value="'.max($parametros['orden']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_orden" value="'.$rowz['orden'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['orden']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="comporden"><option value="" selected> -- Seleccione --</option><option value="75">'.$compromisos[75].'</option><option value="76">'.$compromisos[76].'</option>
+        <option value="77">'.$compromisos[77].'</option><option value="78">'.$compromisos[78].'</option><option value="79">'.$compromisos[79].'</option></select><br>
+        <input type="text" readonly id="fcumplimiento20" value="'.date("Y-m-d").'" name="cumplimiento_orden"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comorden"></textarea></td><td id="needorden"><img src="alert.png"></td>
+    </tr>
+    <tr>
+        <td>Se mantiene limpio:</td>
+        <td align="center">'.$roww['limpieza'].'</td>
+        <td align="center">'.$rowz['limpieza'].'</td>
+        <td align="center">';
+        if($rowz['limpieza']==max($parametros['limpieza'])){
+            echo '<img src="bien.png"><input type="hidden" name="meta_limpieza" value="'.max($parametros['limpieza']).'" disabled></td>';
+        }
+        else {
+            echo '<input type="text" name="meta_limpieza" value="'.$rowz['limpieza'].'"><a href="javascript:void(0);" title="'.implode(",",$parametros['limpieza']).'"><img src="help.png" border="0"></a></td>';
+        }
+        echo '<td><select name="complimpieza"><option value="" selected> -- Seleccione --</option><option value="80">'.$compromisos[80].'</option><option value="81">'.$compromisos[81].'</option></select><br>
+        <input type="text" readonly id="fcumplimiento21" value="'.date("Y-m-d").'" name="cumplimiento_limpieza"/></td>
+        <td><textarea style="width:200px;height:90px;" name="comlimpieza"></textarea></td><td id="needlimpieza"><img src="alert.png"></td>
+    </tr>
+    <tr><th colspan="6">Visita</th></tr><tr><td>Comentarios generales de la visita:</td><td align="center">'; if($totala>0){echo round($totala);} echo '</td><td align="center">'; if($total>0){echo '<input type="hidden" name="totalvis">'; echo round($total);} echo '</td>
+        <td align="center"><span id="totalm"></span><input type="hidden" name="totalmeta"></td><td align="right" colspan="2"><textarea style="width:400px;height:90px;" name="comgenvisita"></textarea></td><td id="needgenvisita"><img src="alert.png"></td></tr>
+    </table>
+<div><input type="button" class="button" value="Guardar" name="boton_compromisos" id="boton_compromisos" onclick="validar(3,this.id);"></div>
+</div></div>';
+if ($id_post>0) {
+    $sqlp="select key1.post_title as parque, key2.meta_value as vialidadprin, key3.meta_value as vialidad1, key4.meta_value as vialidad2, key5.meta_value as vialidadpos,
+    key6.meta_value as tipoa, key7.meta_value as noma, key8.meta_value as descubic, key9.meta_value as sector, key10.meta_value as zona, key11.meta_value as nivel,
+    key12.meta_value as regimen, key13.meta_value as legal, key14.meta_value as tipo, key15.meta_value as estado, key16.meta_value as ciudad, key17.meta_value as localidad,
+    key18.meta_value as apoyado, key19.meta_value as observaciones from wp_posts key1
+    LEFT JOIN wp_postmeta key2 ON key1.id = key2.post_id AND key2.meta_key = '_parque_vialidad_prin'
+    LEFT JOIN wp_postmeta key3 ON key1.id = key3.post_id AND key3.meta_key = '_parque_vialidad1'
+    LEFT JOIN wp_postmeta key4 ON key1.id = key4.post_id AND key4.meta_key = '_parque_vialidad2'
+    LEFT JOIN wp_postmeta key5 ON key1.id = key5.post_id AND key5.meta_key = '_parque_vialidad_pos'
+    LEFT JOIN wp_postmeta key6 ON key1.id = key6.post_id AND key6.meta_key = '_parque_tipoasentamiento'
+    LEFT JOIN wp_postmeta key7 ON key1.id = key7.post_id AND key7.meta_key = '_parque_nomasentamiento'
+    LEFT JOIN wp_postmeta key8 ON key1.id = key8.post_id AND key8.meta_key = '_parque_desc_ubic'
+    LEFT JOIN wp_postmeta key9 ON key1.id = key9.post_id AND key9.meta_key = '_parque_sec'
+    LEFT JOIN wp_postmeta key10 ON key1.id = key10.post_id AND key10.meta_key = '_parque_zona'
+    LEFT JOIN wp_postmeta key11 ON key1.id = key11.post_id AND key11.meta_key = '_parque_nivel'
+    LEFT JOIN wp_postmeta key12 ON key1.id = key12.post_id AND key12.meta_key = '_parque_regimen'
+    LEFT JOIN wp_postmeta key13 ON key1.id = key13.post_id AND key13.meta_key = '_parque_legal'
+    LEFT JOIN wp_postmeta key14 ON key1.id = key14.post_id AND key14.meta_key = '_parque_tipo'
+    LEFT JOIN wp_postmeta key15 ON key1.id = key15.post_id AND key15.meta_key = '_parque_estado'
+    LEFT JOIN wp_postmeta key16 ON key1.id = key16.post_id AND key16.meta_key = '_parque_ciudad'
+    LEFT JOIN wp_postmeta key17 ON key1.id = key17.post_id AND key17.meta_key = '_parque_localidad'
+    LEFT JOIN wp_postmeta key18 ON key1.id = key18.post_id AND key18.meta_key = '_parque_seg'
+    LEFT JOIN wp_postmeta key19 ON key1.id = key19.post_id AND key19.meta_key = '_parque_obs' where id='".$_POST['parque']."'";
+    $resp=mysql_query($sqlp);
+    $rowp=mysql_fetch_array($resp);
+}
+echo '<div id="screen4"><div class="white-pink">
+    <h1>Parque
+        <span>Ingrese los datos del parque</span>
+    </h1>
+    <label>
+        <span>Nombre del Parque:</span>
+        <input type="text" name="nom_parque" value="'.$rowp['parque'].'"'; if($rowp['parque']!=""){ echo 'disabled'; } echo '/>
+    </label>
+    ';
+    /*<label>
+        <span>Ubicaci&oacute;n: </span><input name="ubicacion" type="text">
+    </label>
+    <label>
+        <span>Colonia: </span><input name="colonia" type="text">
+    </label>
+    <label>
+        <span>Superficie (M2): </span><input name="superficie" type="text">
+    </label>
+    <label>
+        <span>Colindancias: </span><input name="colindancias" type="text">
+    </label>
+    <label>
+        <span>Sector: </span><select name="sector">
+            <option value="" selected> -- Seleccione -- </option>
+            <option value="1">Noreste (NE)</option>
+            <option value="2">Noroeste (NO)</option>
+            <option value="3">Sureste (SE)</option>
+            <option value="4">Suroeste (SO)</option>
+            </select>
+    </label>
+    <label>
+        <span>Estado: </span><select name="state" id="state" onchange="addsel(5);">
+            <option value=""> -- Seleccione -- </option>
+            <option value="1">Aguascalientes</option>
+            <option value="2">Baja California</option>
+            <option value="3">Baja California Sur</option>
+            <option value="4">Campeche</option>
+            <option value="5">Coahuila de Zaragoza</option>
+            <option value="6">Colima</option>
+            <option value="7">Chiapas</option>
+            <option value="8">Chihuahua</option>
+            <option value="9">Distrito Federal</option>
+            <option value="10">Durango</option>
+            <option value="11">Guanajuato</option>
+            <option value="12">Guerrero</option>
+            <option value="13">Hidalgo</option>
+            <option value="14">Jalisco</option>
+            <option value="15">México</option>
+            <option value="16">Michoacán de Ocampo</option>
+            <option value="17">Morelos</option>
+            <option value="18">Nayarit</option>
+            <option value="19">Nuevo León</option>
+            <option value="20">Oaxaca</option>
+            <option value="21">Puebla</option>
+            <option value="22">Querétaro</option>
+            <option value="23">Quintana Roo</option>
+            <option value="24">San Luis Potosí</option>
+            <option value="25" selected>Sinaloa</option>
+            <option value="26">Sonora</option>
+            <option value="27">Tabasco</option>
+            <option value="28">Tamaulipas</option>
+            <option value="29">Tlaxcala</option>
+            <option value="30">Veracruz de Ignacio de la Llave</option>
+            <option value="31">Yucatán</option>
+            <option value="32">Zacatecas</option>
+            </select>
+    </label>
+    <label>
+        <span>Ciudad: </span><select name="ciudad" id="ciudad">
+            <option value=""> -- Seleccione -- </option>
+            <option value="Culiacán" selected>Culiacán</option>
+            <option value="Navolato">Navolato</option>
+            </select>
+    </label>
+    */
+    echo '
+    <label>
+        <span>Vialidad Principal: </span><input name="vialidadprin" type="text" value="'.$rowp['vialidadprin'].'"'; if($rowp['vialidadprin']!=""){ echo 'readonly'; } echo '>
+    </label>
+    <label>
+        <span>Vialidad 1: </span><input name="vialidad1" type="text" value="'.$rowp['vialidad1'].'"'; if($rowp['vialidad1']!=""){ echo 'readonly'; } echo '>
+    </label>
+    <label>
+        <span>Vialidad 2: </span><input name="vialidad2" type="text" value="'.$rowp['vialidad2'].'"'; if($rowp['vialidad2']!=""){ echo 'readonly'; } echo '>
+    </label>
+    <label>
+        <span>Vialidad Posterior: </span><input name="vialidadpos" type="text" value="'.$rowp['vialidadpos'].'"'; if($rowp['vialidadpos']!=""){ echo 'readonly'; } echo '>
+    </label>
+    <label>
+        <span>Tipo asentamiento: </span><select name="tipoasentamiento"'; if($rowp['tipoa']!=""){ echo 'disabled'; } echo '>
+            <option value="" selected> -- Seleccione -- </option>
+            <option value="1"'; if($rowp['tipoa']=="1"){ echo ' selected'; } echo '>Aeropuerto</option>
+            <option value="2"'; if($rowp['tipoa']=="2"){ echo ' selected'; } echo '>Ampliación</option>
+            <option value="3"'; if($rowp['tipoa']=="3"){ echo ' selected'; } echo '>Barrio</option>
+            <option value="4"'; if($rowp['tipoa']=="4"){ echo ' selected'; } echo '>Cantón</option>
+            <option value="5"'; if($rowp['tipoa']=="5"){ echo ' selected'; } echo '>Ciudad</option>
+            <option value="6"'; if($rowp['tipoa']=="6"){ echo ' selected'; } echo '>Ciudad industrial</option>
+            <option value="7"'; if($rowp['tipoa']=="7"){ echo ' selected'; } echo '>Colonia</option>
+            <option value="8"'; if($rowp['tipoa']=="8"){ echo ' selected'; } echo '>Condominio</option>
+            <option value="9"'; if($rowp['tipoa']=="9"){ echo ' selected'; } echo '>Conjunto habitacional</option>
+            <option value="10"'; if($rowp['tipoa']=="10"){ echo ' selected'; } echo '>Corredor industrial</option>
+            <option value="11"'; if($rowp['tipoa']=="11"){ echo ' selected'; } echo '>Coto</option>
+            <option value="12"'; if($rowp['tipoa']=="12"){ echo ' selected'; } echo '>Cuartel</option>
+            <option value="13"'; if($rowp['tipoa']=="13"){ echo ' selected'; } echo '>Ejido</option>
+            <option value="14"'; if($rowp['tipoa']=="14"){ echo ' selected'; } echo '>Exhacienda</option>
+            <option value="15"'; if($rowp['tipoa']=="15"){ echo ' selected'; } echo '>Fracción</option>
+            <option value="16"'; if($rowp['tipoa']=="16"){ echo ' selected'; } echo '>Fraccionamiento</option>
+            <option value="17"'; if($rowp['tipoa']=="17"){ echo ' selected'; } echo '>Granja</option>
+            <option value="18"'; if($rowp['tipoa']=="18"){ echo ' selected'; } echo '>Hacienda</option>
+            <option value="19"'; if($rowp['tipoa']=="19"){ echo ' selected'; } echo '>Ingenio</option>
+            <option value="20"'; if($rowp['tipoa']=="20"){ echo ' selected'; } echo '>Manzana</option>
+            <option value="21"'; if($rowp['tipoa']=="21"){ echo ' selected'; } echo '>Paraje</option>
+            <option value="22"'; if($rowp['tipoa']=="22"){ echo ' selected'; } echo '>Parque Industrial</option>
+            <option value="23"'; if($rowp['tipoa']=="23"){ echo ' selected'; } echo '>Privada</option>
+            <option value="24"'; if($rowp['tipoa']=="24"){ echo ' selected'; } echo '>Prolongación</option>
+            <option value="25"'; if($rowp['tipoa']=="25"){ echo ' selected'; } echo '>Pueblo</option>
+            <option value="26"'; if($rowp['tipoa']=="26"){ echo ' selected'; } echo '>Puerto</option>
+            <option value="27"'; if($rowp['tipoa']=="27"){ echo ' selected'; } echo '>Ranchería</option>
+            <option value="28"'; if($rowp['tipoa']=="28"){ echo ' selected'; } echo '>Rancho</option>
+            <option value="29"'; if($rowp['tipoa']=="29"){ echo ' selected'; } echo '>Región</option>
+            <option value="30"'; if($rowp['tipoa']=="30"){ echo ' selected'; } echo '>Residencial</option>
+            <option value="31"'; if($rowp['tipoa']=="31"){ echo ' selected'; } echo '>Rinconada</option>
+            <option value="32"'; if($rowp['tipoa']=="32"){ echo ' selected'; } echo '>Sección</option>
+            <option value="33"'; if($rowp['tipoa']=="33"){ echo ' selected'; } echo '>Sector</option>
+            <option value="34"'; if($rowp['tipoa']=="34"){ echo ' selected'; } echo '>Supermanzana</option>
+            <option value="35"'; if($rowp['tipoa']=="35"){ echo ' selected'; } echo '>Unidad</option>
+            <option value="36"'; if($rowp['tipoa']=="36"){ echo ' selected'; } echo '>Unidad Habitacional</option>
+            <option value="37"'; if($rowp['tipoa']=="37"){ echo ' selected'; } echo '>Villa</option>
+            <option value="38"'; if($rowp['tipoa']=="38"){ echo ' selected'; } echo '>Zona Federal</option>
+            <option value="39"'; if($rowp['tipoa']=="39"){ echo ' selected'; } echo '>Zona Industrial</option>
+            <option value="40"'; if($rowp['tipoa']=="40"){ echo ' selected'; } echo '>Zona Militar</option>
+            <option value="41"'; if($rowp['tipoa']=="41"){ echo ' selected'; } echo '>Zona Naval</option>
+            </select>
+    </label>
+    <label>
+        <span>Nombre asentamiento: </span><input name="nomasentamiento" type="text" value="'.$rowp['noma'].'"'; if($rowp['noma']!=""){ echo 'readonly'; } echo '>
+    </label>
+    <label>
+        <span>Descripción de ubicación: </span><textarea name="descubic"'; if($rowp['descubic']!=""){ echo 'readonly'; } echo '>'.$rowp['descubic'].'</textarea>
+    </label>
+    <label>
+        <span>Zona: </span><select name="zona"'; if($rowp['zona']!=""){ echo 'disabled'; } echo '>
+            <option value="" selected> -- Seleccione -- </option>
+            <option value="1"'; if($rowp['zona']=="1"){ echo ' selected'; } echo '>Noreste (NE)</option>
+            <option value="2"'; if($rowp['zona']=="2"){ echo ' selected'; } echo '>Noroeste (NO)</option>
+            <option value="3"'; if($rowp['zona']=="3"){ echo ' selected'; } echo '>Sureste (SE)</option>
+            <option value="4"'; if($rowp['zona']=="4"){ echo ' selected'; } echo '>Suroeste (SO)</option>
+            </select>
+    </label>
+    <label>
+        <span>Sector: </span><input name="sector" type="text" value="'.$rowp['sector'].'"'; if($rowp['sector']!=""){ echo 'readonly'; } echo '>
+    </label>
+    <label>
+        <span>Estado: </span><select name="state" id="state" onchange="addsel(5);"'; if($rowp['estado']!=""){ echo 'disabled'; } echo '>
+            <option value=""> -- Seleccione -- </option>
+            <option value="1"'; if($rowp['estado']=="1"){ echo ' selected'; } echo '>Aguascalientes</option>
+            <option value="2"'; if($rowp['estado']=="2"){ echo ' selected'; } echo '>Baja California</option>
+            <option value="3"'; if($rowp['estado']=="3"){ echo ' selected'; } echo '>Baja California Sur</option>
+            <option value="4"'; if($rowp['estado']=="4"){ echo ' selected'; } echo '>Campeche</option>
+            <option value="5"'; if($rowp['estado']=="5"){ echo ' selected'; } echo '>Coahuila de Zaragoza</option>
+            <option value="6"'; if($rowp['estado']=="6"){ echo ' selected'; } echo '>Colima</option>
+            <option value="7"'; if($rowp['estado']=="7"){ echo ' selected'; } echo '>Chiapas</option>
+            <option value="8"'; if($rowp['estado']=="8"){ echo ' selected'; } echo '>Chihuahua</option>
+            <option value="9"'; if($rowp['estado']=="9"){ echo ' selected'; } echo '>Distrito Federal</option>
+            <option value="10"'; if($rowp['estado']=="10"){ echo ' selected'; } echo '>Durango</option>
+            <option value="11"'; if($rowp['estado']=="11"){ echo ' selected'; } echo '>Guanajuato</option>
+            <option value="12"'; if($rowp['estado']=="12"){ echo ' selected'; } echo '>Guerrero</option>
+            <option value="13"'; if($rowp['estado']=="13"){ echo ' selected'; } echo '>Hidalgo</option>
+            <option value="14"'; if($rowp['estado']=="14"){ echo ' selected'; } echo '>Jalisco</option>
+            <option value="15"'; if($rowp['estado']=="15"){ echo ' selected'; } echo '>México</option>
+            <option value="16"'; if($rowp['estado']=="16"){ echo ' selected'; } echo '>Michoacán de Ocampo</option>
+            <option value="17"'; if($rowp['estado']=="17"){ echo ' selected'; } echo '>Morelos</option>
+            <option value="18"'; if($rowp['estado']=="18"){ echo ' selected'; } echo '>Nayarit</option>
+            <option value="19"'; if($rowp['estado']=="19"){ echo ' selected'; } echo '>Nuevo León</option>
+            <option value="20"'; if($rowp['estado']=="20"){ echo ' selected'; } echo '>Oaxaca</option>
+            <option value="21"'; if($rowp['estado']=="21"){ echo ' selected'; } echo '>Puebla</option>
+            <option value="22"'; if($rowp['estado']=="22"){ echo ' selected'; } echo '>Querétaro</option>
+            <option value="23"'; if($rowp['estado']=="23"){ echo ' selected'; } echo '>Quintana Roo</option>
+            <option value="24"'; if($rowp['estado']=="24"){ echo ' selected'; } echo '>San Luis Potosí</option>
+            <option value="25"'; if($rowp['estado']=="25"){ echo ' selected'; } echo '>Sinaloa</option>
+            <option value="26"'; if($rowp['estado']=="26"){ echo ' selected'; } echo '>Sonora</option>
+            <option value="27"'; if($rowp['estado']=="27"){ echo ' selected'; } echo '>Tabasco</option>
+            <option value="28"'; if($rowp['estado']=="28"){ echo ' selected'; } echo '>Tamaulipas</option>
+            <option value="29"'; if($rowp['estado']=="29"){ echo ' selected'; } echo '>Tlaxcala</option>
+            <option value="30"'; if($rowp['estado']=="30"){ echo ' selected'; } echo '>Veracruz de Ignacio de la Llave</option>
+            <option value="31"'; if($rowp['estado']=="31"){ echo ' selected'; } echo '>Yucatán</option>
+            <option value="32"'; if($rowp['estado']=="32"){ echo ' selected'; } echo '>Zacatecas</option>
+            </select>
+    </label>
+    <label>
+        <span>Municipio: </span><select name="ciudad" id="ciudad" onchange=addsel(6)'; if($rowp['ciudad']!=""){ echo 'disabled'; } echo '>
+            <option value=""> -- Seleccione -- </option>';
+            if($rowp['estado']=="25"){
+                echo '<option value="Culiacán"'; if($rowp['ciudad']=="Culiacán"){ echo ' selected'; } echo ' selected>Culiacán</option>
+                <option value="Navolato"'; if($rowp['ciudad']=="Navolato"){ echo ' selected'; } echo '>Navolato</option>';    
+            }
+            elseif($rowp['estado']==3){
+                echo '<option value="Comondú"'; if($rowp['ciudad']=="Comondú"){ echo ' selected'; } echo ' selected>Comondú</option>
+                <option value="Mulegé"'; if($rowp['ciudad']=="Mulegé"){ echo ' selected'; } echo '>Mulegé</option>
+                <option value="La Paz"'; if($rowp['ciudad']=="La Paz"){ echo ' selected'; } echo '>La Paz</option>
+                <option value="Los Cabos"'; if($rowp['ciudad']=="Los Cabos"){ echo ' selected'; } echo '>Los Cabos</option>
+                <option value="Loreto"'; if($rowp['ciudad']=="Loreto"){ echo ' selected'; } echo '>Loreto</option>';  
+            }
+            echo '</select>
+    </label>
+    <label>
+        <span>Localidad: </span><select name="localidad" id="localidad"'; if($rowp['localidad']!=""){ echo 'disabled'; } echo '>
+            <option value=""> -- Seleccione -- </option>
+            </select>
+    </label>
+        <span>Nivel socioecon&oacute;mico de la zona:</span><select name="nivel"'; if($rowp['nivel']!=""){ echo 'disabled'; } echo '>
+            <option value="" selected> -- Seleccione -- </option>
+            <option value="1"'; if($rowp['nivel']=="1"){ echo ' selected'; } echo '>Alto (AB)</option>
+            <option value="2"'; if($rowp['nivel']=="2"){ echo ' selected'; } echo '>Medio alto (C+)</option>
+            <option value="3"'; if($rowp['nivel']=="3"){ echo ' selected'; } echo '>Medio ( C )</option>
+            <option value="4"'; if($rowp['nivel']=="4"){ echo ' selected'; } echo '>medio bajo (D+)</option>
+            <option value="5"'; if($rowp['nivel']=="5"){ echo ' selected'; } echo '>Bajo (D)</option>
+            <option value="6"'; if($rowp['nivel']=="6"){ echo ' selected'; } echo '>Pobreza extrema (E)</option>
+            </select>
+    </label>
+    <label>
+        <span>R&eacute;gimen del parque: </span><select name="regimen"'; if($rowp['regimen']!=""){ echo 'disabled'; } echo '>
+            <option value="" selected> -- Seleccione -- </option>
+            <option value="1"'; if($rowp['regimen']=="1"){ echo ' selected'; } echo '>P&uacute;blico</option>
+            <option value="2"'; if($rowp['regimen']=="2"){ echo ' selected'; } echo '>Condominal</option>
+            <option value="3"'; if($rowp['regimen']=="3"){ echo ' selected'; } echo '>Concesionado</option>
+            </select>
+    </label>
+    <label>
+        <span>Situaci&oacute;n legal del parque: </span><select name="legal"'; if($rowp['legal']!=""){ echo 'disabled'; } echo '>
+            <option value="" selected> -- Seleccione -- </option>
+            <option value="1"'; if($rowp['legal']=="1"){ echo ' selected'; } echo '>Propiedad Gobierno Federal</option>
+            <option value="2"'; if($rowp['legal']=="2"){ echo ' selected'; } echo '>Gobierno del Estado</option>
+            <option value="3"'; if($rowp['legal']=="3"){ echo ' selected'; } echo '>Gobierno Municipal</option>
+            <option value="4"'; if($rowp['legal']=="4"){ echo ' selected'; } echo '>Propiedad Ejidal</option>
+            <option value="5"'; if($rowp['legal']=="5"){ echo ' selected'; } echo '>Propiedad Fraccionadora</option>
+            </select>
+    </label>
+    <label>
+        <span>Tipo de parque: </span><select name="tipo"'; if($rowp['tipo']!=""){ echo 'disabled'; } echo '>
+            <option value="" selected=> -- Seleccione -- </option>
+            <option value="1"'; if($rowp['tipo']=="1"){ echo ' selected'; } echo '>&Aacute;rea verde</option>
+            <option value="2"'; if($rowp['tipo']=="2"){ echo ' selected'; } echo '>Centro barrio</option>
+            <option value="3"'; if($rowp['tipo']=="3"){ echo ' selected'; } echo '>De bolsillo</option>
+            <option value="4"'; if($rowp['tipo']=="4"){ echo ' selected'; } echo '>Lineal</option>
+            <option value="5"'; if($rowp['tipo']=="5"){ echo ' selected'; } echo '>Mixto</option>
+            <option value="6"'; if($rowp['tipo']=="6"){ echo ' selected'; } echo '>Parque urbano</option>
+            <option value="7"'; if($rowp['tipo']=="7"){ echo ' selected'; } echo '>Plazuela</option>
+            <option value="8"'; if($rowp['tipo']=="8"){ echo ' selected'; } echo '>Unidad deportiva</option>
+            </select>
+    </label>
+    <label>
+        <span>Apoyado por Parques Alegres: </span><input type="checkbox" class="megusta" value="1" name="apoyado"'; if($rowp['apoyado']=="1"){ echo 'checked disabled'; } echo '>
+    </label>
+    <label>
+        <span>Observaciones generales: </span><textarea name="obsgenerales"'; if($rowp['observaciones']!=""){ echo 'readonly'; } echo '>'.$rowp['observaciones'].'</textarea>
+    </label>
+    <div align="center"><input class="button" type="button" value="Guardar Parque" name="guardar_parque" id="guardar_parque" onclick="validar(4,this.id)"></div>
+</div></div>
+<div id="screen5"><div class="white-check">
+<h2>Instalaciones</h2>
+<label>
+<span>&nbsp;</span><span class="titu">Cantidad</span><span class="titu">Bueno</span><span class="titu">Regular</span><span class="titu">Malo</span><span class="titu">&nbsp;Faltante</span></label>';
+$instalaciones= array("Bancas","Cerca","Alumbrado","Ba&ntilde;os","Fuentes","Botes de basura","Banqueta","Acceso para capacidades diferentes","Anclaje para bicicletas",
+                      "Cajones de estacionamiento","Canasta de reciclaje");
+$esparcimiento= array("Techumbres","&Aacute;area de adoqu&iacute;n","Bordillo de concreto","Pi&ntilde;ateros","Comedores",
+                      "Asadores","Juegos infantiles","Palapa","Alberca","Camastros","Regaderas");
+$deportiva= array("Cancha de usos m&uacute;ltiples","Cancha de voleibol","Cancha de soccer","Cancha de Basquetbol","Cancha de beisbol","Cancha de softbol",
+                  "Mesa de ping pong","Back stop","Andadores","Gradas","Ejercitadores","Ciclov&iacute;a","Gimnasio","Promotor deportivo","Porter&iacute;as",
+                  "Tableros","Aros","Losa","Pintura");
+$acentos=array("&Aacute;","&aacute;","&eacute;","&iacute;","&oacute;","&uacute;","&ntilde;");
+$sinacentos=array("A","a","e","i","o","u","n");
+$conacentos=array("Á","á","é","í","ó","ú","ñ");
+    
+foreach ($instalaciones as $k=>$v) {
+    $b=explode(' ',$v);
+    $a=strtolower($b[0]);
+    $a=str_replace($acentos, $sinacentos, $a);
+    if($v=="Cajones de estacionamiento"){
+        echo '<label><span>'.$v.'</span>Cantidad: <input type="text" name="ccajones">Faltante: <input type="text" name="fcajones"></label>';
+    }
+    elseif($v=="Canasta de reciclaje"){
+        echo '<label><span>'.$v.'</span><input type="radio" name="canasta" id="canasta" value="1"><label class="white-pinked" for="canasta">S&iacute;</label><input type="radio" id="canastan" name="canasta" value="2"><label class="white-pinked" for="canastan">No</label></label>';
+    }
+    else{
+        echo '<label><span>'.$v.'</span><input type="text" name="c'.$a.'"><input type="radio" name="'.$a.'" value="1"><input type="radio" name="'.$a.'" value="2"><input type="radio" name="'.$a.'" value="3"><input type="text" name="f'.$a.'"></label>';
+    }
+}
+echo '<h2>&Aacute;rea esparcimiento</h2>';
+foreach ($esparcimiento as $k=>$v) {
+    $b=explode(' ',$v);
+    $a=strtolower($b[0]);
+    $a=str_replace($acentos, $sinacentos, $a);
+    echo '<label><span>'.$v.'</span><input type="text" name="c'.$a.'"><input type="radio" name="'.$a.'" value="1"><input type="radio" name="'.$a.'" value="2"><input type="radio" name="'.$a.'" value="3"><input type="text" name="f'.$a.'"></label>';
+}
+echo '<h2>&Aacute;rea de deportiva</h2>';
+foreach ($deportiva as $k=>$v) {
+    $b=explode(' ',$v);
+    if($b[0]=="Cancha"){
+        $a=strtolower($b[2]);
+    }
+    else{
+       $a=strtolower($b[0]); 
+    }
+    $a=str_replace($acentos, $sinacentos, $a);
+    if($v=="Gimnasio"){
+        echo '<label><span>'.$v.'</span><input type="radio" name="gimnasio" id="gimnasio" value="1"><label class="white-pinked" for="gimnasio">S&iacute;</label><input type="radio" id="gimnasion" name="gimnasio" value="2"><label class="white-pinked" for="gimnasion">No</label></label>';
+    }
+    elseif($v=="Promotor deportivo"){
+        echo '<label><span>'.$v.'</span>Cu&aacute;ntos Promotores: <input type="text" name="promotores">Cu&aacute;ntos deportes: <input type="text" name="deportes"></label>';
+    }
+    else{
+        echo '<label><span>'.$v.'</span><input type="text" name="c'.$a.'"><input type="radio" name="'.$a.'" value="1"><input type="radio" name="'.$a.'" value="2"><input type="radio" name="'.$a.'" value="3"><input type="text" name="f'.$a.'"></label>';
+    }
+}
+echo '<h2>&Aacute;rea Verde</h2>
+<label>
+    <span>C&eacute;sped(Área Verde): </span><input type="text" name="ccespedv"><input type="radio" name="cespedv" value="1"><input type="radio" name="cespedv" value="2"><input type="radio" name="cespedv" value="3"><input type="text" name="fcespedv"><select name="tcespedv"><option value=""> -- Seleccione -- </option><option value="1">Sintético</option><option value="2">Natural</option></select>
+</label>
+<label>
+    <span>C&eacute;sped(Área Deportiva): </span><input type="text" name="ccespedd"><input type="radio" name="cespedd" value="1"><input type="radio" name="cespedd" value="2"><input type="radio" name="cespedd" value="3"><input type="text" name="fcespedd"><select name="tcespedd"><option value=""> -- Seleccione -- </option><option value="1">Sintético</option><option value="2">Natural</option></select>
+</label>
+<label>
+    <span>C&eacute;sped(Área Recreativa): </span><input type="text" name="ccespedr"><input type="radio" name="cespedr" value="1"><input type="radio" name="cespedr" value="2"><input type="radio" name="cespedr" value="3"><input type="text" name="fcespedr"><select name="tcespedr"><option value=""> -- Seleccione -- </option><option value="1">Sintético</option><option value="2">Natural</option></select>
+</label>
+<label class="chico">
+    <span>Arboles: </span><input type="text" name="carboles" placeholder="Cant" ><input type="radio" name="arboles" id="arbolesc" value="1"><label class="white-pinky" for="arbolesc">Chico</label><input type="radio" id="arbolesm" name="arboles" value="2"><label class="white-pinky" for="arbolesm">Mediano</label><input type="radio" id="arbolesg" name="arboles" value="3"><label class="white-pinky" for="arbolesg">Grande</label><input type="text" name="farboles" placeholder="Falta" >
+</label>
+<label>
+    <span>Arbusto: </span><input type="text" name="carbusto"><input type="radio" name="arbusto" value="1"><input type="radio" name="arbusto" value="2"><input type="radio" name="arbusto" value="3"><input type="text" name="farbusto"><select name="tarbusto"><option value=""> -- Seleccione -- </option><option value="1">Chico</option><option value="2">Grande</option></select></label>
+</label>
+<label>
+    <span>Sistema de riego: </span><input type="text" name="criego"><input type="radio" name="riego" value="1"><input type="radio" name="riego" value="2"><input type="radio" name="riego" value="3"><input type="text" name="friego"><select name="triego"><option value=""> -- Seleccione -- </option><option value="1">Por goteo</option><option value="2">Automatizado</option></select>
+</label>
+';/*
+<label class="chico">
+    <span>C&eacute;sped: </span><input type="radio" name="cesped" id="cespeda" value="1"><label class="white-pinky" for="cespeda">&Aacute;rea verde</label><input type="radio" id="cespeds" name="cesped" value="2"><label class="white-pinky" for="cespeds">Sint&eacute;tico</label><input type="radio" id="cespedd" name="cesped" value="3"><label class="white-pinky" for="cespedd">Deportivo</label>
+</label>
+<label class="chico">
+    <span>Arboles: </span><input type="text" name="carboles" placeholder="Cant" ><input type="radio" name="arboles" id="arbolesc" value="1"><label class="white-pinky" for="arbolesc">Chico</label><input type="radio" id="arbolesm" name="arboles" value="2"><label class="white-pinky" for="arbolesm">Mediano</label><input type="radio" id="arbolesg" name="arboles" value="3"><label class="white-pinky" for="arbolesg">Grande</label><input type="text" name="farboles" placeholder="Falta" >
+</label>
+<label>
+    <span>Arbusto: </span><input type="radio" name="arbusto" id="arbustoc" value="1"><label class="white-pinky" for="arbustoc">Chico</label><input type="radio" id="arbustog" name="arbusto" value="2"><label class="white-pinky" for="arbustog">Grande</label>
+</label>
+<label>
+    <span>Sistema de riego: </span><input type="radio" name="riego" id="riegog" value="1"><label class="white-pinky" for="riegog">Por goteo</label><input type="radio" id="riegoa" name="riego" value="2"><label class="white-pinky" for="riegoa">Automatizado</label> 
+</label>*/
+echo '<div align="center"><input class="button" type="button" value="Guardar" name="guardar_check" id="guardar_check" onclick="validar(5,this.id);"></div>
+</div></div>
+<div id="screen6"><div class="white-pink">';
+echo '<label><span>Experiencia exitosa:</span><select id="experiencias_exi" name="experiencias_exi" onchange="editexp(this.value);"><option value=""> -- Seleccione -- </option>';
+$sqle="select p.post_title, m.* from wp_postmeta m INNER JOIN wp_posts p on p.id=m.post_id WHERE meta_key='_cmb_parque' AND meta_value='".$_POST['parque']."'";
+$rese=mysql_query($sqle);
+if(mysql_num_rows($rese)>0){
+    while($rowe=mysql_fetch_array($rese)){
+        echo '<option value="'.$rowe['post_id'].'">'.$rowe['post_title'].'</option>';
+    }
+}
+echo '</select></label><div style="clear:both;"><center><input class="button" type="button" onclick="editexp(0);" value="Agregar nueva"><center></div><br>';
+echo '<label>
+    <span>Nombre del evento: </span><input type="text" name="nom_evento"/>
+</label>
+<label>
+    <span>Fecha del evento: </span><input type="text" readonly id="datepicker" value="'.date("Y-m-d").'" name="fecha_evento"/>
+</label>
+<label>
+    <span>URL del video: </span><input type="text" name="video"/>
+</label>
+<label>
+    <span>Propósito: </span><select name="proposito" id="proposito" onchange="addsel(1);">
+    <option value="" selected> -- Seleccione --</option>
+    <option value="4">Generar ingresos y tejido social</option>
+    <option value="5">Crear y mantener áreas verdes</option>
+    <option value="6">Organización</option>
+    <option value="7">Gestión</option>
+    <option value="8">Orden</option>
+    </select>
+</label>
+<label>
+    <span>Tipo de evento: </span><select name="tipo_evento" id="tipo_evento"><option value="" selected> -- Seleccione --</select>
+</label>
+<label>
+    <span>Personas involucradas(comite): </span><input type="text" name="involucrados_comite">
+</label>
+<label>
+    <span>Personas involucradas(vecinos): </span><input type="text" name="involucrados_vecinos">
+</label>
+<label>
+    <span>Descripcion de actividades:</span><textarea name="actividades"></textarea>
+</label>
+<label>
+    <span>N&uacute;mero de asistentes:</span><input type="text" name="asistentes">
+</label>
+<label>
+    <span>Beneficios obtenidos:</span><textarea name="beneficios"></textarea>
+</label>
+<label>
+    <span>&Aacute;rea de impacto:</span><select name="impacto" id="impacto" onchange="addsel(2);">
+    <option value=""> -- Seleccione --</option>
+    <option value="1">Servicios p&uacute;blicos</option>
+    <option value="2">Mobiliarios de parques</option>
+    <option value="3">Canchas deportivas</option>
+    <option value="4">Espacios de convivencia social</option>
+    <option value="5">Elementos urbanos</option>
+    </select>
+</label>
+<label>
+    <span>Cantidad:</span><input type="text" name="cantidad_imp">
+</label>
+<label>
+    <span>Concepto:</span><select name="descimpacto" id="descimpacto"">
+    <option value=""> -- Seleccione --</option>
+    </select>
+</label>
+<label>
+    <span>Descripción de área de impacto:</span><textarea name="descimpacto2"></textarea>
+</label>
+<label>
+    <span>Clave de &eacute;xito:</span><textarea name="clave"></textarea>
+</label>
+<label>
+    <span>Aspectos a mejorar:</span><textarea name="mejorar"></textarea>
+</label>
+<label>
+    <span>Contacto del comité(e-mail):</span><input type="text" name="contacto_exp">
+</label>
+<h2>Inversi&oacute;n</h2>
+<label>
+    <span>Costo de los recursos y materiales utilizados:</span><input type="text" name="costos">
+</label>
+<label>
+    <span>Ingresos obtenidos por venta de boletos:</span><input type="text" name="boletos">
+</label>
+<label>
+    <span>Ingresos obtenidos por patrocinios:</span><input type="text" name="patrocinios">
+</label>
+<div align="center"><input class="button" type="button" value="Guardar" name="guardar_experiencia" id="guardar_experiencia" onclick="validar(6,this.id);"></div>
+</div></div>
+<div id="screen8"><div class="white-pink">
+<label>
+    <span>Fecha: </span><input type="text" readonly id="datepicker2" value="'.date("Y-m-d").'" name="fecha_asistencia"/>
+</label>
+<label>
+    <span class="asists">Nombre</span><span class="asists" style="text-align:left;">Asisti&oacute;</span><span class="asists">&nbsp;</span>
+</label>';
+$sql01="select id from comite_parque where cve_parque='".$_POST['parque']."'";
+$res01=mysql_query($sql01);
+if(mysql_num_rows($res01)>0){
+    $row01=mysql_fetch_array($res01);
+    $sql02="select id, nombre from comite_miembro where cve_comite='".$row01['id']."'";
+    $res02=mysql_query($sql02);
+    $i=1;
+    while($row02=mysql_fetch_array($res02)){
+        echo '<label>
+            <span>'.$row02['nombre'].'</span><input type="checkbox" value="'.$row02['id'].'" name="asist['.$i.']">
+        </label>';
+        $i++;
+    }   
+}
+echo '<div align="center"><input class="button" type="button" value="Guardar" name="guardar_asistencia" id="guardar_asistencia" onclick="validar(7,this.id);"></div>
+</div></div>
+<div id="screen10"><div class="white-pink">
+<label>
+    <span>Fecha: </span><input type="text" readonly id="datepicker10" value="'.date("Y-m-d").'" name="fecha_infra"/>
+</label>
+<label>
+    <span>Categoría: </span><select name="categoria" id="categoria" onchange="addsel(9);">
+        <option value=""> -- Seleccione -- </option>
+        <option value="1">Instalaciones</option>
+        <option value="2">Área esparcimiento</option>
+        <option value="3">Área de deportiva</option>
+        <option value="4">Área Verde</option>
+    </select>
+</label>
+<label>
+    <span>Subcategoría: </span><select name="subcategoria" id="subcategoria" onchange="falta();">
+        <option value=""> -- Seleccione -- </option>
+    </select>
+</label>
+<label>
+    <span>Cantidad: </span><input type="text" name="cantidad" id="cantidad" onkeyup="restar(this.value);">
+</label>
+<label>
+    <span>Origen del recurso</span><select name="recurso">
+    <option value="" selected> -- Seleccione -- </option>
+    <option value="1">Público</option>
+    <option value="2">Privado</option>
+    <option value="3">Recursos propios</option>
+    </select>
+</label>
+<label>
+    <span>Faltante: </span><input type="text" name="faltante" id="faltante">
+</label>
+<label>
+    <span>Codiciones de la infraestructura: </span><select name="condiciones_infra">
+    <option value=""> -- Seleccione -- </option>
+    <option value="1">Bueno</option>
+    <option value="2">Regular</option>
+    <option value="3">Malo</option>
+    </select>
+</label>
+<label>
+    <span>Comentarios: </span><textarea name="coment_infra"></textarea>
+</label>
+<div align="center"><input class="button" type="button" value="Guardar" name="guardar_infraestructura" id="guardar_infraestructura" onclick="validar(10,this.id);"></div>
+</div></div>
+</form>';
+$parquesito=$_POST['parque'];
+//if($asesor==13563){
+echo '<!-- Se determina y escribe la localizacion -->
+<div id="ubicacion"></div>
+<script type="text/javascript">
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(mostrarUbicacion);
+	} else {alert("¡Error! Este navegador no soporta la Geolocalización.");}
+function mostrarUbicacion(position) {
+    
+    var times = position.timestamp;
+	var latitud = position.coords.latitude;
+        document.getElementById("lati").value=position.coords.latitude;
+	var longitud = position.coords.longitude;
+        document.getElementById("long").value=position.coords.longitude;
+    var altitud = position.coords.altitude;	
+	var exactitud = position.coords.accuracy;	
+	var div = document.getElementById("ubicacion");
+	}
+function refrescarUbicacion() {	
+	navigator.geolocation.watchPosition(mostrarUbicacion);}	
+</script>
+
+<!-- Se escribe un mapa con la localizacion anterior-->
+<div id="demo"></div>
+<div id="mapholder"></div>
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+var x=document.getElementById("demo");
+function cargarmap(){
+navigator.geolocation.getCurrentPosition(showPosition,showError);
+function showPosition(position)
+  {
+  latitu=22.7714812;
+  longit=-105.4389527;
+  lat=position.coords.latitude;
+  lon=position.coords.longitude;
+  latlon=new google.maps.LatLng(lat, lon)
+  latilong=new google.maps.LatLng(latitu, longit)
+  mapholder=document.getElementById(\'mapholder\')
+  mapholder.style.height=\'250px\';
+  mapholder.style.width=\'500px\';
+  var myOptions={
+  center:latlon,zoom:10,
+  mapTypeId:google.maps.MapTypeId.ROADMAP,
+  mapTypeControl:false,
+  navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
+  };
+  var map=new google.maps.Map(document.getElementById("mapholder"),myOptions);
+  var marker=new google.maps.Marker({position:latlon,map:map,title:"You are here!"});
+  var marker2=new google.maps.Marker({position:latilong,map:map,title:"estas aqui!"});
+  }
+function showError(error)
+  {
+  switch(error.code) 
+    {
+    case error.PERMISSION_DENIED:
+      x.innerHTML="Denegada la peticion de Geolocalización en el navegador."
+      break;
+    case error.POSITION_UNAVAILABLE:
+      x.innerHTML="La información de la localización no esta disponible."
+      break;
+    case error.TIMEOUT:
+      x.innerHTML="El tiempo de petición ha expirado."
+      break;
+    case error.UNKNOWN_ERROR:
+      x.innerHTML="Ha ocurrido un error desconocido."
+      break;
+    }
+  }}
+</script>';
+//}
+
+echo '
+<script>
+$(function() {
+    $("td[id^=need]").hide();
+    $("[title]").qtip({
+        show: "click",
+        hide: "click"
+    });
+    $( "#datepicker" ).datepicker({ maxDate: new Date, dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
+    $( "#datepicker2" ).datepicker({ maxDate: new Date, dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
+    $( "#datepicker3" ).datepicker({ dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
+    $( "#datepicker4" ).datepicker({ minDate: "'.date('Y-m-d', strtotime(date('Y-m-d'). ' - 7 days')).'",maxDate: new Date, dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
+    $( "#datepicker5" ).datepicker({ maxDate: new Date, dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
+    $( "#datepicker10" ).datepicker({ maxDate: new Date, dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
+    for(var f=1;f<22;f++){
+        $( "#fcumplimiento"+f ).datepicker({ dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
+    }
+    var w=$("#evenfbd").val();
+    for(var f=1;f<=w;f++){
+        $("#datepickeref"+f).datepicker({ maxDate: "2016-12-31", dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
+    }
+    var x=$("#evenbd").val();
+    for(var g=1;g<=x;g++){
+        $("#datepickere"+g).datepicker({ dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
+    }
+    var p=$("#num_proy").val();
+    for(var h=1;h<=p;h++){
+        $("#fecha_proy"+h).datepicker({ maxDate: new Date, dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
+    }
+  });
+  function add_miembro(){
+            $("input[name=\'sin_comite\']").val(0);
+            var q=parseInt($("#miem_comite").val());
+            q=q+1;
+            $("#sin_comite").attr("disabled", false);
+            $("#sin_comite").attr("checked", false);
+            $("#comite_esp").show();
+            $("#comite_miem").show();
+            var nmiembro = \'<label><input type="text" name="nom_miembro[\'+ q + \']"><input type="text" name="cel_miembro[\'+ q + \']"><select name="rol_miembro[\'+ q + \']">\';';
+            foreach($roles_comite as $k=>$v){
+                echo 'nmiembro += \'<option value="'.$k.'">'.$v.'</option>\';';
+            }
+            echo 'nmiembro += \'</select><input type="checkbox" name="estatus_miembro[\'+ q + \']" value="2"></label>\';
+            $("#comite_miem").append(nmiembro);
+            $("#miem_comite").val(parseInt(q));
+    }
+    function hid_comite(){
+            $("input[name=\'sin_comite\']").val(1);
+            var q=parseInt($("#miem_comite").val());
+            if(q>0){
+                var aceptar;
+                var r = confirm("Esta acción desintegra el comite! ¿Estás seguro?");
+                if (r == true) {
+                    aceptar = 1;
+                } else {
+                    aceptar = 0;
+                    $("#sin_comite").attr("checked", false);
+                }
+                if(aceptar==1){
+                    $("#comite_miem").hide();
+                    $("#comite_esp").hide();
+                    $("#comite_miem").html("<label><span>Nombre</span><span>Celular</span><span>Rol</span><span>Activo</span></label>");
+                    $("#miem_comite").val(0);
+                    $("#sin_comite").attr("disabled", true);
+                }
+            }
+            else{
+                $("#comite_miem").hide();
+                $("#comite_esp").hide();
+                $("#comite_miem").html("<label><span>Nombre</span><span>Celular</span><span>Rol</span><span>Activo</span></label>");
+            }
+    }
+  function editexp(e){
+    if(e==0){
+        $("#experiencias_exi").val(0);
+        document.getElementsByName("nom_evento")[0].value="";
+        document.getElementsByName("fecha_evento")[0].value="";
+        document.getElementsByName("video")[0].value="";
+        document.getElementsByName("tipo_evento")[0].value="";
+        document.getElementsByName("proposito")[0].value="";
+        document.getElementsByName("involucrados_comite")[0].value="";
+        document.getElementsByName("involucrados_vecinos")[0].value="";
+        document.getElementsByName("actividades")[0].value="";
+        document.getElementsByName("asistentes")[0].value="";
+        document.getElementsByName("beneficios")[0].value="";
+        document.getElementsByName("impacto")[0].value="";
+        document.getElementsByName("cantidad_imp")[0].value="";
+        document.getElementsByName("descimpacto")[0].value="";
+        document.getElementsByName("descimpacto2")[0].value="";
+        document.getElementsByName("clave")[0].value="";
+        document.getElementsByName("mejorar")[0].value="";
+        document.getElementsByName("contact_exp")[0].value="";
+        document.getElementsByName("costos")[0].value="";
+        document.getElementsByName("boletos")[0].value="";
+        document.getElementsByName("patrocinios")[0].value="";
+    }
+    else{
+        $.ajax({url: "sistema.php",
+        data: { cmd: 99, parque: '.$_POST['parque'].', experiencia: $("#experiencias_exi").val()},
+        dataType: "text",
+        type: "post",
+        success: function(result){
+            var res=result.split("|");
+            document.getElementsByName("nom_evento")[0].value=res[0];
+            document.getElementsByName("fecha_evento")[0].value=res[1];
+            document.getElementsByName("video")[0].value=res[2];
+            document.getElementsByName("proposito")[0].value=res[4];
+            addsel(1);
+            document.getElementsByName("tipo_evento")[0].value=res[3];
+            document.getElementsByName("involucrados_comite")[0].value=res[5];
+            document.getElementsByName("involucrados_vecinos")[0].value=res[6];
+            document.getElementsByName("actividades")[0].value=res[7];
+            document.getElementsByName("asistentes")[0].value=res[8];
+            document.getElementsByName("beneficios")[0].value=res[9];
+            document.getElementsByName("impacto")[0].value=res[10];
+            addsel(2);
+            document.getElementsByName("cantidad_imp")[0].value=res[11];
+            document.getElementsByName("descimpacto")[0].value=res[12];
+            document.getElementsByName("descimpacto2")[0].value=res[13];
+            document.getElementsByName("clave")[0].value=res[14];
+            document.getElementsByName("mejorar")[0].value=res[15];
+            document.getElementsByName("contact_exp")[0].value=res[16];
+            document.getElementsByName("costos")[0].value=res[17];
+            document.getElementsByName("boletos")[0].value=res[18];
+            document.getElementsByName("patrocinios")[0].value=res[19];
+        }});
+    }
+  }
+  function agregar_e(num,f){
+        if(num>0){
+            if(f==1){
+                num=parseInt(num)+parseInt($("#evenbd").val());
+                var q=$("#evenbd").val();
+                for(var e=q;e<num;e++){
+                    var evento = \'<label><input type="text" id="datepickere\'+ e + \'" name="fecha_eventoc\'+ e + \'"/></label><label><select id="tipo_eventoc\'+ e + \'" name="tipo_eventoc[\'+ e + \']" onchange="cambiarsub(this.id);"><option value=""> -- Seleccione -- </option>'; foreach($tipoevento as $k=>$v){ echo '<option value="'.$k.'">'.$v.'</option>';} echo '</select></label><label><select id="nom_eventoc\'+ e + \'" name="nom_eventoc[\'+ e + \']"></select></label><label><input type="text" name="contacto_evento[\'+ e + \']"/></label><label><input type="text" name="correo_contacto[\'+ e + \']"/></label><label><select id="status_even\'+ e + \'" name="status_even[\'+ e + \']" disabled><option value=""> -- Seleccione -- </option><option value="1" selected>En espera</option><option value="2">Realizado</option><option value="3">Postergado</option><option value="4">Cancelado</option></select></label><label><input type="text" name="motivo[\'+e+\']"></label>\';
+                    $("#even").append(evento);
+                    $("#datepickere"+e).datepicker({ dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
+                }
+                $("#evenbd").val(parseInt(num));
+            }
+            else{
+                num=parseInt(num)+parseInt($("#evenfbd").val());
+                var q=$("#evenfbd").val();
+                for(var e=q;e<num;e++){
+                    var evento = \'<label><input type="text" id="datepickeref\'+ e + \'" name="fecha_eventof\'+ e + \'"/></label><label><select id="tipo_eventof\'+ e + \'" name="tipo_eventof[\'+ e + \']" onchange="cambiarsub(this.id);"><option value=""> -- Seleccione -- </option>'; foreach($tipoevento as $k=>$v){ echo '<option value="'.$k.'">'.$v.'</option>';} echo '</select></label><label><select id="nom_eventof\'+ e + \'" name="nom_eventof[\'+ e + \']"></select></label><label><input type="text" name="contacto_eventof[\'+ e + \']"/></label><label><input type="text" name="correo_contactof[\'+ e + \']"/></label><label><select id="status_evenf\'+ e + \'" name="status_evenf\'+ e + \'"><option value=""> -- Seleccione -- </option><option value="1" selected>En espera</option><option value="2">Realizado</option><option value="3">Postergado</option><option value="4">Cancelado</option></select></label><label><input type="text" name="motivof[\'+e+\']"></label>\';
+                    $("#evenf").append(evento);
+                    $("#datepickeref"+e).datepicker({ maxDate: "2016-12-31", dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
+                }
+                $("#evenfbd").val(parseInt(num));
+            }
+        }
+    }
+  function filldates(da){
+    for(var f=1;f<22;f++){
+        $( "#fcumplimiento"+f ).val(da);
+    }
+  }
+function actioncompromisos(){
+    document.forma.action="compromisos.php";
+    document.forma.target = "_blank";
+    document.forma.submit();
+    document.forma.target = "";
+    document.forma.action="";
+}
+function cambiarsub(t){
+    var largo = t.length;
+    var res = t.substring(largo-2, largo);
+    if($("#tipo_evento"+res).val()==1){';
+        $arrjs="";
+        foreach($subtipo as $k=>$v){
+            if($k==1){
+                foreach($v as $key=>$value){
+                    $arrjs.='"'.$key.'": "'.$value.'",';
+                }
+            }
+        }
+        $arrjs=substr($arrjs, 0, -1);
+        echo '
+        var newOptions = {"0": "-- Seleccione --",
+        '.$arrjs.'
+        };
+        var $el = $("#nom_evento"+res);
+        $el.empty();
+        $.each(newOptions, function(value,key) {
+            $el.append($("<option></option>").attr("value", value).text(key));
+        });
+    }
+    if($("#tipo_evento"+res).val()==2){';
+        $arrjs="";
+        foreach($subtipo as $k=>$v){
+            if($k==2){
+                foreach($v as $key=>$value){
+                    $arrjs.='"'.$key.'": "'.$value.'",';
+                }
+            }
+        }
+        $arrjs=substr($arrjs, 0, -1);
+        echo '
+        var newOptions = {"0": "-- Seleccione --",
+        '.$arrjs.'
+        };
+        var $el = $("#nom_evento"+res);
+        $el.empty();
+        $.each(newOptions, function(value,key) {
+            $el.append($("<option></option>").attr("value", value).text(key));
+        });
+    }
+    if($("#tipo_evento"+res).val()==3){';
+        $arrjs="";
+        foreach($subtipo as $k=>$v){
+            if($k==3){
+                foreach($v as $key=>$value){
+                    $arrjs.='"'.$key.'": "'.$value.'",';
+                }
+            }
+        }
+        $arrjs=substr($arrjs, 0, -1);
+        echo '
+        var newOptions = {"0": "-- Seleccione --",
+        '.$arrjs.'
+        };
+        var $el = $("#nom_evento"+res);
+        $el.empty();
+        $.each(newOptions, function(value,key) {
+            $el.append($("<option></option>").attr("value", value).text(key));
+        });
+    }
+    if($("#tipo_evento"+res).val()==4){';
+        $arrjs="";
+        foreach($subtipo as $k=>$v){
+            if($k==4){
+                foreach($v as $key=>$value){
+                    $arrjs.='"'.$key.'": "'.$value.'",';
+                }
+            }
+        }
+        $arrjs=substr($arrjs, 0, -1);
+        echo '
+        var newOptions = {"0": "-- Seleccione --",
+        '.$arrjs.'
+        };
+        var $el = $("#nom_evento"+res);
+        $el.empty();
+        $.each(newOptions, function(value,key) {
+            $el.append($("<option></option>").attr("value", value).text(key));
+        });
+    }
+    if($("#tipo_evento"+res).val()==5){';
+        $arrjs="";
+        foreach($subtipo as $k=>$v){
+            if($k==5){
+                foreach($v as $key=>$value){
+                    $arrjs.='"'.$key.'": "'.$value.'",';
+                }
+            }
+        }
+        $arrjs=substr($arrjs, 0, -1);
+        echo '
+        var newOptions = {"0": "-- Seleccione --",
+        '.$arrjs.'
+        };
+        var $el = $("#nom_evento"+res);
+        $el.empty();
+        $.each(newOptions, function(value,key) {
+            $el.append($("<option></option>").attr("value", value).text(key));
+        });
+    }
+}
+function addsel(t){
+    if(t==1){
+        if($("#proposito").val()==4){
+            var newOptions = {"0": "-- Seleccione --",
+            "1": "Torneos",
+            "2": "Tianguis",
+            "3": "Días Festivos",
+            "4": "Cooperación vecinal",
+            "5": "Rifa",
+            "6": "Kermesse cultural",
+            "7": "Función de cine",
+            "8": "Carrera pedestre",
+            "9": "Noche bohemia",
+            "10": "Kermesse"
+            };
+        }
+        else if($("#proposito").val()==5){
+            var newOptions = {"0": "-- Seleccione --",
+            "1": "Arborización y Fertilización",
+            "2": "Jornadas de limpieza",
+            "3": "Riego",
+            "4": "Fumigación",
+            "5": "Poda"
+            };
+        }
+        else if($("#proposito").val()==6){
+            var newOptions = {"0": "-- Seleccione --",
+            "1": "Clínica de verano de fútbol infantil",
+            "2": "Torneos",
+            "3": "Campamentos",
+            "4": "Eventos en días festivos",
+            "5": "Club guardianes del parque",
+            "6": "Convivios recreativos",
+            "7": "Pintura",
+            "8": "Alumbrado",
+            "9": "Murales",
+            "10": "Reciclaje",
+            "11": "Agua"
+            };
+        }
+        else if($("#proposito").val()==7){
+            var newOptions = {"0": "-- Seleccione --",
+            "1": "Honorable Ayuntamiento",
+            "2": "Empresa"
+            };
+        }
+        else{
+            var newOptions = {"0": "-- Seleccione --",
+            "1": "Orden"
+            };
+        }
+        var $el = $("#tipo_evento");
+        $el.empty();
+        $.each(newOptions, function(value,key) {
+            $el.append($("<option></option>").attr("value", value).text(key));
+        });
+    }
+    else if(t==2){
+        if($("#impacto").val()==1){
+            var newOptions = {"0": "-- Seleccione --",
+            "1": "Agua",
+            "2": "Electricidad"
+            };
+        }
+        else if($("#impacto").val()==2){
+            var newOptions = {"0": "-- Seleccione --",
+            "1": "Bancas",
+            "2": "Jardineras",
+            "3": "Juegos infantiles"
+            };
+        }
+        else if($("#impacto").val()==3){
+            var newOptions = {"0": "-- Seleccione --",
+            "1": "Futbol",
+            "2": "Béisbol",
+            "3": "Volibol",
+            "4": "Otro"
+            };
+        }
+        else if($("#impacto").val()==4){
+            var newOptions = {"0": "-- Seleccione --",
+            "1": "Palapa",
+            "2": "Área de usos múltiples",
+            "3": "Asadores",
+            "4": "Piñateros"
+            };
+        }
+        else if($("#impacto").val()==5){
+            var newOptions = {"0": "-- Seleccione --",
+            "1": "Estacionamiento",
+            "2": "Rampas",
+            "3": "Topes en calles aledañas",
+            "4": "Pavimentación de calles aledañas",
+            "5": "Nivelación de terreno"
+            };
+        }
+        var $el = $("#descimpacto");
+        $el.empty();
+        $.each(newOptions, function(value,key) {
+            $el.append($("<option></option>").attr("value", value).text(key));
+        });
+    }
+    else if(t==3){
+        if($("#compestado").val()==13){';
+            $arrjs="";
+            foreach($compespecial as $k=>$v){
+                $arrjs.='"'.$k.'": "'.$v.'",';
+            }
+            $arrjs=substr($arrjs, 0, -1);
+            echo '
+            var newOptions = {"0": "-- Seleccione --",
+            '.$arrjs.'
+            };
+            var $el = $("#compest");
+            $el.empty();
+            $.each(newOptions, function(value,key) {
+                $el.append($("<option></option>").attr("value", value).text(key));
+            });
+        }
+        else{';
+            $arrjs="";
+            foreach($compesp as $k=>$v){
+                $arrjs.='"'.$k.'": "'.$v.'",';
+            }
+            $arrjs=substr($arrjs, 0, -1);
+            echo '
+            var newOptions = {"0": "-- Seleccione --",
+            '.$arrjs.'
+            };
+            var $el = $("#compest");
+            $el.empty();
+            $.each(newOptions, function(value,key) {
+                if(value==1){
+                    $el.append($("<option></option>").attr("value", 111).text("Instalaciones"));
+                }
+                if(value==12){
+                    $el.append($("<option></option>").attr("value", 112).text("Deportiva"));
+                }
+                if(value==30){
+                    $el.append($("<option></option>").attr("value", 113).text("Áreas de esparcimiento"));
+                }
+                if(value==41){
+                    $el.append($("<option></option>").attr("value", 114).text("Áreas verdes"));
+                }
+                $el.append($("<option></option>").attr("value", value).text(key));
+            });
+        }
+    }
+    else if(t==4){
+        if($("#compeventosr").val()==84){
+            var newOptions = {"0": "-- Seleccione --",
+            "1": "Limpieza",
+            "2": "Árboles"
+            };
+        }
+        else{
+            var newOptions = {"0": "-- Seleccione --",
+            "1": "Torneos",
+            "2": "Tianguis",
+            "3": "Kermes",
+            "4": "Dias festivos",
+            "5": "Rifa",
+            "6": "Evento cultural",
+            "7": "Funcion de cine",
+            "8": "Carrera pedestre",
+            "9": "Noche bohemia",
+            };
+        }
+        var $el = $("#compevent");
+        $el.empty();
+        $.each(newOptions, function(value,key) {
+            $el.append($("<option></option>").attr("value", value).text(key));
+        });
+    }
+    else if(t==5){
+        if($("#state").val()==25){
+            var newOptions = {"0": "-- Seleccione --",
+            "Culiacán": "Culiacán",
+            "Navolato": "Navolato"
+            };
+        }
+        else if($("#state").val()==3){
+            var newOptions = {"0": "-- Seleccione --",
+            "Comondú": "Comondú",
+            "Mulegé": "Mulegé",
+            "La Paz": "La Paz",
+            "Los Cabos": "Los Cabos",
+            "Loreto": "Loreto"
+            };
+        }
+        else{
+            var newOptions = {"0": "-- Seleccione --"
+            };
+        }
+        var $el = $("#ciudad");
+        $el.empty();
+        $("#localidad").empty();
+        $.each(newOptions, function(value,key) {
+            $el.append($("<option></option>").attr("value", value).text(key));
+        });
+    }
+    else if(t==6){
+        if($("#ciudad").val()=="Comondú"){
+            var newOptions = {"0": "-- Seleccione --",
+            "Ciudad Constitución": "Ciudad Constitución",
+            };
+        }
+        else if($("#ciudad").val()=="Mulegé"){
+            var newOptions = {"0": "-- Seleccione --",
+            "Santa Rosalía": "Santa Rosalía",
+            };
+        }
+        else if($("#ciudad").val()=="La Paz"){
+            var newOptions = {"0": "-- Seleccione --",
+            "La Paz": "La Paz",
+            };
+        }
+        else if($("#ciudad").val()=="Los Cabos"){
+            var newOptions = {"0": "-- Seleccione --",
+            "San José del Cabo": "San José del Cabo",
+            };
+        }
+        else if($("#ciudad").val()=="Loreto"){
+            var newOptions = {"0": "-- Seleccione --",
+            "Loreto": "Loreto",
+            };
+        }
+        var $el = $("#localidad");
+        $el.empty();
+        $.each(newOptions, function(value,key) {
+            $el.append($("<option></option>").attr("value", value).text(key));
+        });
+    }
+    else{
+        if($("#categoria").val()==1){';
+            $arrjs="";
+            foreach($instalaciones as $k=>$v){
+                $k=str_replace($acentos, $conacentos, $k);
+                $v=str_replace($acentos, $conacentos, $v);
+                $b=explode(' ',$v);
+                $a=strtolower($b[0]);
+                $a=str_replace($acentos, $sinacentos, $a);
+                $arrjs.='"'.$a.'": "'.$v.'",';
+            }
+            $arrjs=substr($arrjs, 0, -1);
+            echo '
+            var newOptions = {"0": "-- Seleccione --",
+            '.$arrjs.'
+            };
+        }
+        else if($("#categoria").val()==2){';
+            $arrjs="";
+            foreach($esparcimiento as $k=>$v){
+                $k=str_replace($acentos, $conacentos, $k);
+                $v=str_replace($acentos, $conacentos, $v);
+                $b=explode(' ',$v);
+                $a=strtolower($b[0]);
+                $a=str_replace($acentos, $sinacentos, $a);
+                $arrjs.='"'.$a.'": "'.$v.'",';
+            }
+            $arrjs=substr($arrjs, 0, -1);
+            echo '
+            var newOptions = {"0": "-- Seleccione --",
+            '.$arrjs.'
+            };
+        }
+        else if($("#categoria").val()==3){';
+            $arrjs="";
+            foreach($deportiva as $k=>$v){
+                $k=str_replace($acentos, $conacentos, $k);
+                $v=str_replace($acentos, $conacentos, $v);
+                $b=explode(' ',$v);
+                $a=strtolower($b[0]);
+                $a=str_replace($acentos, $sinacentos, $a);
+                if($b[0]=="Cancha"){
+                    $a=strtolower($b[2]);
+                }
+                else{
+                   $a=strtolower($b[0]); 
+                }
+                $arrjs.='"'.$a.'": "'.$v.'",';
+            }
+            $arrjs=substr($arrjs, 0, -1);
+            echo '
+            var newOptions = {"0": "-- Seleccione --",
+            '.$arrjs.'
+            };
+        }
+        else if($("#categoria").val()==4){
+            var newOptions = {"0": "-- Seleccione --",
+            "cesped":"Césped",
+            "arboles":"Árboles",
+            "arbusto":"Arbusto",
+            "riego":"Sistema de riego"
+            };
+        }
+        var $el = $("#subcategoria");
+        $el.empty();
+        $.each(newOptions, function(value,key) {
+            $el.append($("<option></option>").attr("value", value).text(key));
+        });
+    }
+}
+function cortatexto(){
+    $("#compoera option:selected").text("hola");
+}
+function validar(n,y){
+    var txtval=document.getElementById(y).value;
+    document.getElementById(y).value = "Enviando...";
+    document.getElementById(y).disabled = true;
+    document.getElementsByName("cmd")[0].value=n;
+    if(n==1){
+        document.getElementsByName("buscarvisita")[0].value=1;
+        if(document.getElementsByName("visita")[0].value==""){
+            alert("Por favor especifica el tipo de visita");
+            document.getElementById(y).value = txtval;
+            document.getElementById(y).disabled = false;
+            return false;
+        }
+        else{
+            $.ajax({url: "sistema.php",
+            data: { cmd: 88, parque: '.$_POST['parque'].', fecha: $("#datepicker4").val(), tipo_visita: document.getElementsByName("visita")[0].value},
+            dataType: "text",
+            type: "post",
+            success: function(result){
+                var res=result.split("|");
+                if(res[0]=="nope"){
+                    alert(res[1]);
+                    document.getElementById(y).value = txtval;
+                    document.getElementById(y).disabled = false;
+                    return false;
+                }
+                else{
+                    if(document.getElementsByName("visita")[0].value=="reforzamiento"){
+                        document.forma.submit();
+                    }
+                    else{
+                        if(document.getElementsByName("sinvisitas")[0].value!="1"){
+                            calcular(1);
+                        }
+                        else{
+                            document.forma.submit();
+                        }
+                    }
+                }
+            }});
+        }
+    }
+    else if(n==2){
+        document.getElementsByName("datos_miembros")[0].value=miem;
+        document.getElementsByName("nuevos_miembros")[0].value=nmiem;
+        document.forma.submit();
+    }
+    else if(n==3){
+        var sipi=1;
+        if(document.getElementById("needcom").value=="si"){
+            $("td[id^=need]").each(function(){
+                if($(this).is(":visible")){
+                    var namee=this.id.substr(4);
+                    if(document.getElementsByName("com"+namee)[0].value==""){
+                        sipi=0;
+                    }
+                }
+            });
+            
+            if(sipi==1){
+                document.getElementsByName("cmd")[0].value=1;
+                document.forma.submit();
+            }
+            else{
+                alert("Por favor llena todos los comentarios marcados.");
+                document.getElementById(y).value = txtval;
+                document.getElementById(y).disabled = false;
+                return false;
+            }
+        }
+        else{
+            document.forma.submit();
+        }
+    }
+    else if(n==4){
+        $("input, select").attr("disabled", false);
+        document.forma.submit();
+    }
+    else if(n==6){
+        document.getElementsByName("pods_meta__cmb_parque")[0].value=document.getElementsByName("parque")[0].value;
+        document.forma.submit();
+    }
+    else{
+        document.forma.submit();
+    }   
+}
+function falta(){
+    $.ajax({url: "sistema.php",
+        data: { cmd: 101, parque: '.$_POST['parque'].', categoria: $("#categoria").val(), subcategoria: $("#subcategoria").val()},
+        dataType: "text",
+        type: "post",
+        success: function(result){
+            if(result!="no tiene"){
+                $("#faltante").val(result);
+            }
+        }
+    });
+}
+function restar(){
+    var falta = $("#faltante").val();
+    var tiene = $("#cantidad").val();
+    if(falta!=""){
+        var ress=falta-tiene;
+        $("#faltante").val(ress);
+    }
+}
+function change_vis(vis){
+    if(vis=="reforzamiento"){
+        var newOptions = {"0": "-- Seleccione --",
+            "15": "Organización de Eventos",
+            "16": "Proyecto en Proceso",
+            "17": "Ingresos - Egresos",
+            "18": "Otros"
+        };
+        $("#normal").hide();
+        $("#logro_visita").show();
+        $("#boton_calcular").hide();
+    }
+    else{
+        if(vis=="prospectacion"){
+            var newOptions = {"0": "-- Seleccione --",
+                "1": "Repartir volantes",
+                "2": "Formación del comité",
+                "3": "Reestructuración del comité"
+            };
+        }
+        else{
+            var newOptions = {"0": "-- Seleccione --",
+                "1": "Repartir volantes",
+                "2": "Formación del comité",
+                "3": "Reestructuración del comité",
+                "4": "Elaboración de la visión del espacio",
+                "5": "Presentación de la visión del espacio a los vecinos",
+                "6": "Reestructuración de la visión del espacios",
+                "7": "Presentación del diseño del espacio a los vecinos",
+                "8": "Eventos organizados por el comité",
+                "9": "Eventos rganizados por parques alegres",
+                "10": "Talleres",
+                "11": "Elaboración del calendario anual de actividades",
+                "12": "Presentación de la planeación del calendario anual de actividades",
+                "13": "Asesoría para realizar el reglamento de orden",
+                "14": "Elaboración de carpetas para rifa"
+            };
+        }
+        $("#normal").show();
+        $("#logro_visita").hide();
+        $("#boton_calcular").show();
+    }
+    var $el = $("#clasvisita");
+    $el.empty();
+    $.each(newOptions, function(value,key) {
+        $el.append($("<option></option>").attr("value", value).text(key));
+    });
+}
+function change_clas(clas){
+    if(clas=="18"){
+        $("#otroclaslabel").show();
+    }
+    else{
+        $("#otroclaslabel").hide();
+    }
+}
+function cambio(s){
+    for(m=0;m<12;m++){
+        if(s==4){
+            $("#parque").hide("slow");
+        }
+        else{
+            $("#parque").show("slow");
+        }
+        if(m==s){
+            $("#screen"+m).show("slow").css("display", "inline");;
+        }
+        else{
+            $("#screen"+m).hide("slow");
+        }
+    }
+}
+var totalm=0;
+$("input[name^=\'meta_\']").each(function(){
+    if($(this).val()>0){
+        totalm=parseInt(totalm)+parseInt($(this).val());
+    }
+});
+$("#totalm").text(Math.round(totalm/7));
+document.getElementsByName("totalmeta")[0].value=Math.round(totalm/7);';
+if($total!=""){
+    echo 'document.getElementsByName("totalvis")[0].value='.round($total).';';
+}
+echo '$("input[name^=\'meta_\']").each(function(){
+    $(this).keyup(function(){
+        totalm=0;
+        $("input[name^=\'meta_\']").each(function(){
+            if($(this).val()>0){
+                totalm=parseInt(totalm)+parseInt($(this).val());
+            }
+        });
+        $("#totalm").text(Math.round(totalm/7));
+        document.getElementsByName("totalmeta")[0].value=Math.round(totalm/7);
+        ';
+        if($total!=""){
+            echo 'document.getElementsByName("totalvis")[0].value='.round($total).';';
+        }
+        echo '
+    });
+});
+$("input[name=\"organiza[]\"]").change(function(){
+    recalculate();
+});
+function add_reunion(num){
+    if(num>0){
+        $(".listreun").show();
+    }
+    else{
+        $(".listreun").hide();
+    }
+    $("#reun").html("");
+    for(var e=1;e<=num;e++){
+        var reunion = \'<label><input type="text" id="datepickerr\'+ e + \'" name="fecha_reunion[\'+ e + \']" onchange="recalc();"/><input type="text" name="num_asistentes[\'+ e + \']" onkeyup="recalc();"/>\';
+        $("#reun").append(reunion);
+        $("#datepickerr"+e).datepicker({ minDate: "'.date('Y-m-d', strtotime('-1 month')).'",maxDate: new Date, dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
+    }
+    recalc();
+}
+function sh_proy(pr){
+    if(pr<20){
+        $("#datosproy").hide();
+    }
+    else{
+        $("#datosproy").show();
+    }
+}
+function add_proy(){
+    document.getElementById(\'num_proy\').value++;
+    var i = document.getElementById(\'num_proy\').value;
+    var proyecto = \'<label style="margin-left:35%;"><span>Nombre:</span><input type="text" name="nombre_proy[\'+ document.getElementById(\'num_proy\').value + \']"></label>\';
+    proyecto += \'<label style="margin-left:35%;"><span>Fecha:</span><input type="text" id="fecha_proy\'+ document.getElementById(\'num_proy\').value + \'" name="fecha_proy[\'+ document.getElementById(\'num_proy\').value + \']"></label>\';
+    proyecto += \'<label style="margin-left:35%;"><span>Tipo:</span><select name="tipo_proy[\'+ document.getElementById(\'num_proy\').value + \']"><option value="" selected> -- Seleccione -- </option><option value="1">Tejido Social</option><option value="2">Generación de Ingresos</option><option value="3">Gestión</option></select></label>\';
+    proyecto += \'<label style="margin-left:35%;"><span>Estatus:</span><select name="estatus_proy[\'+ document.getElementById(\'num_proy\').value + \']"><option value="" selected> -- Seleccione -- </option><option value="1">En proceso</option><option value="2">Terminado</option><option value="3">Cancelado</option></select></label>\';
+    $("#nproy").append(proyecto);
+    for(var e=1;e<=i;e++){
+        $("#fecha_proy"+e).datepicker({ maxDate: new Date, dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
+    }
+}
+function recalc(){
+    var sum = 0;
+    $.each($("input[name^=\"fecha_reunion\"]"), function(){            
+        if($(this).val()!=""){
+            sum++;
+        }
+    });
+    if(sum<1){
+        $("#resultreun").text("Ninguna reunión").css("color", "red");
+    }
+    else if(sum<2){
+        $("#resultreun").text("El comité se reune con regularidad").css("color", "orange");
+    }
+    else{
+        $("#resultreun").text("El comité se reune con frecuencia").css("color", "green");   
+    }
+}
+function recalculate(){
+    var sum = 0;
+    $.each($("input[name=\"organiza[]\"]:checked"), function(){
+    '; foreach($organizacion_comite as $k=>$v){
+        echo 'if($(this).val()=='.$k.'){
+            sum += '.$v.';
+        }';
+    }
+    echo '});
+    if(sum<1){
+        $("#resultorg").text("Sin organización").css("color", "red");
+    }
+    else if(sum<15){
+        $("#resultorg").text("Regular").css("color", "orange");
+    }
+    else{
+        $("#resultorg").text("Buena organización").css("color", "green");   
+    }
+}
+function calcular(g){
+    var chk_arr =  document.getElementsByName("averdes[]");
+    var chklength = chk_arr.length;             
+    var c=0;
+    var valores = new Array();
+    var areasverdes=0;
+    var total=0;
+    var sum=0;
+    var sume=0;
+    for(k=0;k< chklength;k++)
+    {
+        if(chk_arr[k].checked == true){
+            valores.push(chk_arr[k].value);
+            c++;
+        }
+    } 
+    if(c==1){
+            areasverdes=17;
+    }
+    if(c==2){
+            if(valores[0]==1 && valores[1]==2){
+                    areasverdes=34;
+            }
+            if(valores[0]==1 && valores[1]==3){
+                    areasverdes=35;
+            }
+            if(valores[0]==2 && valores[1]==3){
+                    areasverdes=36;
+            }
+    }
+    if(c==3){
+            areasverdes=50;
+    }
+    if($("input[name=\'ingresop\']:checked").val()!=undefined){
+        total = total+parseInt($("input[name=\'ingresop\']:checked").val());
+    }
+    if($("input[name=\'mancomunado\']:checked").val()!=undefined){
+        total = total+parseInt($("input[name=\'mancomunado\']:checked").val());
+    }';
+    //if($asesor==13563 && $_GET['p']==1){
+        echo '$.each($("input[name^=\"fecha_eventoc\"]"), function(index, value){
+            se=index+1;
+            if($("#status_even"+se).val()==2){
+            
+                if(sume<4){
+                    sume++;
+                }
+            }
+            if($(this).val()!=""){
+                sum++;
+            }
+        });
+        for (ind = 1; ind <= $("input[name=\"evenfbd\"]").val(); ++ind) {
+            if($("#status_evenf"+ind).val()==2){
+                if(sume<4){
+                    sume++;
+                }
+            }
+        }
+        var calend=0;
+        var eventosr=0;
+        if(sum>=4){
+            calend=50;
+            total = total+50;
+        }
+        if(sume>0){
+            eventosr=(sume*50)/4;
+            total = total + ((sume*50)/4);
+        }
+        var nombres = ["estado","instalaciones","ingresadop","estaver","gente","respint","orden","limpieza"];
+        ';
+    /*}
+    else{
+        echo 'var nombres = ["opera","organiza","reunion","estado","instalaciones","ingresadop","eventosr","estaver","gente","respint","orden","limpieza"];
+        if($("input[name=\'eventos\']:checked").val()!=undefined){
+            total = total+parseInt($("input[name=\'eventos\']:checked").val());
+        }';
+    }*/
+    echo 'if(document.getElementsByName("tipo_proyecto")[0].value!=""){
+        if(document.getElementsByName("tipo_proyecto")[0].value!="0"){
+            total= total+40;
+        }
+    }
+    var formal=0;
+    if(document.getElementsByName("formaliza")[0].value!=""){
+        if(document.getElementsByName("formaliza")[0].value=="interno"){
+            total= total+10;
+            formal=10
+        }
+        else{
+            total=total+20;
+            formal=20;
+        }
+    }';
+    if($asesor==13563){
+        echo 'var opera=0;
+        if($("input[name^=\'nom_miembr\']").length > 0){
+            var a=0;
+            $("input[name^=\'nom_miembr\']").each(function(){
+                var name = $(this).attr("name");
+                var last3 = name.substr(name.length - 2,1);
+                if($(this).val()!="" && !$("input[name=\'estatus_miembro["+last3+"]\']").prop("checked") == true){
+                    a=a+1;
+                }
+            });
+            if(a>0){
+                opera=7;
+                if(a>1){
+                    opera=14;
+                    if(a>2){
+                        opera=20;
+                    }
+                }
+            }
+        }
+        total=total + opera;
+        var organiza=0;
+        if($("#resultorg").text()=="Buena organización"){
+            organiza=20;
+        }
+        else if($("#resultorg").text()=="Regular"){
+            organiza=10;
+        }
+        else{
+            organiza=0;
+        }
+        total=total + organiza;
+        if($("#resultreun").text()=="El comité se reune con frecuencia"){
+            reuniones=20;
+        }
+        else if($("#resultreun").text()=="El comité se reune con regularidad"){
+            reuniones=10;
+        }
+        else{
+            reuniones=0;
+        }
+        alert(reuniones);
+        total=total+reuniones;
+        var proyecto=0;
+        if($("input[name^=\'nombre_proy\']").length > 0){
+            $("input[name^=\'nombre_proy\']").each(function(){
+                var name_proy = $(this).attr("name");
+                var last3_proy = name_proy.substr(name_proy.length - 2,1);
+                if($(this).val()!="" && $("select[name=\'estatus_proy["+last3_proy+"]\']").val()=="1"){
+                    proyecto=20;
+                }
+            });
+        }
+        total=total+proyecto;
+        ';
+    }
+    else{    
+        echo 'if($("input[name=\'proyecto\']:checked").val()!=undefined){
+            total = total+parseInt($("input[name=\'proyecto\']:checked").val());
+        }
+        if(document.getElementsByName("opera")[0].value!=""){
+            total= total + parseInt(document.getElementsByName("opera")[0].value);
+        }
+        if(document.getElementsByName("organiza")[0].value!=""){
+            total= total + parseInt(document.getElementsByName("organiza")[0].value);
+        }
+        if(document.getElementsByName("reunion")[0].value!=""){
+            total= total + parseInt(document.getElementsByName("reunion")[0].value);
+        }';
+    }
+    echo '
+    for (index = 0; index < nombres.length; ++index) {
+        if(document.getElementsByName(nombres[index])[0].value!=""){
+            total= total + parseInt(document.getElementsByName(nombres[index])[0].value);
+        }
+    }
+    total = (total+areasverdes)/7;
+    if(total<=100){
+        if(total<=80){
+            if(total<=59){
+                document.getElementById("total").style.color = "#FF6565";
+            }
+            else{
+                document.getElementById("total").style.color = "#EEA740";
+            }
+        }
+        else{
+            document.getElementById("total").style.color = "#9DC45F";
+        }
+    }
+    document.getElementById("total").innerHTML = Math.round(total);
+    var diferencias = [];';
+    if($asesor==13563){
+        echo 'if(proyecto!="'.$rowz["proyecto"].'"){
+            diferencias.push("proyecto");
+        }
+        if(reuniones!="'.$rowz["reunion"].'"){
+            diferencias.push("reunion");
+        }
+        if(organiza!="'.$rowz["organiza"].'"){
+            diferencias.push("organiza");
+        }
+        if(opera!="'.$rowz["opera"].'"){
+            diferencias.push("opera");
+        }';
+    }
+    else{
+        echo '
+        if(document.getElementsByName("opera")[0].value!="'.$rowz["opera"].'"){
+            diferencias.push("opera");
+        }
+        if(document.getElementsByName("organiza")[0].value!="'.$rowz["organiza"].'"){
+            diferencias.push("organiza");
+        }
+        if(document.getElementsByName("reunion")[0].value!="'.$rowz["reunion"].'"){
+            diferencias.push("reunion");
+        }
+        if($("input[name=\'proyecto\']:checked").val()!="'.$rowz["proyecto"].'"){
+            diferencias.push("proyecto");
+        }
+        ';
+    }
+    echo '
+    if(formal!="'.$rowz["formaliza"].'"){
+        diferencias.push("formaliza");
+    }
+    if($("input[name=\'ingresop\']:checked").val()!="'.$rowz["ingresop"].'"){
+        diferencias.push("ingresop");
+    }
+    if($("input[name=\'mancomunado\']:checked").val()!="'.$rowz["mancomunado"].'"){
+        diferencias.push("mancomunado");
+    }
+    if(calend!="'.$rowz["eventos"].'"){
+            diferencias.push("eventos");
+    }';
+    if($rowz['vespacio']==40){
+        $tipoproyecto='vespacio';
+    }
+    if($rowz['disenio']==40){
+        $tipoproyecto='disenio';
+    }
+    if($rowz['ejecutivo']==40){
+        $tipoproyecto='ejecutivo';
+    }
+    echo 'if(document.getElementsByName("tipo_proyecto")[0].value!="'.$tipoproyecto.'"){
+        diferencias.push("'.$tipoproyecto.'");
+    }
+    if(document.getElementsByName("estado")[0].value!="'.$rowz["estado"].'"){
+        diferencias.push("estado");
+    }
+    if(document.getElementsByName("instalaciones")[0].value!="'.$rowz["instalaciones"].'"){
+        diferencias.push("instalaciones");
+    }
+    if(document.getElementsByName("ingresadop")[0].value!="'.$rowz["ingresadop"].'"){
+        diferencias.push("ingresadop");
+    }
+    if(eventosr!="'.$rowz["eventosr"].'"){
+            diferencias.push("eventosr");
+    }
+    if(areasverdes!="'.$rowz["averdes"].'"){
+        diferencias.push("averdes");
+    }
+    if(document.getElementsByName("estaver")[0].value!="'.$rowz["estaver"].'"){
+        diferencias.push("estaver");
+    }
+    if(document.getElementsByName("gente")[0].value!="'.$rowz["gente"].'"){
+        diferencias.push("gente");
+    }
+    if(document.getElementsByName("respint")[0].value!="'.$rowz["respint"].'"){
+        diferencias.push("respint");
+    }
+    if(document.getElementsByName("orden")[0].value!="'.$rowz["orden"].'"){
+        diferencias.push("orden");
+    }
+    if(document.getElementsByName("limpieza")[0].value!="'.$rowz["limpieza"].'"){
+        diferencias.push("limpieza");
+    }
+    if(g==1){
+        if(Math.round(total)!=document.getElementById("calant").value){
+                document.getElementById("needcom").value="si";
+                document.getElementById("diferencias").value=diferencias;
+                for(r=0;r<diferencias.length;r++){
+                    $("#need"+diferencias[r]).show();
+                }
+                cambio(3);
+        }
+        else{
+            document.getElementById("needcom").value="si";
+            $("#needgenvisita").show();
+            cambio(3);
+        }
+    }
+}
+function agregar(num){
+    document.getElementById(\'num_miembro\').value++;
+    var i = document.getElementById(\'num_miembro\').value;
+    var miembro = \'<h2>Miembro \'+ document.getElementById(\'num_miembro\').value + \'</h2><label><span>Nombre Completo:</span><input type="text" id="nombre[\'+ document.getElementById(\'num_miembro\').value + \']" name="nombre[\'+ document.getElementById(\'num_miembro\').value + \']" size="50"/></label><label><span>Fecha de nacimiento:</span><label class="white-pinkt" for="dia[\'+ document.getElementById(\'num_miembro\').value + \']">D&iacute;a</label>&nbsp;<select class="pinked" name="dia[\'+ document.getElementById(\'num_miembro\').value + \']">\';
+        for(var e=0;e<=31;e++){
+            if(e==0){
+                miembro += \'<option value="" selected> -- </option>\';
+            }
+            else{
+                miembro += \'<option value="\'+e+\'">\'+e+\'</option>\';
+            }
+        }
+        miembro += \'</select>&nbsp<label class="white-pinkt" for="mes[\'+ document.getElementById(\'num_miembro\').value + \']">Mes</label>&nbsp;<select class="pinked" name="mes[\'+ document.getElementById(\'num_miembro\').value + \']">\';
+        for(var e=0;e<=12;e++){
+            if(e==0){
+                miembro += \'<option value="" selected> -- </option>\';
+            }
+            else{
+                miembro += \'<option value="\'+e+\'">\'+e+\'</option>\';
+            }
+        }
+        miembro += \'</select>&nbsp<label class="white-pinkt" for="anio[\'+ document.getElementById(\'num_miembro\').value + \']">A&ntildeo</label>&nbsp<select class="pinked" name="anio[\'+ document.getElementById(\'num_miembro\').value + \']">\';
+        for(var e=1909;e<=1998;e++){
+            if(e==1909){
+                miembro += \'<option value="" selected> -- </option>\';
+            }
+            else{
+                miembro += \'<option value="\'+e+\'">\'+e+\'</option>\';
+            }
+        }
+        miembro += \'</select></label><label><span>Sexo:</span><input type="radio" id="masculino[\'+ document.getElementById(\'num_miembro\').value + \']" name="sexo[\'+ document.getElementById(\'num_miembro\').value + \']" value="Masculino"><label class="white-pinked" for="masculino[\'+ document.getElementById(\'num_miembro\').value + \']">Masculino</label><input type="radio" id="femenino[\'+ document.getElementById(\'num_miembro\').value + \']" name="sexo[\'+ document.getElementById(\'num_miembro\').value + \']" value="Femenino"><label class="white-pinked" for="femenino[\'+ document.getElementById(\'num_miembro\').value + \']">Femenino</label>\';
+        miembro += \'</label><label><span>Nivel Educativo:</span><select name="educacion[\'+ document.getElementById(\'num_miembro\').value + \']"><option value="" selected> -- Seleccione -- </option>        <option value="primaria">Primaria</option>        <option value="secundaria">Secundaria</option>        <option value="preparatoria">Preparatoria</option>        <option value="profesional">Carrera Profesional</option>        <option value="tecnicos">Estudios T&eacute;cnicos</option></select></label>\';
+        miembro += \'<label><span>Rol en el comit&eacute;:</span><select name="rol[\'+ document.getElementById(\'num_miembro\').value + \']"><option value="" selected> -- Seleccione -- </option>        <option value="1">Presidente</option>        <option value="2">Secretario</option>        <option value="3">Tesorero</option>        <option value="4">Vocal</option>        <option value="5">Comunicaci&oacute;n</option><option value="6">Vecino</option></select></label>\';
+        miembro += \'<label><span>Tel&eacute;fono:</span><input type="text" name="telefono[\'+ document.getElementById(\'num_miembro\').value + \']"></label>\';
+        miembro += \'<label><span>Celular:</span><input type="text" name="celular[\'+ document.getElementById(\'num_miembro\').value + \']"></label>\';
+        miembro += \'<label><span>Tiene Facebook?</span>Sí <input type="radio" class="megusta" name="facebook[\'+ document.getElementById(\'num_miembro\').value + \']" value="1"> No <input type="radio" class="megusta" name="facebook[\'+ document.getElementById(\'num_miembro\').value + \']" value="2"></label>\';
+        miembro += \'<label><span>"Me gusta" a Parques Alegres en Facebook?</span><input type="checkbox" class="megusta" name="megusta[\'+ document.getElementById(\'num_miembro\').value + \']" value="1"></label>\';
+        miembro += \'<label><span>Tiene Twitter?</span>Sí <input type="radio" class="megusta" name="twitter[\'+ document.getElementById(\'num_miembro\').value + \']" value="1"> No <input type="radio" class="megusta" name="twitter[\'+ document.getElementById(\'num_miembro\').value + \']" value="2"></label>\';
+        miembro += \'<label><span>"Sigue" a Parques Alegres en Twitter?</span><input type="checkbox" class="megusta" name="siguemet[\'+ document.getElementById(\'num_miembro\').value + \']" value="1"></label>\';
+        miembro += \'<label><span>Tiene Instagram?</span>Sí <input type="radio" class="megusta" name="instagram[\'+ document.getElementById(\'num_miembro\').value + \']" value="1"> No <input type="radio" class="megusta" name="instagram[\'+ document.getElementById(\'num_miembro\').value + \']" value="2"></label>\';
+        miembro += \'<label><span>"Sigue" a Parques Alegres en Instagram?</span><input type="checkbox" class="megusta" name="siguemei[\'+ document.getElementById(\'num_miembro\').value + \']" value="1"></label>\';
+        miembro += \'<label><span>Correo electr&oacute;nico:</span><input type="text" name="email[\'+ document.getElementById(\'num_miembro\').value + \']"></label>\';
+        miembro += \'<label><span>Contacto:</span><input type="radio" value="1" id="cont_a[\'+ document.getElementById(\'num_miembro\').value + \']" name="contacto[\'+ document.getElementById(\'num_miembro\').value + \']" onclick="contacto(\'+ document.getElementById(\'num_miembro\').value + \');"><label class="white-pinked" for="cont_a[\'+ document.getElementById(\'num_miembro\').value + \']">S&iacute;</label><input type="radio" value="0" id="cont_b[\'+ document.getElementById(\'num_miembro\').value + \']" name="contacto[\'+ document.getElementById(\'num_miembro\').value + \']"><label class="white-pinked" for="cont_b[\'+ document.getElementById(\'num_miembro\').value + \']">No</label></label>\';
+        $("#miembros").append(miembro);
+    }
+    function new_fecha(nom){
+        var inpfecha = nom.substr(11);
+        if(document.getElementsByName(nom)[0].value==1){        
+            $("#nueva_fecha"+inpfecha).hide();
+        }
+        else{
+            $("#nueva_fecha"+inpfecha).show();
+        }
+    }
+    var me=0;
+    function editar(cve){
+        $("#boton_guardar").attr("disabled", true).removeClass("button").addClass("disa");
+        if(cve>0){
+            var miembro=[];';
+            if(is_array($miembros)){
+                foreach($miembros as $k=>$v){
+                    echo 'miembro["'.$k.'"]=["'.$v[0].'","'.$v[1].'","'.$v[2].'","'.$v[3].'","'.$v[4].'","'.$v[5].'","'.$v[6].'","'.$v[7].'","'.$v[8].'","'.$v[9].'","'.$v[10].'","'.$v[11].'","'.$v[12].'","'.$v[13].'","'.$v[14].'","'.$v[15].'","'.$v[16].'","'.$v[17].'"];';
+                }
+            }
+            echo '
+            if (miembro[cve][17]!="") {
+                var fecha_mi = miembro[cve][17].split("-");
+            }
+            else{
+                var fecha_mi = [0000,00,00];
+            }
+            $("#nombre1").val(miembro[cve][0]);
+            $("#dia1").val(parseInt(fecha_mi[2]));
+            $("#mes1").val(parseInt(fecha_mi[1]));
+            $("#anio1").val(fecha_mi[0]);
+            if(miembro[cve][4]=="Masculino"){
+                $("#masculino1").attr("checked", "checked");
+            }
+            else if(miembro[cve][4]=="Femenino"){
+                $("#femenino1").attr("checked", "checked");
+            }
+            else{
+                $("#femenino1").attr("checked", false);
+                $("#masculino1").attr("checked", false);
+            }
+            $("#educacion1").val(miembro[cve][5]);
+            $("#rol1").val(miembro[cve][6]);
+            $("#telefono1").val(miembro[cve][7]);
+            $("#celular1").val(miembro[cve][8]);
+            $("#email1").val(miembro[cve][9]);
+            if(miembro[cve][10]=="1"){
+                $("#siface1").attr("checked", "checked");
+            }
+            else if(miembro[cve][10]=="2"){
+                $("#noface1").attr("checked", "checked");
+            }
+            else{
+                $("#noface1").attr("checked", false);
+                $("#siface1").attr("checked", false);
+            }
+            if(miembro[cve][11]=="1"){
+                $("#megusta1").prop("checked", true);
+            }
+            else{
+                $("#megusta1").prop("checked", false);
+            }
+            if(miembro[cve][12]=="1"){
+                $("#sitwitter1").attr("checked", "checked");
+            }else if(miembro[cve][12]=="2"){
+                $("#notwitter1").attr("checked", "checked");
+            }
+            else{
+                $("#sitwitter1").attr("checked", false);
+                $("#notwitter1").attr("checked", false);
+            }
+            if(miembro[cve][13]=="1"){
+                $("#siguemet1").prop("checked", true);
+            }
+            else{
+                $("#siguemet1").prop("checked", false);
+            }
+            if(miembro[cve][14]=="1"){
+                $("#siinsta1").attr("checked", "checked");
+            }else if(miembro[cve][14]=="2"){
+                $("#noinsta1").attr("checked", "checked");
+            }
+            else{
+                $("#siinsta1").attr("checked", false);
+                $("#noinsta1").attr("checked", false);
+            }
+            if(miembro[cve][15]=="1"){
+                $("#siguemei1").prop("checked", true);
+            }
+            else{
+                $("#siguemei1").prop("checked", false);
+            }
+            if(miembro[cve][16]=="1"){
+                $("#sicont1").attr("checked", "checked");
+            }else if(miembro[cve][16]=="2"){
+                $("#nocont1").attr("checked", "checked");
+            }
+            else{
+                $("#sicont1").attr("checked", false);
+                $("#nocont1").attr("checked", false);
+            }
+            $("#num_miembro").val(cve);
+        }
+        else{
+            $("#editmi :input").each(function() {
+                this.value = "";
+            });
+            $("#boton_cerrar").val("Cerrar");
+            $("#femenino1").attr("checked", false);
+            $("#masculino1").attr("checked", false);
+            $("#noface1").attr("checked", false);
+            $("#siface1").attr("checked", false);
+            $("#megusta1").prop("checked", false);
+            $("#sitwitter1").attr("checked", false);
+            $("#notwitter1").attr("checked", false);
+            $("#siguemet1").prop("checked", false);
+            $("#siinsta1").attr("checked", false);
+            $("#noinsta1").attr("checked", false);
+            $("#siguemei1").prop("checked", false);
+            $("#sicont1").attr("checked", false);
+            $("#nocont1").attr("checked", false);
+            me++;
+            $("#num_miembro").val("a"+me);
+        }
+        $("#editmi").show();
+    }
+    var miem = [];
+    var nmiem = [];
+    var nm=0;
+    function cerrar(){
+        nm++;
+        var megusta=0;
+        var siguet=0;
+        var siguei=0;
+        var facebook=0;
+        var twitter=0;
+        var insta=0;
+        var cont=0;
+        var sexo="";
+        if($("#megusta1").is(":checked")){
+            megusta=1;
+        }
+        if($("#siguemet1").is(":checked")){
+            siguet=1;
+        }
+        if($("#siguemei1").is(":checked")){
+            siguei=1;
+        }
+        if($("#masculino1").is(":checked")){
+            sexo="Masculino";
+        }
+        if($("#femenino1").is(":checked")){
+            sexo="Femenino";
+        }
+        if($("#siface1").is(":checked")){
+            facebook="1";
+        }
+        if($("#noface1").is(":checked")){
+            facebook="2";
+        }
+        if($("#sitwitter1").is(":checked")){
+            twitter="1";
+        }
+        if($("#notwitter1").is(":checked")){
+            twitter="2";
+        }
+        if($("#siinsta1").is(":checked")){
+            insta="1";
+        }
+        if($("#noinsta1").is(":checked")){
+            insta="2";
+        }
+        if($("#sicont1").is(":checked")){
+            cont="1";
+        }
+        if($("#nocont1").is(":checked")){
+            cont="2";
+        }
+        if($("#num_miembro").val().substr(0, 1)=="a"){
+            nmiem[$("#num_miembro").val().substr(1)] = $("#nombre1").val()+"|"+$("#dia1").val()+"|"+$("#mes1").val()+"|"+$("#anio1").val()+"|"+sexo+"|"+$("#educacion1").val()+"|"+$("#rol1").val()+"|"+$("#telefono1").val()+"|"+$("#celular1").val()+"|"+$("#email1").val()+"|"+facebook+"|"+megusta+"|"+twitter+"|"+siguet+"|"+insta+"|"+siguei+"|"+cont;
+        }
+        else{
+            miem[nm] = $("#num_miembro").val()+"|"+$("#nombre1").val()+"|"+$("#dia1").val()+"|"+$("#mes1").val()+"|"+$("#anio1").val()+"|"+$("input[name=\"sexo[1]\"]:checked").val()+"|"+$("#educacion1").val()+"|"+$("#rol1").val()+"|"+$("#telefono1").val()+"|"+$("#celular1").val()+"|"+$("#email1").val()+"|"+$("input[name=\"facebook[1]\"]:checked").val()+"|"+megusta+"|"+$("input[name=\"twitter[1]\"]:checked").val()+"|"+siguet+"|"+$("input[name=\"instagram[1]\"]:checked").val()+"|"+siguei+"|"+$("input[name=\"contacto[1]\"]:checked").val();
+        }
+        $("#editmi").hide();
+        $("#boton_guardar").attr("disabled", false).removeClass("disa").addClass("button");;
+    }
+    function contacto(i){
+        for(var e=1;e<=document.getElementById(\'num_miembro\').value;e++){
+            if(e!=i){
+                $("input[name=\'contacto["+e+"]\']").attr(\'checked\', \'checked\');
+            }        
+        }
+        document.getElementsByName("telefono[0]")[0].value=document.getElementsByName("telefono["+i+"]")[0].value;
+        document.getElementsByName("celular[0]")[0].value=document.getElementsByName("celular["+i+"]")[0].value;
+        document.getElementsByName("email[0]")[0].value=document.getElementsByName("email["+i+"]")[0].value;
+    }
+
+</script>';
+
+if($_POST['cmd']==5){
+    if($_POST['parque']>0){
+        foreach ($instalaciones as $k=>$v) {
+            $b=explode(' ',$v);
+            $a=strtolower($b[0]);
+            $a=str_replace($acentos, $sinacentos, $a);
+            if($v=="Cajones de estacionamiento"){
+                if($_POST['ccajones']!="" || $_POST['fcajones']=""){
+                    $sSQL4="INSERT INTO checklist(cve_parque,fecha,clasificacion,parametro,data) VALUES ('".$_POST['parque']."','".date("Y-m-d")."',1,'cajones','".$_POST['ccajones'].", ".$_POST['fcajones']."')";
+                    //echo $sSQL4.'<br>';
+                    mysql_db_query("parquesa_ParquesAlegresWP",$sSQL4);
+                }
+            }
+            elseif($v=="Canasta de reciclaje"){
+                if($_POST['canasta']!=""){
+                    $sSQL4="INSERT INTO checklist(cve_parque,fecha,clasificacion,parametro,data) VALUES ('".$_POST['parque']."','".date("Y-m-d")."',1,'canasta','".$_POST['canasta']."')";
+                    //echo $sSQL4.'<br>';
+                    mysql_db_query("parquesa_ParquesAlegresWP",$sSQL4);
+                }
+            }
+            else{
+                if($_POST['c'.$a]!="" || $_POST[$a]!="" || $_POST['f'.$a]!=""){
+                    $sSQL4="INSERT INTO checklist(cve_parque,fecha,clasificacion,parametro,data) VALUES ('".$_POST['parque']."','".date("Y-m-d")."',1,'".$a."','".$_POST['c'.$a].", ".$_POST[$a].", ".$_POST['f'.$a]."')";
+                    //echo $sSQL4.'<br>';
+                    mysql_db_query("parquesa_ParquesAlegresWP",$sSQL4);
+                }
+            }
+        }
+        foreach ($esparcimiento as $k=>$v) {
+            $b=explode(' ',$v);
+            $a=strtolower($b[0]);
+            $a=str_replace($acentos, $sinacentos, $a);
+            if($_POST['c'.$a]!="" || $_POST[$a]!="" || $_POST['f'.$a]!=""){
+                $sSQL4="INSERT INTO checklist(cve_parque,fecha,clasificacion,parametro,data) VALUES ('".$_POST['parque']."','".date("Y-m-d")."',2,'".$a."','".$_POST['c'.$a].", ".$_POST[$a].", ".$_POST['f'.$a]."')";
+                //echo $sSQL4.'<br>';
+                mysql_db_query("parquesa_ParquesAlegresWP",$sSQL4);
+            }
+        }
+    
+        foreach ($deportiva as $k=>$v) {
+            $b=explode(' ',$v);
+            if($b[0]=="Cancha"){
+                $a=strtolower($b[2]);
+            }
+            else{
+               $a=strtolower($b[0]); 
+            }
+            $a=str_replace($acentos, $sinacentos, $a);
+            if($v=="Gimnasio"){
+                if($_POST['gimnasio']!=""){
+                    $sSQL4="INSERT INTO checklist(cve_parque,fecha,clasificacion,parametro,data) VALUES ('".$_POST['parque']."','".date("Y-m-d")."',3,'gimnasio','".$_POST['gimnasio']."')";
+                    //echo $sSQL4.'<br>';
+                    mysql_db_query("parquesa_ParquesAlegresWP",$sSQL4);
+                }
+            }
+            elseif($v=="Promotor deportivo"){
+                if($_POST['promotores']!=""){
+                    $sSQL4="INSERT INTO checklist(cve_parque,fecha,clasificacion,parametro,data) VALUES ('".$_POST['parque']."','".date("Y-m-d")."',3,'promotores','".$_POST['promotores']."')";
+                    //echo $sSQL4.'<br>';
+                    mysql_db_query("parquesa_ParquesAlegresWP",$sSQL4);
+                }
+                if($_POST['deportes']!=""){
+                    $sSQL4="INSERT INTO checklist(cve_parque,fecha,clasificacion,parametro,data) VALUES ('".$_POST['parque']."','".date("Y-m-d")."',3,'deportes','".$_POST['deportes']."')";
+                    //echo $sSQL4.'<br>';
+                    mysql_db_query("parquesa_ParquesAlegresWP",$sSQL4);
+                }
+            }
+            else{
+                if($_POST['c'.$a]!="" || $_POST[$a]!="" || $_POST['f'.$a]!=""){
+                    $sSQL4="INSERT INTO checklist(cve_parque,fecha,clasificacion,parametro,data) VALUES ('".$_POST['parque']."','".date("Y-m-d")."',3,'".$a."','".$_POST['c'.$a].", ".$_POST[$a].", ".$_POST['f'.$a]."')";
+                    //echo $sSQL4.'<br>';
+                    mysql_db_query("parquesa_ParquesAlegresWP",$sSQL4);
+                }
+            }
+        }
+        if($_POST['cespedv']!=""){
+            $sSQL4="INSERT INTO checklist(cve_parque,fecha,clasificacion,parametro,data) VALUES ('".$_POST['parque']."','".date("Y-m-d")."',4,'cesped area verde','".$_POST['ccespedv'].",".$_POST['tcespedv'].",".$_POST['fcespedv'].",".$_POST['cespedv']."')";
+            //echo $sSQL4.'<br>';
+            mysql_db_query("parquesa_ParquesAlegresWP",$sSQL4);
+        }
+        if($_POST['cespedd']!=""){
+            $sSQL4="INSERT INTO checklist(cve_parque,fecha,clasificacion,parametro,data) VALUES ('".$_POST['parque']."','".date("Y-m-d")."',4,'cesped area deportiva','".$_POST['ccespedd'].",".$_POST['tcespedd'].",".$_POST['fcespedd'].",".$_POST['cespedd']."')";
+            //echo $sSQL4.'<br>';
+            mysql_db_query("parquesa_ParquesAlegresWP",$sSQL4);
+        }
+        if($_POST['cespedr']!=""){
+            $sSQL4="INSERT INTO checklist(cve_parque,fecha,clasificacion,parametro,data) VALUES ('".$_POST['parque']."','".date("Y-m-d")."',4,'cesped area recreativa','".$_POST['ccespedr'].",".$_POST['tcespedr'].",".$_POST['fcespedr'].",".$_POST['cespedr']."')";
+            //echo $sSQL4.'<br>';
+            mysql_db_query("parquesa_ParquesAlegresWP",$sSQL4);
+        }
+        if($_POST['arboles']!=""){
+            $sSQL4="INSERT INTO checklist(cve_parque,fecha,clasificacion,parametro,data) VALUES ('".$_POST['parque']."','".date("Y-m-d")."',4,'arboles','".$_POST['carboles'].",".$_POST['arboles'].",".$_POST['farboles']."')";
+            //echo $sSQL4.'<br>';
+            mysql_db_query("parquesa_ParquesAlegresWP",$sSQL4);
+        }
+        if($_POST['arbusto']!=""){
+            $sSQL4="INSERT INTO checklist(cve_parque,fecha,clasificacion,parametro,data) VALUES ('".$_POST['parque']."','".date("Y-m-d")."',4,'arbusto','".$_POST['carbusto'].",".$_POST['tarbusto'].",".$_POST['farbusto'].",".$_POST['arbusto']."')";
+            //echo $sSQL4.'<br>';
+            mysql_db_query("parquesa_ParquesAlegresWP",$sSQL4);
+        }
+        if($_POST['riego']!=""){
+            $sSQL4="INSERT INTO checklist(cve_parque,fecha,clasificacion,parametro,data) VALUES ('".$_POST['parque']."','".date("Y-m-d")."',4,'riego','".$_POST['criego'].",".$_POST['triego'].",".$_POST['friego'].",".$_POST['riego']."')";
+            //echo $sSQL4.'<br>';
+            mysql_db_query("parquesa_ParquesAlegresWP",$sSQL4);
+        }
+    }
+    else{
+        echo 'No ha seleccionado ningun parque';
+    }
+}
+if($_POST['cmd']==6){
+    if($_POST['parque']>0){
+        if($_POST['experiencias_exi']!=0){
+            $sql="UPDATE `wp_posts` SET `post_title`='".$_POST['nom_evento']."' WHERE ID='".$_POST['experiencias_exi']."'";
+            mysql_db_query("parquesa_ParquesAlegresWP",$sql);
+            update_post_meta($_POST['experiencias_exi'], '_cmb_event_date', $_POST['fecha_evento'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_video', $_POST['video'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_event_type', $_POST['tipo_evento'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_event_proposito', $_POST['proposito'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_participants_comite', $_POST['involucrados_comite'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_participants_vecinos', $_POST['involucrados_vecinos'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_actividades', $_POST['actividades'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_asistentes', $_POST['asistentes'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_benefits', $_POST['beneficios'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_impacto', $_POST['impacto'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_cant_impacto', $_POST['cantidad_imp'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_desc_impacto', $_POST['descimpacto'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_desc_impacto2', $_POST['descimpacto2'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_success_key', $_POST['clave'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_mejorar', $_POST['mejorar'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_contacto_exp', $_POST['contacto_exp'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_costos', $_POST['costos'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_boletos', $_POST['boletos'], true );
+            update_post_meta($_POST['experiencias_exi'], '_cmb_patrocinios', $_POST['patrocinios'], true );
+            echo 'Experiencia exitosa guardada exitosamente';
+        }
+        else{
+            $mypost = array('post_name' => $_POST['nom_evento'],
+            'post_title' => $_POST['nom_evento'],
+            'post_status' => 'draft',
+            'post_author' => $asesores[$asesor],
+            'post_type' => 'experiencia_exitosa',
+            'post_date' => date("Y-m-d H:i:s")
+            );
+            $idpost = wp_insert_post( $mypost , true);
+            //echo $idpost;
+            if($idpost>0){
+                add_post_meta($idpost, '_cmb_parque', $_POST['parque'], true );
+                add_post_meta($idpost, '_cmb_event_date', $_POST['fecha_evento'], true );
+                add_post_meta($idpost, '_cmb_video', $_POST['video'], true );
+                add_post_meta($idpost, '_cmb_event_type', $_POST['tipo_evento'], true );
+                add_post_meta($idpost, '_cmb_event_proposito', $_POST['proposito'], true );
+                add_post_meta($idpost, '_cmb_participants_comite', $_POST['involucrados_comite'], true );
+                add_post_meta($idpost, '_cmb_participants_vecinos', $_POST['involucrados_vecinos'], true );
+                add_post_meta($idpost, '_cmb_actividades', $_POST['actividades'], true );
+                add_post_meta($idpost, '_cmb_asistentes', $_POST['asistentes'], true );
+                add_post_meta($idpost, '_cmb_benefits', $_POST['beneficios'], true );
+                add_post_meta($idpost, '_cmb_impacto', $_POST['impacto'], true );
+                add_post_meta($idpost, '_cmb_cant_impacto', $_POST['cantidad_imp'], true );
+                add_post_meta($idpost, '_cmb_desc_impacto', $_POST['descimpacto'], true );
+                add_post_meta($idpost, '_cmb_desc_impacto2', $_POST['descimpacto2'], true );
+                add_post_meta($idpost, '_cmb_success_key', $_POST['clave'], true );
+                add_post_meta($idpost, '_cmb_mejorar', $_POST['mejorar'], true );
+                add_post_meta($idpost, '_cmb_contacto_exp', $_POST['contacto_exp'], true );
+                add_post_meta($idpost, '_cmb_costos', $_POST['costos'], true );
+                add_post_meta($idpost, '_cmb_boletos', $_POST['boletos'], true );
+                add_post_meta($idpost, '_cmb_patrocinios', $_POST['patrocinios'], true );
+                echo 'Experiencia exitosa guardada exitosamente';
+            }
+            else{
+                echo 'Error';
+            }
+        }
+    }
+    else{
+        echo 'No ha seleccionado ningun parque';
+    }
+}
+if($_POST['cmd']==7){
+    if($_POST['parque']>0){
+        for($i=1;$i<=count($_POST['asist']);$i++){
+            $sSQL5="INSERT INTO `comite_asistencia`(`cve_comite`, `fecha`,`miembro`) VALUES ('".$row01['id']."','".$_POST['fecha_asistencia']."','".$_POST['asist'][$i]."')";
+            //echo $sSQL5.'<br>';
+            mysql_db_query("parquesa_ParquesAlegresWP",$sSQL5);
+        }
+    }
+    else{
+        echo 'No ha seleccionado ningun parque';
+    }
+}
+if($_POST['cmd']==10){
+    if($_POST['parque']>0){
+        $sSQL5="INSERT INTO `infraestructura`(`cve_parque`, `fecha`, `tipo_infra`, `infraestructura` ,`condiciones_infra`, `cantidad`, `faltante`,`origen`, `comentarios`) VALUES ('".$_POST['parque']."','".$_POST['fecha_infra']."','".$_POST['categoria']."','".$_POST['subcategoria']."','".$_POST['condiciones_infra']."','".$_POST['cantidad']."','".$_POST['faltante']."','".$_POST['recurso']."','".$_POST['coment_infra']."')";
+        mysql_db_query("parquesa_ParquesAlegresWP",$sSQL5);
+    }
+    else{
+        echo 'No ha seleccionado ningun parque';
+    }
+}
+if($_POST['cmd']==11){
+    if($_POST['parque']>0){
+        foreach($_POST as $k=>$v){
+            if(substr($k, 0, 11)=="estatuscomp"){
+                if($v==1){
+                    $sSQL2="UPDATE compromisos SET estatus='".$v."' WHERE cve='".substr($k,11)."'";
+                }
+                else{
+                    $sSQL2="UPDATE compromisos SET estatus='".$v."',fecha_status='".$_POST['nueva_fecha'.substr($k, 11)]."' WHERE cve='".substr($k,11)."'";    
+                }
+                //echo $sSQL2;
+                mysql_db_query("parquesa_ParquesAlegresWP",$sSQL2);
+            }
+        }
+        echo 'Compromisos actualizados correctamente';
+    }
+    else{
+        echo 'No ha seleccionado ningun parque';
+    }
+}
+echo '</body>
+</html>';
+?>

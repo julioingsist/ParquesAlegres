@@ -1,0 +1,23 @@
+/*
+Theme Name: Leather Notepad
+*/
+/*
+Used to style the TinyMCE editor.
+*/
+* {
+  font-family: Georgia, "Bitstream Charter", serif;
+  color: #000;
+}
+p,
+dl,
+td,
+th,
+ul,
+ol,
+blockquote {
+  font-size: 12px;
+}
+
+img {
+  margin: 0;
+}

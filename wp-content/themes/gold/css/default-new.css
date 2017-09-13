@@ -1,0 +1,172 @@
+/**********************************
+* Color-main #2a6496
+* Dark main: #56676D
+*/
+
+p{
+	color:#555;
+}
+
+button, html input[type="button"],input[type="submit"],input[type="reset"]{
+	-moz-transition: background 1s, color 1s;
+	-webkit-transition: background 1s, color 1s;
+	-o-transition: background 1s, color 1s;
+	-ms-transition: background 1s, color 1s;
+	transition: background 1s, color 1s	;
+}
+a{
+	color: #2a6496;
+	-moz-transition: background 1s, color 1s;
+	-webkit-transition: background 1s, color 1s;
+	-o-transition: background 1s, color 1s;
+	-ms-transition: background 1s, color 1s;
+	transition: background 1s, color 1s	;
+}
+h1,h2, h3, h4, h5, h6{color:  #2a6496;}
+
+
+.panel-default .panel-heading{
+	background-color: #fff;
+}
+.panel-title {color: #000;}
+
+.collapse-heading{
+		background-color: #ffffff;
+		border-color: #101010;
+		padding: 0px 10px;
+		border-bottom: 1px solid #BBB6B6 !important;
+		border-top-right-radius: 3px;
+		border-top-left-radius: 3px;
+	}
+.collapse-title{
+	color: #2a6496;
+}	
+.collapse-title a{
+	display: block;
+}
+
+a:hover, a:focus {
+	color: #56676D;
+	text-decoration: underline;
+}
+.glyphicon:hover{
+	color:#2a6496;
+}
+[class^="icon-"], [class*=" icon-"] {
+	color:#2a6496;	
+}
+.navbar-inverse {
+	background-color: #2a6496;
+	border-color: #2a6496 !important;
+	font-weight: bold !important;
+}
+.navbar-nav>li>a {
+	color: #fff !important;
+	font-weight: bold !important;
+}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus {
+	color: #000 !important;
+	background-color: #FFF;
+	font-weight: bold !important;
+}
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
+	color: #FFF;
+	text-decoration: none;
+	background-color: #2a6496;
+	background-image: -webkit-gradient(linear,left 0,left 100%,from(#2a6496),to(#56676D));
+	background-image: -webkit-linear-gradient(top,#2a6496,0%,#56676D,100%);
+	background-image: -moz-linear-gradient(top,#2a6496 0,#56676D 100%);
+	background-image: linear-gradient(to bottom,#2a6496 0,#56676D 100%);
+	
+}
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+color: #ffffff !important;
+text-decoration: none !important;
+background-color: #2a6496 !important;
+outline: 0 !important;
+}
+
+.navbar-inverse .navbar-nav>.dropdown>a .caret {
+	border-top-color: #FFF;
+	border-bottom-color: #FFF;
+	font-weight: bold !important;
+}
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus {
+	color: #000 !important;
+	background-color: #FFF;
+	font-weight: bold !important;
+}
+.panel-main .panel-heading .panel-title{
+	color: #fff;
+}
+.btn-primary{
+	background-color: #2a6496;
+	border-color:  #2a6496;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
+	background-color: #56676D;
+	border-color: #3071A9;	
+}
+
+/****************** Collapse, tabs and accordion *****************/
+.nav>li>a:hover, .nav>li>a:focus {
+	text-decoration: none;
+	background-color: #56676D !important;
+	color: #ffffff;
+
+}
+.accordion-heading a{
+	color:#2a6496;
+	font-weight: bold;
+	text-decoration: none;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+	color: #FFF;
+	cursor: default;
+	background-color: #2a6496;
+}
+/***********************************/
+/****************** Forms *****************/
+label{color: #2a6496;}
+/***********************************/
+.footer-box-title{color: #2a6496;}
+.foot-nav li a {
+	color: #2a6496;
+}
+.foot-nav li a:hover {
+	color: #56676D;
+}
+
+.footer-a{
+	color: #2a6496 !important;
+}
+.bottom-a{
+	color: #ffffff !important;
+}
+
+.copyright-a{
+	color: #2a6496;
+}
+
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .h1 small, .h2 small, .h3 small, .h4 small, .h5 small, .h6 small {	
+	color: #2a6496;
+}
+
+.front-widget .panel-heading:hover{
+	background-color: #ffffff;
+}
+.front-widget .panel-heading .panel-title a:hover{
+	color:#2a6496 !important;
+}
+#calendar_wrap #today a{
+	color: #2a6496;
+	text-decoration: underline;
+}
+#calendar_wrap #today{
+	color: #2a6496;		
+}
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
+	background-color: #2a6496;
+	border-color:  #2a6496;
+}

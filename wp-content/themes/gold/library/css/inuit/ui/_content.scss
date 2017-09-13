@@ -1,0 +1,1011 @@
+/**
+ * Main
+ */
+.main:not(.main-home){
+	margin-top: 182px;
+}
+
+/**
+ * Home
+ */
+.branding{
+	margin: 60px 0 40px 0;
+}
+	.tile{
+		padding: 20px 50px;
+		color: #FFF;
+		text-align: center;
+		max-height: 181px;
+		min-height: 181px;
+		p{
+
+			font-weight: 300;
+			padding: 0 9px;
+			margin: 0;
+		}
+	}
+	.tile--natural{
+		padding: 0;
+		position: relative;
+	}
+	.tile--blue{
+		background-color: $blue;
+		& + .link--tile{
+			background-color: darken($blue, 5%);
+		}
+	}
+	.tile--orange{
+		background-color: $orange;
+		& + .link--tile{
+			background-color: darken($orange, 5%);
+		}
+	}
+	.tile--black{
+		background-color: #303030;
+		& + .link--tile{
+			background-color: lighten($brand-color, 5%);
+		}
+	}
+
+	.play-control{
+		bottom: 0;
+	    color: #FFFFFF;
+	    cursor: pointer;
+	    font-size: 100px;
+	    height: 100px;
+	    left: 0;
+	    margin: 0 auto;
+	    position: absolute;
+	    right: 0;
+	    top: 0;
+	    width: 100px;
+	    @include vendor(transition, all 0.2s ease 0s);
+	    @include vendor(transform-origin, center center 0);
+	    &:hover{
+	    	@include vendor(transform, scale(0.9));
+	    }
+	}
+
+.social{
+	margin-bottom: 65px;
+}
+	.facebook-background{
+		padding: 10px;
+		background: #FFF;
+	}
+
+/**
+ * Que es Parques Alegres
+ */
+/*.know-more{
+	width: 860px;
+	margin: 70px auto 0 auto;
+}*/
+
+.mission{
+	padding: 30px 0;
+	text-align: center;
+	@extend %arrow;
+	.subtitle-section{
+		margin-bottom: $half-spacing-unit;
+	}
+}
+
+.provide{
+	padding: 30px 0;
+	text-align: center;
+	@extend %arrow;
+	.subtitle-section{
+		margin-bottom: $half-spacing-unit;
+	}
+}
+
+.testimonials{
+	width: 860px;
+	margin: 0 auto;
+	padding: 50px 20px;
+	text-align: center;
+	.subtitle-section{
+		margin-bottom: $half-spacing-unit;
+	}
+}
+	.video-gallery{
+		padding: 20px;
+		position: relative;
+	}
+		.slides{
+			margin: 0;
+			@extend .cf;
+		}
+
+		.flex-direction-nav{
+			list-style: none;
+			a{
+				font-size: 0;
+				position: absolute;
+				top: 40%;
+				background-image: url("img/video-gallery-icons.png");
+				background-repeat: no-repeat;
+				width: 16px;
+				height: 21px;
+			}
+			.flex-prev{
+				background-position: 0 0;
+				left: 0;
+			}
+			.flex-next{
+				right: 0;
+				background-position: 0 -21px;
+			}
+		}
+
+/**
+ * Cómo Mejorar
+ */
+.committee{
+	width: 820px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+	.steps{
+		padding: 40px 0;
+	}
+		.step{
+			padding: 0 10px;
+			p{
+				font-size: 15px;
+				color: #FFF;
+			}
+			span{
+				display: inline-block;
+				color: #e54f3f;
+				background: #c3d600;
+				text-align: center;
+				font: 800 24px $brand-face;
+				font-weight: 900;
+				width: 36px;
+				height: 36px;
+				border: 2px solid #c3d600;
+				vertical-align: bottom;
+				@include vendor(border-radius, 50%);
+			}
+			img{
+				display: block;
+				margin: 20px auto;
+			}
+		}
+
+	/* Big green popup */
+	.researching-popup{
+		background: #c3d600;
+		padding: 40px 60px;
+		position: relative;
+		@extend .cf;
+		@include vendor(border-radius, 50px 50px 0 0);
+		&:before{
+			content: "";
+			display: inline-block;
+			position: absolute;
+			width: 100px;
+			height: 50px;
+			top: -47px;
+			right: 36px;
+			background: url("img/popup-bg.png") no-repeat;
+		}
+	}
+	.popup-step{
+		padding: 10px 0;
+		clear: both;
+		width: 50%;
+		margin: -15px 0;
+		.media{
+			margin: 0;
+		}
+		p{
+			font: italic 600 17px/20px $brand-face;
+			color: #FFF;
+			padding: 20px 30px 10px 0;
+			-webkit-font-smoothing: antialiased;
+		}
+		p:first-letter{
+			color: #969400;
+			font-size: $giga-size;
+		}
+	}
+	.step-left{
+		@extend .float--left;
+	}
+	.step-right{
+		@extend .float--right;
+	}
+
+.icon-income{
+	width: 125px;
+	margin: 15px auto;
+	padding-top: 115px;
+	white-space: nowrap;
+	background: url("img/incoming-icons.png") no-repeat;
+}
+	.icon-income--tournaments{
+		background-position: 0 0;
+		&:hover{
+			background-position: -123px 0;
+		}
+	}
+	.icon-income--markets{
+		background-position: 0 -123px;
+		&:hover{
+			background-position: -123px -123px;
+		}
+	}
+	.icon-income--kermesse{
+		background-position: 0 -250px;
+		&:hover{
+			background-position: -123px -250px;
+		}
+	}
+	.icon-income--holidays{
+		background-position: 0 -370px;
+		&:hover{
+			background-position: -123px -370px;
+		}
+	}
+	.icon-income--neighbors{
+		background-position: 0 -495px;
+		&:hover{
+			background-position: -123px -495px;
+		}
+	}
+	.icon-income--raffle{
+		background-position: 0 -625px;
+		&:hover{
+			background-position: -123px -625px;
+		}
+	}
+	.icon-income--cultural-kermesse{
+		background-position: 0 -750px;
+		&:hover{
+			background-position: -123px -750px;
+		}
+	}
+	.icon-income--cinema{
+		background-position: 0 -875px;
+		&:hover{
+			background-position: -123px -875px;
+		}
+	}
+	.icon-income--race{
+		background-position: 0 -992px;
+		&:hover{
+			background-position: -123px -992px;
+		}
+	}
+	.icon-income--bohemian-night{
+		background-position: 0 -1125px;
+		&:hover{
+			background-position: -123px -1125px;
+		}
+	}
+
+/** Apoyo Gobierno Empresas **/
+.support{
+	margin-top: 70px;
+	//margin-bottom: 70px;
+}
+.org-supported{
+	width: 640px;
+	margin: 0 auto;
+	padding: 40px 25px;
+	position: relative;
+
+	.inactive {
+		display: none;
+		opacity: 0;
+	}
+
+	& > ul li{
+		padding: 0 25px;
+		&:last-of-type{
+			border-left: 1px solid #dedbd8;
+		}
+	}
+}
+	.gov-support, .private-support{
+		text-align: center;
+		div{
+			padding: 5px 0;
+		}
+		p{
+			margin-bottom: 5px;
+		}
+		a{
+			color: $brand-color;
+		}
+	}
+
+.filter-popup{
+	position: relative;
+	opacity: 0;
+	@extend .section--box;
+	@include vendor(transition, opacity 0.5s ease);
+	&:not(:target){
+		@extend .visuallyhidden;
+	}
+	&:target{
+		opacity: 1;
+		@include vendor(transition, opacity 0.5s ease);
+	}
+}
+	.filter-dropdown{
+		position: relative;
+		width: 240px;
+		margin: 0 auto;
+		padding: 10px;
+		background: #FFF;
+		border-radius: 7px;
+		box-shadow: 0 1px 1px rgba(50,50,50,0.1);
+		cursor: pointer;
+		outline: none;
+		font-weight: bold;
+		color: #8AA8BD;
+		@extend .flyout;
+		&:after{
+			content: "";
+			width: 0; height: 0;
+			position: absolute;
+			right: 15px; top: 50%;
+			margin-top: -3px;
+			border-width: 6px 6px 0 6px; border-style: solid; border-color: #8AA8BD transparent;
+		}
+		&.active .dropdown{
+			opacity: 1;
+		}
+	}
+		.dropdown{
+			background: #FFF;
+			border-radius: 0 0 7px 7px;
+			border: 1px solid rgba(0,0,0,0.17);
+			box-shadow: 0 0 5px rgba(0,0,0,0.1);
+			font-weight: normal;
+			list-style: none;
+			opacity: 0;
+			margin: 0;
+			left: 0; right: 0;
+			z-index: 10;
+			@extend .flyout__content;
+		}
+		.dropdown label{
+			font-size: 12px;
+			display: block;
+			padding: 10px;
+			text-decoration: none;
+			color: #8AA8BD;
+			border-bottom: 1px solid #e6e8ea;
+			box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1);
+			@include vendor(transition, all 0.3s ease-out);
+		}
+		.dropdown li:last-of-type label{
+			border: none;
+		}
+		.dropdown li:hover label{
+			background: #f3f8f8;
+		}
+
+	.filter-content{
+		padding: 20px 0;
+		.tab-content{
+			width: 520px;
+		}
+		ul{
+			margin: 0;
+			list-style: none;
+		}
+		p{
+			padding: 5px;
+		}
+	}
+
+/** Crear y Mantener Areas verdes **/
+.icon-maintenance{
+	&:before{
+		content: "";
+		display: inline-block;
+		width: 125px;
+		height: 125px;
+		background: url("img/maintenance-icons.png") no-repeat;
+	}
+}
+	.icon-maintenance--tree-planting{
+		&:before{
+			background-position: 0 0;
+		}
+		&:hover:before{
+			background-position: -123px 0;
+		}
+	}
+	.icon-maintenance--cleaning{
+		&:before{
+			background-position: 0 -375px;
+		}
+		&:hover:before{
+			background-position: -123px -375px;
+		}
+	}
+	.icon-maintenance--irrigation{
+		&:before{
+			background-position: 0 -500px;
+		}
+		&:hover:before{
+			background-position: -123px -500px;
+		}
+	}
+	.icon-maintenance--fumigation{
+		&:before{
+			background-position: 0 -625px;
+		}
+		&:hover:before{
+			background-position: -122px -625px;
+		}
+	}
+	.icon-maintenance--pruning{
+		&:before{
+			background-position: 0 -125px;
+		}
+		&:hover:before{
+			background-position: -122px -125px;
+		}
+	}
+
+/** Orden en el Parque **/
+.park-order{
+	margin-top: 70px;
+}
+
+/** Cómo Organizarse **/
+.organization-description{
+	padding: 20px 130px;
+}
+
+.icon-org{
+	margin: 15px 0;
+	&:before{
+		content: "";
+		display: inline-block;
+		width: 125px;
+		height: 125px;
+		background: url("img/org-icons.png") no-repeat;
+	}
+}
+	.icon-org--soccer{
+		&:before{
+			background-position: 0 0;
+		}
+		&:hover:before{
+			background-position: -123px 0;
+		}
+	}
+	.icon-org--tournaments{
+		&:before{
+			background-position: 0 -125px;
+		}
+		&:hover:before{
+			background-position: -123px -125px;
+		}
+	}
+	.icon-org--camping{
+		&:before{
+			background-position: 0 -250px;
+		}
+		&:hover:before{
+			background-position: -123px -250px;
+		}
+	}
+	.icon-org--holidays{
+		&:before{
+			background-position: 0 -375px;
+		}
+		&:hover:before{
+			background-position: -123px -375px;
+		}
+	}
+	.icon-org--guardians{
+		&:before{
+			background-position: 0 -500px;
+		}
+		&:hover:before{
+			background-position: -123px -500px;
+		}
+	}
+	.icon-org--recreations{
+		&:before{
+			background-position: 0 -625px;
+		}
+		&:hover:before{
+			background-position: -123px -625px;
+		}
+	}
+	.icon-org--painting{
+		&:before{
+			background-position: 0 -750px;
+		}
+		&:hover:before{
+			background-position: -123px -750px;
+		}
+	}
+	.icon-org--lightning{
+		&:before{
+			background-position: 0 -875px;
+		}
+		&:hover:before{
+			background-position: -123px -875px;
+		}
+	}
+	.icon-org--murals{
+		&:before{
+			background-position: 0 -1000px;
+		}
+		&:hover:before{
+			background-position: -123px -1000px;
+		}
+	}
+	.icon-org--recycling{
+		&:before{
+			background-position: 0 -1125px;
+		}
+		&:hover:before{
+			background-position: -123px -1125px;
+		}
+	}
+
+/** Botones evaluaciones **/
+.entries{
+	padding: 40px 0;
+	@extend .container;
+}
+
+
+/**
+ * Cómo Apoyar
+ */
+.consultant{
+	padding: 0 60px;
+	@extend %container;
+}
+	.container-steps{
+		padding: 15px 0;
+	}
+		.consultant-step{
+			@extend .media;
+			color: #FFF;
+			font-size: 15px;
+			&.left{
+				padding-right: 20px;
+			}
+			&.right{
+				padding-left: 20px;
+			}
+
+			img{
+				border-right: 2px solid #FFF;
+				@extend .soft-half--right;
+			}
+			ul{
+				margin: 0;
+				li{ padding: 5px 0; }
+			}
+			p{
+				@extend .push-half--bottom;
+				& > span{
+					background: #fe6d06;
+					border: 2px solid #fe6d06;
+					color: #c3d600;
+					display: inline-block;
+					height: 36px;
+					width: 36px;
+					text-align: center;
+					vertical-align: bottom;
+					font: 900 24px $brand-face;
+					@include vendor(border-radius, 50%);
+				}
+			}
+			.highlighted{
+				color: #fe6d06
+			}
+			a{
+				display: block;
+				font-style: italic;
+			}
+		}
+
+	.consultant-popup{
+		padding: 40px 60px;
+		background: #fe6d06;
+		color: #FFF;
+		margin-top: 100px;
+		position: relative;
+		@include vendor(border-radius, 60px 60px 0 0);
+		&:before{
+			content: "";
+			display: inline-block;
+			background: url("img/popup-rev-bg.png");
+			width: 200px;
+			height: 50px;
+			position: absolute;
+			top: -50px;
+			right: 30%;
+		}
+		.subtitle-section{
+			color: #FFF;
+			font-style: italic;
+			line-height: 40px;
+			text-align: left;
+			@include font-size(28px, false);
+		}
+		p{
+			font-size: 15px;
+		}
+	}
+
+.volunteering, .business, .institutions, .staff, .foundations{
+	margin: 40px 0;
+}
+
+.gallery-institutions{
+	padding: 0 40px;
+	font-size: 12px;
+	position: relative;
+}
+
+/**
+ * Cómo Proveer
+ */
+
+/** Providers **/
+.providers{
+	border-bottom: 1px solid #e5e5e5;
+	padding-bottom: 40px;
+	margin-bottom: 40px;
+	@extend %arrow;
+	p{
+		max-width: 500px;
+		text-align: center;
+		margin: 0 auto;
+	}
+}
+/** Providers Registration Form **/
+.providers-registration{
+	margin-bottom: 50px;
+}
+
+/** Providers **/
+.providers-container{
+	width: 800px;
+	margin: 0 auto 40px auto;
+	position: relative;
+	@extend .media;
+}
+
+/* Related products and services */
+.related-services{
+	width: 840px;
+	margin: 0 auto;
+	padding: 40px 0;
+
+	ul{
+		margin-left: 0;
+		list-style: none;
+		font-weight: 300;
+	}
+}
+
+/**
+ * Información de Parques
+ */
+.section-container{
+	margin: 40px 0;
+}
+/** Localiza tu parque **/
+.location{
+	width: 700px;
+	margin: 0 auto;
+}
+.chart-search{
+	width: 580px;
+	margin: 0 auto;
+	@extend .tabs;
+}
+.chart-container{
+	@extend .tabs-content;
+}
+	.chart{
+		@extend .tab-content;
+		p{
+			text-align: center;
+			font-size: 13px;
+			@extend .feature;
+		}
+		p > a{
+			color: #000;
+			text-decoration: underline;
+			font-weight: 700;
+			display: inline-block;
+		}
+	}
+
+/** Proyectos realizados **/
+#proyectos-realizados{
+	.section--listing__head{
+		margin-top: 40px;
+	}
+}
+.projects-tabs{
+	@extend .push--bottom;
+}
+.projects-label{
+	padding: 15px;
+	font-size: 20px;
+	color: #000;
+	border: 1px solid #acaaa8;
+	opacity: 0.5;
+	@include vendor(transition, opacity .2s ease-in-out);
+	&:hover, .selected{
+		opacity: 1;
+
+	}
+}
+.icon-proj{
+	display: inline-block;
+	width: 50px; height: 50px;
+	vertical-align: bottom;
+	background: url("img/projects-icons.png") no-repeat transparent;
+}
+	.icon-proj--gov{
+		background-position: 0 0;
+	}
+	.icon-proj--company{
+		background-position: 0 -50px;
+	}
+	.icon-proj--institution{
+		background-position: 0 -100px;
+	}
+.projects-slider{
+	li{ width: 205px !important; }
+	p{ padding: 0; }
+	a{ text-align: center; }
+}
+
+/** Youtube **/
+.youtube{
+	padding: 50px 20px;
+	width: 860px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+/** FAQs **/
+.faqs{
+	padding: 50px 20px;
+	width: 860px;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 1.15em;
+}
+	.question{
+		strong{
+			display: block;
+		}
+		a{
+			display: inline;
+			@extend .link;
+			@extend .link--natural;
+		}
+	}
+
+/** Descargas **/
+#enlaces{
+	padding: 30px 0 50px 0;
+}
+
+/**
+ * Proyectos
+ */
+.project{
+	padding: 40px 0;
+}
+	#project-slider, #project-carousel{
+		position: relative;
+	}
+	#project-carousel{
+		padding: 0 40px;
+		margin: 20px 0;
+		img{
+			cursor: pointer;
+			opacity: 0.5;
+			@include vendor(transition, opacity .3s ease);
+			&:hover{
+				opacity: 1;
+			}
+		}
+		.flex-active-slide img{
+			opacity: 1;
+			cursor: normal;
+		}
+	}
+
+/**
+ * Registro de parques
+ */
+.park-registration{
+	margin: 30px 0;
+}
+
+.fixed-tools{
+  position: fixed;
+  right: 0;
+  top: 24%;
+  display: block;
+  width: 50px;
+  height: 315px;
+  text-align: center;
+}
+	.tools-group{
+		background: #FFF;
+		padding: 5px 10px;
+		@include vendor(border-radius, 5px 0 0 5px);
+		@include vendor(box-shadow, 0 0 3px #464646);
+
+		& + .tools-group{
+			margin-top: 10px;
+		}
+
+		& > ul{
+			margin: 0;
+		}
+	}
+		.fixed-social{
+			display: block;
+			text-align: center;
+			background: #494949;
+			color: #FFF;
+			margin: 3px 0;
+		}
+
+
+ // Detalle de parques
+
+.detalle-tabs,.detalle-tabs2{
+	li{
+		text-align: center;
+		label{
+			font-size: 18px;
+			font-weight: bold;
+		}
+		&.active{
+			label{
+				color: #fff;
+			}
+			background-color: #19b8ab;
+		}
+	}
+}
+.clasetabla1{
+	tr{
+		td{
+			padding: 3px 3px;
+		}
+		&:not(:first-of-type){
+			&:nth-child(even) > td:first-of-type{
+				background-color: rgba(25, 184, 171, 0.1);
+			}
+			td{
+				&:first-of-type{
+					font-weight: bold;
+				}
+				&:not(:first-of-type){
+					text-align: center;
+					border: 1px solid #c0c0c0;
+				}
+			}
+		}
+	}
+}
+
+#table{
+	text-align: center;
+	margin-top: 40px;
+	&> div{
+		display: inline-block;
+	}
+}
+.tabs-content{
+	&.graficas{
+		> div{
+			text-align: center;
+			> div{
+				display: inline-block;
+			}
+		}
+	}
+}
+
+ #tabbed_box_1 {
+	margin-left:-40px;
+	width:700px;
+}
+.tabbed_box h4 {
+
+	color:#ffffff;
+	letter-spacing:-1px;
+	margin-bottom:10px;
+}
+.tabbed_box h4 small {
+	color:#e3e9ec;
+	font-weight:normal;
+
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	text-transform:uppercase;
+	position:relative;
+	top:-4px;
+	left:6px;
+	letter-spacing:0px;
+}
+.tabbed_area {
+
+	padding:8px;
+}
+
+
+
+ul.mytabs {
+	list-style-type: none;
+	text-align: center;
+	width: 760px;
+	margin-left:-60px; padding:0px;
+	margin-top:5px;
+	margin-bottom:6px;
+}
+ul.mytabs li {
+	list-style:none;
+	display:inline;
+	text-align: center;
+	margin: 0 10px 0 0;
+}
+ul.mytabs li a {
+	background-color:#cede53;
+	font-weight:bold;
+	padding:8px 14px 8px 14px;
+	text-decoration:none;
+
+}
+
+ul.mytabs li a.active {
+
+	 border:1px solid #464c54;
+}
+
+.ul {
+	margin:20px;
+	margin-left:-70px;
+}
+.ul li {
+	list-style:none;
+	border-bottom:1px solid #d6dde0;
+	padding-top:15px;
+	padding-bottom:15px;
+
+}
+.ul li:last-child {
+	border-bottom:none;
+}
+.ul li a {
+	text-decoration:none;
+	 color:#3e4346;
+}
+.ul li a small {
+	color:#8b959c;
+	text-transform:uppercase;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	position:relative;
+	left:4px;
+	top:0px;
+}

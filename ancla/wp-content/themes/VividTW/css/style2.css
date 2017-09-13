@@ -1,0 +1,21 @@
+/* Estilos específicos para Style2: Morado */
+body{background:#691c82 url(style2/top-bg.jpg) no-repeat scroll center top}
+/*Enlaces*/
+a:link, a:visited, a:active, .post a:link, .post a:visited, .post a:active, #navigation li a, #related_articles a:hover, #sidebar h3{color:#7e3fa6}
+a:hover, .post a:hover, .post .the_post_meta li a:hover{color:#691c82}
+.reply a:link, .reply a:visited, .cancel-comment-reply a:link, .cancel-comment-reply a:visited{background:#7e3fa6; border-bottom:1px solid #691c82}
+.reply a:hover, .cancel-comment-reply a:hover{background:#691c82; border-bottom:1px solid #7e3fa6}
+.reply a:active, .cancel-comment-reply a:active{background:#691c82}
+input#submit{background:#691c82}
+/*Buscador*/
+.search_button{background:url(style2/search-button.png) no-repeat}
+/*Menú*/
+#navigation li a:hover, #navigation li.current_page_item a{color:#fff; background-color:#7e3fa6; border:1px solid #691c82}
+/*Artículos*/
+.post .the_post_meta, .post .the_post_meta li a{color:#9171af}
+.post_inner_wrap ul li{background:url(style2/li.png) no-repeat 0 5px}
+.post blockquote{background:transparent url(style2/blockquote.png) no-repeat 0 0}
+ol.commentlist li.autorcomment{background-color:#efd9f7 !important}
+/*Sidebar*/
+.sbb ul li a:hover{color:#7e3fa6 !important}
+.boxBody div ul{list-style-image:url(style2/li.png)}

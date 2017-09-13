@@ -1,0 +1,97 @@
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+h1{
+    font-size: 3.2vw;
+    color:orange;
+    text-align: center;
+}
+.glyphicon.glyphicon-bell {
+    background-color: green;
+    padding: 4px 4px 4px 4px;
+    font-size: 30px;
+    color:white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.round{
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    width:50px;
+    height:50px;
+    font-size: 15px;
+    line-height: 50px;
+    text-align: center;
+}
+.lin{
+    font-size:12px;
+    line-height: 50px;
+}
+.lin2{
+    font-size:12px;
+}
+.color1{
+    border: 4px solid #b8df84;
+}
+.color2{
+    border: 4px solid #8fa9e4;
+}
+.color3{
+    border: 4px solid #bd8e00;
+}
+.color4{
+    border: 4px solid #99432a;
+}
+.row{
+    margin-bottom:5px ;
+}
+@media(min-width:768px){
+    .round{
+        width:60px;
+        height:60px;
+        font-size: 19px;
+        line-height: 60px;
+    }
+    .lin{
+        line-height: 60px;
+        font-size:13px;
+    }
+    .lin2{
+        position: absolute;
+        margin-top: 20px;
+        font-size:13px;
+    }
+}
+@media(min-width:992px){
+    .round{
+        width:70px;
+        height:70px;
+        font-size: 22px;
+        line-height: 70px;
+    }
+    .lin{
+        line-height: 70px;
+        font-size:14px;
+    }
+    .lin2{
+        position: absolute;
+        margin-top: 20px;
+        font-size:14px;
+    }
+}
+@media(min-width:1200px){
+    .round{
+        width:80px;
+        height:80px;
+        font-size: 25px;
+        line-height: 80px;
+    }
+    .lin{
+        line-height: 80px;
+    }
+    .lin2{
+        position: absolute;
+        margin-top: 20px; 
+    }
+}
