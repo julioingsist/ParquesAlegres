@@ -1,3 +1,0 @@
-—@QY
-<?php exit; ?>
-a:13:{i:0;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"41955";}i:1;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"41956";}i:2;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"41957";}i:3;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"41958";}i:4;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"41959";}i:5;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"41960";}i:6;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"41961";}i:7;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"41962";}i:8;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"41963";}i:9;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"41964";}i:10;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"41965";}i:11;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"41966";}i:12;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"41967";}}

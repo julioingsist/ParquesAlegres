@@ -1,3 +1,0 @@
-ԙ4Y
-<?php exit; ?>
-a:9:{i:0;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"16871";}i:1;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"16873";}i:2;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"16874";}i:3;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"39536";}i:4;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"39537";}i:5;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"39538";}i:6;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"39539";}i:7;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"39540";}i:8;O:8:"stdClass":1:{s:11:"pod_item_id";s:5:"39541";}}

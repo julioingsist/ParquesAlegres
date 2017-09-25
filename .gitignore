@@ -22,3 +22,4 @@ jpegtran
 optipng
 wp-content/wflogs/attack-data.php
 config.tmp.*
+wp-content/podscache
