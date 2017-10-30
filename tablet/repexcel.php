@@ -1605,6 +1605,294 @@ if($_POST['cmd']==1){
     $objWriter->save('php://output');
     exit();
 }
+if($_POST['cmd']=="repmensual"){
+    require_once('../wp-config.php');
+    $sql="select a.ID,u.display_name from asesores as a INNER JOIN wp_users as u ON a.ID=u.ID where stat<1";
+    $res=mysql_query($sql);
+    while($row=mysql_fetch_array($res)) {
+        $asesores[$row['display_name']]=$row['ID'];
+    }
+    $fechaInicio = $_POST['fecha_inicial'];
+    $fechaFin = $_POST['fecha_final'];
+    // Create new PHPExcel object
+    $objPHPExcel = new PHPExcel();
+    // Set document properties
+    $objPHPExcel->getProperties()->setCreator("Parques Alegres")
+                                                             ->setLastModifiedBy("Parques Alegres")
+                                                             ->setTitle("Reporte Mensual de Visitas")
+                                                             ->setSubject("Reporte Mensual de Visitas")
+                                                             ->setDescription("Reporte Mensual de Visitas")
+                                                             ->setKeywords("")
+                                                             ->setCategory("");
+    $objWorkSheet = $objPHPExcel->createSheet(0);
+    $objPHPExcel->setActiveSheetIndex(0);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(15);
+    $objPHPExcel->getActiveSheet()->getStyle("A1:O1")->getFont()->setBold(true);
+    $objPHPExcel->getActiveSheet()->setTitle('Reporte Mensual de Visitas');
+    $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue('A1', 'Asesor')
+                ->setCellValue('B1', 'Calificación del mes anterior')
+                ->setCellValue('C1', 'Calificación del mes actual')
+                ->setCellValue('D1', 'Diferencia')
+                ->setCellValue('E1', 'Visitas del mes actual')
+                ->setCellValue('F1', 'Visitas del mes anterior')
+                ->setCellValue('G1', 'Visitas de Seguimiento')
+                ->setCellValue('H1', 'Visitas de Prospectación')
+                ->setCellValue('I1', 'Visitas de Reforzamiento con parametros')
+                ->setCellValue('J1', 'Visitas de Reforzamiento')
+                ->setCellValue('K1', 'Visitas de Stand-by')
+                ->setCellValue('L1', 'Visitas de Reforzamiento Acumuladas')
+                ->setCellValue('M1', 'Nuevos comites')
+                ->setCellValue('N1', 'Promedio del Parque')
+                ->setCellValue('O1', 'Visitas Acumuladas del Parque');
+    
+    $mesact=substr($fechainicio, -5,2);
+    $anioact=substr($fechainicio, 0,4);
+    if($mesact>1){
+        $mesant=$mesact-1;
+        if($mesant<10){
+            $mesant='0'.$mesant;
+        }
+        $mesantini=date($anioact.'-'.$mesant.'-01');
+        $mesantfin=date($anioact.'-'.$mesant.'-31');   
+    }
+    else{
+        $anioant=$anioact-1;
+        $mesantini=date(''.$anioant.'-12-01');
+        $mesantfin=date(''.$anioant.'-12-31'); 
+    }
+
+    foreach($asesores as $k=>$v){
+        $sumcalifant=0;
+        $sumcomites=0;
+        $sumcalif=0;
+        $sumvis=0;
+        $sumvisa=0;
+        $sumviss=0;
+        $sumvisp=0;
+        $sumvisr=0;
+        $sumvisst=0;
+        $sumvisr1=0;
+        $sumvisra=0;
+        $sumcaliftot=0;
+        $sumvistot=0;
+        $parquesa=0;
+        $parquesn=0;
+        $fila="";
+        $sql1="select id,post_title,guid from wp_posts where post_status='publish' and post_type='parque' and post_author='".$v."'";
+        $res1=mysql_query($sql1);
+        $i=2;
+        while($row1=mysql_fetch_array($res1)){
+            $parque[$row1['id']]=$row1['post_title'];
+            $sql4="select cve_parque, ";
+            foreach($param as $v){
+                $sql4.=$v."+";
+            }
+            $sql4 = substr($sql4, 0, -1);
+            $sql4.=" as calif from wp_comites_parques where cve_parque='".$row1['id']."' and fecha_visita<='".$fechaFin."'";
+            $res4=mysql_query($sql4);
+            $sumatot=0;
+            $califtot=0;
+            if(mysql_num_rows($res4)>0){
+                while($row4=mysql_fetch_array($res4)){
+                    $sumatot=$sumatot+($row4['calif']/7);
+                }
+                $califtot=round($sumatot/mysql_num_rows($res4));
+            }
+            $sql3="select cve_parque, ";
+            foreach($param as $v){
+                $sql3.=$v."+";
+            }
+            $sql3 = substr($sql3, 0, -1);
+            $sql3.=" as calif,opera from wp_comites_parques where cve_parque='".$row1['id']."' and fecha_visita>='".$mesantini."' and fecha_visita<='".$mesantfin."' order by fecha_visita ASC, cve ASC";
+            $res3=mysql_query($sql3);
+            $sumaant=0;
+            $califant=0;
+            $opera=-1;
+            $ncomites=0;
+            if(mysql_num_rows($res3)>0){
+                while($row3=mysql_fetch_array($res3)){
+                    $opera=$row3['opera'];
+                    $califant=round($row3['calif']/7);
+                }
+                $parquesa++;
+            }
+            $sql2="select v.cve_parque, ";
+            foreach($param as $v){
+                $sql2.='v.'.$v."+";
+            }
+            $sql2 = substr($sql2, 0, -1);
+            $sql2.=" as calif,v.opera,c.tipo_visita from wp_comites_parques v LEFT JOIN wp_visitascom_parques c ON v.cve=c.cve_visita where v.cve_parque='".$row1['id']."' and v.fecha_visita>='".$fechaInicio."' and v.fecha_visita<='".$fechaFin."' order by v.fecha_visita ASC, v.cve ASC";
+            $res2=mysql_query($sql2);
+            $suma=0;
+            $calif=0;
+            $visits=0;
+            $visitp=0;
+            $visitr=0;
+            $nopera=-1;
+            if(mysql_num_rows($res2)>0){
+                while($row2=mysql_fetch_array($res2)){
+                    if($row2['tipo_visita']==2){
+                        $visits++;
+                    }
+                    elseif($row2['tipo_visita']==4){
+                        $visitp++;
+                    }
+                    else{
+                        $visitr++;
+                    }
+                    $nopera=$row2['opera'];
+                    $calif=round($row2['calif']/7);
+                }
+                $parquesn++;
+            }
+            if($opera==0 && $nopera>=7){
+                $ncomites=1;
+            }
+            $sql8=" SELECT ID from wp_visitas_reforzamiento where cve_parque='".$row1['id']."' and fecha_visita<='".$fechafin."' and fecha_visita>='".$fechainicio."' AND cve_parametros=0";
+            $res8=mysql_query($sql8);
+            if(mysql_num_rows($res8)>0){
+                while($row8=mysql_fetch_array($res8)){
+                    
+                }
+            }
+            $sql9=" SELECT ID from wp_visitas_reforzamiento where cve_parque='".$row1['id']."' and fecha_visita<='".$fechafin."' AND cve_parametros=0";
+            $res9=mysql_query($sql9);
+            if(mysql_num_rows($res9)>0){
+                while($row9=mysql_fetch_array($res9)){
+                    
+                }
+            }
+            $sql11=" SELECT ID from wp_visitas_standby where cve_parque='".$row1['id']."' and fecha_visita<='".$fechafin."' and fecha_visita>='".$fechainicio."'";
+            $res11=mysql_query($sql11);
+            $dif=$calif-$califant;
+            
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue('A'.$i, $row1['post_title'])
+                ->setCellValue('B'.$i, $califant)
+                ->setCellValue('C'.$i, $calif)
+                ->setCellValue('D'.$i, $dif)
+                ->setCellValue('E'.$i, mysql_num_rows($res2))
+                ->setCellValue('F'.$i, mysql_num_rows($res3))
+                ->setCellValue('G'.$i, $visits)
+                ->setCellValue('H'.$i, $visitp)
+                ->setCellValue('I'.$i, $visitr)
+                ->setCellValue('J'.$i, mysql_num_rows($res8))
+                ->setCellValue('K'.$i, mysql_num_rows($res11))
+                ->setCellValue('L'.$i, mysql_num_rows($res9))
+                ->setCellValue('M'.$i, $ncomites)
+                ->setCellValue('N'.$i, $califtot)
+                ->setCellValue('O'.$i, mysql_num_rows($res4));
+            $i++;
+
+            $sumcomites=$sumcomites+$ncomites;
+            $sumcalifant=$sumcalifant+$califant;
+            $sumcalif=$sumcalif+$calif;
+            $sumvis=$sumvis+mysql_num_rows($res2);
+            $sumvisa=$sumvisa+mysql_num_rows($res3);
+            $sumviss=$sumviss+$visits;
+            $sumvisr1=$sumvisr1+$visitr;
+            $sumvisp=$sumvisp+$visitp;
+            $sumvisr=$sumvisr+mysql_num_rows($res8);
+            $sumvisst=$sumvisst+mysql_num_rows($res11);
+            $sumvisra=$sumvisra+mysql_num_rows($res9);
+            $sumcaliftot=$sumcaliftot+($califtot*mysql_num_rows($res4));
+            $sumvistot=$sumvistot+mysql_num_rows($res4);
+        }
+        if($parquesa!=0 && $parquesn!=0){
+            $diftotal=round($sumcalif/$parquesn)-round($sumcalifant/$parquesa);
+            $ascalifant=round($sumcalifant/$parquesa);
+            $ascalif=round($sumcalif/$parquesn);
+        }
+        else{
+            if($parquesa!=0){
+                $diftotal=0-round($sumcalifant/$parquesa);
+                $ascalifant=round($sumcalifant/$parquesa);
+                $ascalif=0;
+            }
+            else if($parquesn!=0){
+                $diftotal=round($sumcalif/$parquesn);
+                $ascalif=round($sumcalif/$parquesn);
+                $ascalifant=0;
+            }
+            else{
+                $diftotal=0;
+                $ascalifant=0;
+                $ascalif=0;
+            }
+        }
+        echo '<th>'.$ascalifant.'</th><th>'.$ascalif.'</th><th>'.$diftotal.'</th>
+        <th>'.$sumvis.'</th><th>'.$sumvisa.'</th><th>'.$sumviss.'</th><th>'.$sumvisp.'</th><th>'.$sumvisr1.'</th><th>'.$sumvisr.'</th><th>'.$sumvisst.'</th>
+        <th>'.$sumvisra.'</th><th>'.$sumcomites.'</th><th>'; if($sumcaliftot>0){ echo round($sumcaliftot/$sumvistot); }else {echo '0';} echo '</th><th>'.$sumvistot.'</th></tr>';
+        echo $fila;
+        $totcomites=$totcomites+$sumcomites;
+        $totparques=$totparques+mysql_num_rows($res1);
+        $totcalifant=$totcalifant+$ascalifant;
+        $totcalif=$totcalif+$ascalif;
+        $totvis=$totvis+$sumvis;
+        $totvisa=$totvisa+$sumvisa;
+        $totvisr1=$totvisr1+$sumvisr1;
+        $totvisst=$totvisst+$sumvisst;
+        $totvisr=$totvisr+$sumvisr;
+        $totvisra=$totvisra+$sumvisra;
+        $totviss=$totviss+$sumviss;
+        $totvisp=$totvisp+$sumvisp;
+        $totvistot=$totvistot+$sumvistot;
+        $totcaltot=$totcaltot+$sumcaliftot;
+    }
+    $totdiftotal=round($totcalif/count($asesores))-round($totcalifant/count($asesores));
+   
+    //echo '<tr><th colspan="3" width="21%">Parque</th><th>Calificación Promedio anterior</th><th>Calificación Promedio actual</th><th>Diferencia</th><th>Visitas del mes actual</th><th>Visitas del mes anterior</th><th>Visitas de Seguimiento</th><th>Visitas de Prospectación</th><th>Visitas de Reforzamiento</th><th>Visitas de Reforzamiento Acumuladas</th><th>Promedio del Parque</th><th>Visitas Acumuladas del Parque</th><tr>';
+    $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue('A'.$i, 'Total de Parques Alegres')
+                ->setCellValue('B'.$i, round($totcalifant/count($asesores)))
+                ->setCellValue('C'.$i, round($totcalif/count($asesores)))
+                ->setCellValue('D'.$i, $totdiftotal )
+                ->setCellValue('E'.$i, $totvis)
+                ->setCellValue('F'.$i, $totvisa)
+                ->setCellValue('G'.$i, $totviss)
+                ->setCellValue('H'.$i, $totvisp)
+                ->setCellValue('I'.$i, $totvisr1)
+                ->setCellValue('J'.$i, $totvisr)
+                ->setCellValue('K'.$i, $totvisra)
+                ->setCellValue('L'.$i, $totcomites)
+                ->setCellValue('M'.$i, round($totcaltot/$totvistot))
+                ->setCellValue('N'.$i, $totvistot)
+                ->setCellValue('O'.$i, '');
+               
+    // Redirect output to a client’s web browser (Excel5)
+    header('Content-Type: application/vnd.ms-excel');
+    header('Content-Disposition: attachment;filename="Reporte de visitas del '.$_POST['fecha_inicial'].' al '.$_POST['fecha_final'].' .xls"');
+    header('Cache-Control: max-age=0');
+    // If you're serving to IE 9, then the following may be needed
+    header('Cache-Control: max-age=1');
+
+    // If you're serving to IE over SSL, then the following may be needed
+    header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+    header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+    header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+    header ('Pragma: public'); // HTTP/1.0
+
+    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+    $objWriter->save('php://output');
+    exit();
+}
+
 $str_var=$_POST['valores'];
 $array_var = unserialize(base64_decode($str_var));
 $str_evi=$_POST['evidencias'];
@@ -1894,6 +2182,8 @@ foreach($array_var as $k=>$v){
         //echo '<br>';
     }
 }
+
+
 //exit();
 //exit();
 // Add some data
