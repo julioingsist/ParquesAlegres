@@ -1605,13 +1605,14 @@ if($_POST['cmd']==1){
     $objWriter->save('php://output');
     exit();
 }
-if($_POST['cmd']=="repmensual"){
+
+if($_POST['cmd']=="repmensual") {
     require_once('../wp-config.php');
-    $sql="select a.ID,u.display_name from asesores as a INNER JOIN wp_users as u ON a.ID=u.ID where stat<1";
-    $res=mysql_query($sql);
-    while($row=mysql_fetch_array($res)) {
-        $asesores[$row['display_name']]=$row['ID'];
-    }
+    $meses=array("01"=>"Enero","02"=>"Febrero","03"=>"Marzo","04"=>"Abril","05"=>"Mayo","06"=>"Junio","07"=>"Julio","08"=>"Agosto","09"=>"Septiembre","10"=>"Octubre",
+             "11"=>"Noviembre","12"=>"Diciembre");
+    $param=array(1=>"opera",2=>"formaliza",3=>"organiza",4=>"reunion",5=>"proyecto",6=>"disenio",7=>"ejecutivo",8=>"vespacio",9=>"estado",10=>"instalaciones",
+                  11=>"ingresop",12=>"ingresadop",13=>"mancomunado",14=>"eventosr",15=>"eventos",16=>"averdes",17=>"estaver",18=>"gente",19=>"respint",20=>"orden",21=>"limpieza");
+
     $fechaInicio = $_POST['fecha_inicial'];
     $fechaFin = $_POST['fecha_final'];
     // Create new PHPExcel object
@@ -1626,22 +1627,22 @@ if($_POST['cmd']=="repmensual"){
                                                              ->setCategory("");
     $objWorkSheet = $objPHPExcel->createSheet(0);
     $objPHPExcel->setActiveSheetIndex(0);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(40);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(30);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(30);
     $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(25);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(25);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(40);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(25);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(20);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(40);
     $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(20);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(30);
+    $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(30);
     $objPHPExcel->getActiveSheet()->getStyle("A1:O1")->getFont()->setBold(true);
     $objPHPExcel->getActiveSheet()->setTitle('Reporte Mensual de Visitas');
     $objPHPExcel->setActiveSheetIndex(0)
@@ -1663,21 +1664,31 @@ if($_POST['cmd']=="repmensual"){
     
     $mesact=substr($fechainicio, -5,2);
     $anioact=substr($fechainicio, 0,4);
-    if($mesact>1){
+    if ($mesact>1) {
         $mesant=$mesact-1;
-        if($mesant<10){
+        if ($mesant<10) {
             $mesant='0'.$mesant;
         }
         $mesantini=date($anioact.'-'.$mesant.'-01');
         $mesantfin=date($anioact.'-'.$mesant.'-31');   
-    }
-    else{
+    } else {
         $anioant=$anioact-1;
         $mesantini=date(''.$anioant.'-12-01');
         $mesantfin=date(''.$anioant.'-12-31'); 
     }
+    
+    $sql = "select a.ID,u.display_name from asesores as a INNER JOIN wp_users as u ON a.ID=u.ID where stat<1";
+    $res = mysql_query($sql);
+    $asesores = array();
+    while($row=mysql_fetch_array($res)) {
+        $asesor = array();
+        $asesor['id'] = $row['ID'];
+        $asesor['nombre'] = $row['display_name'];
+        $asesores[] = $asesor;
+    }   
+    $i=2;
 
-    foreach($asesores as $k=>$v){
+    foreach ($asesores as $asesor) {
         $sumcalifant=0;
         $sumcomites=0;
         $sumcalif=0;
@@ -1694,37 +1705,42 @@ if($_POST['cmd']=="repmensual"){
         $parquesa=0;
         $parquesn=0;
         $fila="";
-        $sql1="select id,post_title,guid from wp_posts where post_status='publish' and post_type='parque' and post_author='".$v."'";
+        $sql1="select id,post_title,guid from wp_posts where post_status='publish' and post_type='parque' and post_author='".$asesor['id']."'";
         $res1=mysql_query($sql1);
-        $i=2;
-        while($row1=mysql_fetch_array($res1)){
+        
+        while ($row1=mysql_fetch_array($res1)) {
+
             $parque[$row1['id']]=$row1['post_title'];
             $sql4="select cve_parque, ";
-            foreach($param as $v){
+            foreach ($param as $v) {
                 $sql4.=$v."+";
             }
+
             $sql4 = substr($sql4, 0, -1);
             $sql4.=" as calif from wp_comites_parques where cve_parque='".$row1['id']."' and fecha_visita<='".$fechaFin."'";
             $res4=mysql_query($sql4);
             $sumatot=0;
             $califtot=0;
-            if(mysql_num_rows($res4)>0){
-                while($row4=mysql_fetch_array($res4)){
+            if (mysql_num_rows($res4)>0) {
+                while ($row4=mysql_fetch_array($res4)) {
                     $sumatot=$sumatot+($row4['calif']/7);
                 }
                 $califtot=round($sumatot/mysql_num_rows($res4));
             }
+
             $sql3="select cve_parque, ";
-            foreach($param as $v){
+            foreach ($param as $v) {
                 $sql3.=$v."+";
             }
             $sql3 = substr($sql3, 0, -1);
             $sql3.=" as calif,opera from wp_comites_parques where cve_parque='".$row1['id']."' and fecha_visita>='".$mesantini."' and fecha_visita<='".$mesantfin."' order by fecha_visita ASC, cve ASC";
             $res3=mysql_query($sql3);
+            
             $sumaant=0;
             $califant=0;
             $opera=-1;
             $ncomites=0;
+            
             if(mysql_num_rows($res3)>0){
                 while($row3=mysql_fetch_array($res3)){
                     $opera=$row3['opera'];
@@ -1732,6 +1748,7 @@ if($_POST['cmd']=="repmensual"){
                 }
                 $parquesa++;
             }
+
             $sql2="select v.cve_parque, ";
             foreach($param as $v){
                 $sql2.='v.'.$v."+";
@@ -1739,21 +1756,23 @@ if($_POST['cmd']=="repmensual"){
             $sql2 = substr($sql2, 0, -1);
             $sql2.=" as calif,v.opera,c.tipo_visita from wp_comites_parques v LEFT JOIN wp_visitascom_parques c ON v.cve=c.cve_visita where v.cve_parque='".$row1['id']."' and v.fecha_visita>='".$fechaInicio."' and v.fecha_visita<='".$fechaFin."' order by v.fecha_visita ASC, v.cve ASC";
             $res2=mysql_query($sql2);
+            
             $suma=0;
             $calif=0;
             $visits=0;
             $visitp=0;
             $visitr=0;
             $nopera=-1;
-            if(mysql_num_rows($res2)>0){
-                while($row2=mysql_fetch_array($res2)){
-                    if($row2['tipo_visita']==2){
+
+            if (mysql_num_rows($res2)>0) {
+                while ($row2=mysql_fetch_array($res2)) {
+                    if ($row2['tipo_visita']==2) {
                         $visits++;
                     }
-                    elseif($row2['tipo_visita']==4){
+                    elseif ($row2['tipo_visita']==4) {
                         $visitp++;
                     }
-                    else{
+                    else {
                         $visitr++;
                     }
                     $nopera=$row2['opera'];
@@ -1764,42 +1783,18 @@ if($_POST['cmd']=="repmensual"){
             if($opera==0 && $nopera>=7){
                 $ncomites=1;
             }
+
             $sql8=" SELECT ID from wp_visitas_reforzamiento where cve_parque='".$row1['id']."' and fecha_visita<='".$fechafin."' and fecha_visita>='".$fechainicio."' AND cve_parametros=0";
             $res8=mysql_query($sql8);
-            if(mysql_num_rows($res8)>0){
-                while($row8=mysql_fetch_array($res8)){
-                    
-                }
-            }
+            
             $sql9=" SELECT ID from wp_visitas_reforzamiento where cve_parque='".$row1['id']."' and fecha_visita<='".$fechafin."' AND cve_parametros=0";
             $res9=mysql_query($sql9);
-            if(mysql_num_rows($res9)>0){
-                while($row9=mysql_fetch_array($res9)){
-                    
-                }
-            }
+       
             $sql11=" SELECT ID from wp_visitas_standby where cve_parque='".$row1['id']."' and fecha_visita<='".$fechafin."' and fecha_visita>='".$fechainicio."'";
             $res11=mysql_query($sql11);
+
             $dif=$calif-$califant;
             
-            $objPHPExcel->setActiveSheetIndex(0)
-                ->setCellValue('A'.$i, $row1['post_title'])
-                ->setCellValue('B'.$i, $califant)
-                ->setCellValue('C'.$i, $calif)
-                ->setCellValue('D'.$i, $dif)
-                ->setCellValue('E'.$i, mysql_num_rows($res2))
-                ->setCellValue('F'.$i, mysql_num_rows($res3))
-                ->setCellValue('G'.$i, $visits)
-                ->setCellValue('H'.$i, $visitp)
-                ->setCellValue('I'.$i, $visitr)
-                ->setCellValue('J'.$i, mysql_num_rows($res8))
-                ->setCellValue('K'.$i, mysql_num_rows($res11))
-                ->setCellValue('L'.$i, mysql_num_rows($res9))
-                ->setCellValue('M'.$i, $ncomites)
-                ->setCellValue('N'.$i, $califtot)
-                ->setCellValue('O'.$i, mysql_num_rows($res4));
-            $i++;
-
             $sumcomites=$sumcomites+$ncomites;
             $sumcalifant=$sumcalifant+$califant;
             $sumcalif=$sumcalif+$calif;
@@ -1814,32 +1809,47 @@ if($_POST['cmd']=="repmensual"){
             $sumcaliftot=$sumcaliftot+($califtot*mysql_num_rows($res4));
             $sumvistot=$sumvistot+mysql_num_rows($res4);
         }
-        if($parquesa!=0 && $parquesn!=0){
+
+        if ($parquesa!=0 && $parquesn!=0) {
             $diftotal=round($sumcalif/$parquesn)-round($sumcalifant/$parquesa);
             $ascalifant=round($sumcalifant/$parquesa);
             $ascalif=round($sumcalif/$parquesn);
-        }
-        else{
-            if($parquesa!=0){
+        } else {
+            if ($parquesa!=0) {
                 $diftotal=0-round($sumcalifant/$parquesa);
                 $ascalifant=round($sumcalifant/$parquesa);
                 $ascalif=0;
-            }
-            else if($parquesn!=0){
+            } else if ($parquesn!=0) {
                 $diftotal=round($sumcalif/$parquesn);
                 $ascalif=round($sumcalif/$parquesn);
                 $ascalifant=0;
-            }
-            else{
+            } else {
                 $diftotal=0;
                 $ascalifant=0;
                 $ascalif=0;
             }
         }
-        echo '<th>'.$ascalifant.'</th><th>'.$ascalif.'</th><th>'.$diftotal.'</th>
-        <th>'.$sumvis.'</th><th>'.$sumvisa.'</th><th>'.$sumviss.'</th><th>'.$sumvisp.'</th><th>'.$sumvisr1.'</th><th>'.$sumvisr.'</th><th>'.$sumvisst.'</th>
-        <th>'.$sumvisra.'</th><th>'.$sumcomites.'</th><th>'; if($sumcaliftot>0){ echo round($sumcaliftot/$sumvistot); }else {echo '0';} echo '</th><th>'.$sumvistot.'</th></tr>';
-        echo $fila;
+        
+        $promedioParque = ($sumcaliftot>0) ? round($sumcaliftot/$sumvistot) : 0;
+
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue('A'.$i, $asesor['nombre'])
+                ->setCellValue('B'.$i, $ascalifant)
+                ->setCellValue('C'.$i, $ascalif)
+                ->setCellValue('D'.$i, $diftotal)
+                ->setCellValue('E'.$i, $sumvis)
+                ->setCellValue('F'.$i, $sumvisa)
+                ->setCellValue('G'.$i, $sumviss)
+                ->setCellValue('H'.$i, $sumvisp)
+                ->setCellValue('I'.$i, $sumvisr1)
+                ->setCellValue('J'.$i, $sumvisst)
+                ->setCellValue('K'.$i, $sumvisra)
+                ->setCellValue('L'.$i, $sumcomites)
+                ->setCellValue('M'.$i, $ncomites)
+                ->setCellValue('N'.$i, $promedioParque)
+                ->setCellValue('O'.$i, $sumvistot);
+        $i++;
+
         $totcomites=$totcomites+$sumcomites;
         $totparques=$totparques+mysql_num_rows($res1);
         $totcalifant=$totcalifant+$ascalifant;
