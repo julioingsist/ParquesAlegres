@@ -584,7 +584,7 @@ input[type="text"]{
 	$("#resultados").text("Cargando...");
 	var fecha_inicial = document.getElementsByName("fecha_inicial")[0].value;
         var fecha_final = document.getElementsByName("fecha_final")[0].value;
-	$("#resultados").load("http://localhost/web-site/tablet/repmensual.php", {fecha_inicial: fecha_inicial, fecha_final: fecha_final, cmd: 2});
+	$("#resultados").load("http://parquesalegres.org/tablet/repmensual.php", {fecha_inicial: fecha_inicial, fecha_final: fecha_final, cmd: 2});
     }
     ';/*function change(s){
         if(s==1){
