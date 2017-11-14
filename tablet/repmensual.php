@@ -683,7 +683,7 @@ echo '<body>
 <h3 style="text-align:center">Reporte Mensual de visitas</h2>
 <label><span>Fecha de inicio:</span><input type="text" readonly id="datepicker" value="'.$fechainicio.'" name="fecha_inicial"/></label>
 <label><span>Fecha Final:</span><input type="text" readonly id="datepicker2" value="'.$fechafin.'" name="fecha_final"/></label>
-<center><input class="button" type="button" onclick="buscar();" value="Filtrar">&nbsp;&nbsp;&nbsp;&nbsp;<!--<input class="button" type="submit" value="Exportar a Excel">--><br><br>
+<center><input class="button" type="button" onclick="buscar();" value="Filtrar">&nbsp;&nbsp;&nbsp;&nbsp; <input class="button" type="submit" value="Exportar a Excel"><br><br>
 Nota: Se puede dar click en el nombre del asesor para ver el detallado por parque<br><br>';
 echo '<center><div id="resultados" class="CSSTableGenerator"></div></center>';
 /*$sql1="select id,post_title from wp_posts where post_status='publish' and post_type='parque'";
