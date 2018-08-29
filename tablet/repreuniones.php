@@ -1,31 +1,39 @@
 <?php
 require_once('../wp-config.php');
 date_default_timezone_set("America/Mazatlan");
-if($_POST['cmd']==1){
+$meses=array("01"=>"Enero","02"=>"Febrero","03"=>"Marzo","04"=>"Abril","05"=>"Mayo","06"=>"Junio",
+			 "07"=>"Julio","08"=>"Agosto","09"=>"Septiembre","10"=>"Octubre","11"=>"Noviembre",
+			 "12"=>"Diciembre");
+$param=array(1=>"opera",2=>"formaliza",3=>"organiza",4=>"reunion",5=>"proyecto",6=>"disenio",
+			 7=>"ejecutivo",8=>"vespacio",9=>"estado",10=>"instalaciones",11=>"ingresop",
+			 12=>"ingresadop",13=>"mancomunado",14=>"eventosr",15=>"eventos",16=>"averdes",
+			 17=>"estaver",18=>"gente",19=>"respint",20=>"orden",21=>"limpieza");
+
+if ($_POST['cmd'] == 1) {
 	echo '<table>
 	<tr>
 	<th>ID Parque</th><th>Nombre</th><th>Evidencia</th><th>Fecha Registro</th></tr>';
-	$sql1="select id,post_title from wp_posts where post_status='publish' and post_type='parque'";
-	$res1=mysql_query($sql1);
-	while($row1=mysql_fetch_array($res1)){
+	$sql1 = "select id,post_title from wp_posts where post_status='publish' and post_type='parque'";
+	$res1 = mysqli_query($enlace, $sql1);
+	while ($row1 = mysqli_fetch_array($res1)){
 		echo '<tr>
 		<td>'.$row1['id'].'</td><td>'.$row1['post_title'].'</td>';
-		$sql2="select * from comite_reuniones WHERE cve_parque='".$row1['id']."'";
-		$res2=mysql_query($sql2);
-		if(mysql_num_rows($res2)>0){
-			$row2=mysql_fetch_array($res2);
+		$sql2 = "select * from comite_reuniones WHERE cve_parque='".$row1['id']."'";
+		$res2 = mysqli_query($enlace, $sql2);
+		if (mysqli_num_rows($res2) > 0) {
+			$row2 = mysqli_fetch_array($res2);
 			echo '<td>';
-			if($row2['archivo']!=""){ 
-				$evidencia=explode(",",$row2['archivo']);
-				foreach($evidencia as $k=>$v){
-	            	if($v!=""){
+
+			if ($row2['archivo']!=""){ 
+				$evidencia = explode(",",$row2['archivo']);
+				foreach ($evidencia as $k=>$v) {
+	            	if ($v != "") {
 	            		echo '<a href="reuniones/'.$v.'" target="_blank"><img src="reuniones/'.$v.'" width="150"></a> &nbsp;';
 	            	}
             	}
             }
 			echo '</td><td>'.$row2['fecha_registro'].'</td>';
-		}
-		else{
+		} else {
 			echo '<td colspan="2">No ha capturado evidencia de reuniones aun</td>';
 		}
 		echo '</tr>';
@@ -33,7 +41,21 @@ if($_POST['cmd']==1){
 	echo '</table>';
 	exit();
 }
-echo '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+if ($_GET['fecha_ini'] != "") {
+	$fecha_filtro = $_GET['fecha_ini'];
+} else {
+	$fecha_filtro = date("Y-m-").'01';
+}
+
+if ($_GET['fecha_fin'] != "") {
+	$fecha_filtro2 = $_GET['fecha_fin'];	
+} else {
+	$fecha_filtro2 = date("Y-m-t");
+}
+?>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Reporte de Reuniones - Parques Alegres</title>
 </head>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
@@ -235,30 +257,46 @@ input[type="text"]{
 </style>
 <script>
     $(function() {
+    	$( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
+        $( "#datepicker2" ).datepicker({ dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
     	buscar();
     });
-	function buscar(){
+	function buscar() {
 		$("#resultados").text("Cargando...");
-		$("#resultados").load("http://parquesalegres.org/tablet/repreuniones.php", {cmd: 1});
+		var fecha_inicial = document.getElementsByName("fecha_inicial")[0].value;
+        var fecha_fin = document.getElementsByName("fecha_fin")[0].value;
+		$("#resultados").load("http://localhost/web-site/tablet/repreuniones.php", {fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, cmd: 1});
     }
-</script>';
-$meses=array("01"=>"Enero","02"=>"Febrero","03"=>"Marzo","04"=>"Abril","05"=>"Mayo","06"=>"Junio","07"=>"Julio","08"=>"Agosto","09"=>"Septiembre","10"=>"Octubre",
-             "11"=>"Noviembre","12"=>"Diciembre");
-$param=array(1=>"opera",2=>"formaliza",3=>"organiza",4=>"reunion",5=>"proyecto",6=>"disenio",7=>"ejecutivo",8=>"vespacio",9=>"estado",10=>"instalaciones",
-                  11=>"ingresop",12=>"ingresadop",13=>"mancomunado",14=>"eventosr",15=>"eventos",16=>"averdes",17=>"estaver",18=>"gente",19=>"respint",20=>"orden",21=>"limpieza");
-$sql="select a.ID,u.display_name from asesores as a INNER JOIN wp_users as u ON a.ID=u.ID where stat<1";
-$res=mysql_query($sql);
-while($row=mysql_fetch_array($res)) {
-	$asesores[$row['ID']]=$row['display_name'];
+</script>
+<?php
+$sql = "SELECT a.ID,u.display_name 
+		FROM asesores AS a INNER JOIN wp_users AS u ON a.ID = u.ID 
+		WHERE stat < 1";
+$res = mysqli_query($enlace, $sql);
+while ($row = mysqli_fetch_array($res)) {
+	$asesores[$row['ID']] = $row['display_name'];
 }
-echo '<body>
+?>
+
+<body>
 <center><h2>Reporte de reuniones</h2>
 <form method="post" action="repexcel.php">
-<input type="hidden" value="repreuniones" name="cmd">
-<input type="submit" value="Exportar a Excel" class="button">
+<label>
+	<span>Fecha inicial: </span>
+	<input type="text" name="fecha_inicial" readonly id="datepicker" value="<?php echo $fecha_filtro ?>">
+</label>
+<label>
+	<span>Fecha final: </span>
+	<input type="text" name="fecha_fin" readonly id="datepicker2" value="<?php echo $fecha_filtro2 ?>">
+</label>
+<div style="clear:both;"></div><br>
+<center>
+	<input type="hidden" value="repreuniones" name="cmd">
+	<input class="button" type="button" onclick="buscar();" value="Filtrar">&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="submit" value="Exportar a Excel" class="button">
 <br><br>
-<div id="resultados" class="CSSTableGenerator"></div></center>
+<div id="resultados" class="CSSTableGenerator"></div>
+</center>
 </form>
 </body>
-</html>';
-?>  
+</html>
