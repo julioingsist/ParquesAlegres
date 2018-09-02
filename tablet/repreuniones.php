@@ -9,10 +9,24 @@ $param=array(1=>"opera",2=>"formaliza",3=>"organiza",4=>"reunion",5=>"proyecto",
 			 12=>"ingresadop",13=>"mancomunado",14=>"eventosr",15=>"eventos",16=>"averdes",
 			 17=>"estaver",18=>"gente",19=>"respint",20=>"orden",21=>"limpieza");
 
+$sql2 = "SELECT p.ID, p.post_title FROM wp_posts p INNER JOIN asesores a ON a.ID = p.post_author 
+	     WHERE p.post_status = 'publish' AND p.post_type = 'parque' AND a.stat < 1 
+	     ORDER BY p.post_title ASC";
+$res2 = mysqli_query($enlace, $sql2);
+while ($row2 = mysqli_fetch_array($res2)) {
+	$parques[$row2['ID']] = $row2['post_title'];
+}
+
 if ($_POST['cmd'] == 1) {
 	echo '<table>
 	<tr>
-	<th>ID Parque</th><th>Nombre</th><th>Evidencia</th><th>Fecha Registro</th></tr>';
+		<th>ID Parque</th>
+		<th>Nombre</th>
+		<th>Fecha Registro</th>
+		<th>El comité se reúne</th>
+		<th>Cuenta con evidencia</th>
+		<th>Evidencia</th>
+	</tr>';
 	$sql1 = "select id,post_title from wp_posts where post_status='publish' and post_type='parque'";
 	$res1 = mysqli_query($enlace, $sql1);
 	while ($row1 = mysqli_fetch_array($res1)){
@@ -288,6 +302,41 @@ while ($row = mysqli_fetch_array($res)) {
 <label>
 	<span>Fecha final: </span>
 	<input type="text" name="fecha_fin" readonly id="datepicker2" value="<?php echo $fecha_filtro2 ?>">
+</label>
+<div style="clear:both;"></div>
+<label>
+	<span>Parque: </span>
+	<select name="parque" id="parque">
+		<option value=""> -- Todos -- </option>';
+		<?php
+		foreach ($parques as $k => $v) {
+		    echo '<option value="'.$k.'"'; 
+		    if ($_GET['parque'] == $k) { 
+		    	echo ' selected'; 
+		    } 
+		    echo '>'.$v.'</option>';    
+		}
+		?>
+	</select>
+</label>
+<label>
+	<span>El cómite se reúne: </span>
+	<select name="comite_reune" id="comite_reune">
+		<option value=""> -- Todos -- </option>
+		<option value="0">Nunca</option>
+		<option value="10">Regularmente</option>
+		<option value="20">Frecuentemente</option>
+	</select>
+</label>
+<div style="clear:both;"></div><br>
+<label>
+	<span>Cuenta con evidencia: </span>
+	<select name="comite_reune" id="comite_reune">
+		<option value=""> -- Todos -- </option>
+		<option value="1">Minuta</option>
+		<option value="2">Otros</option>
+		<option value="0">No</option>
+	</select>
 </label>
 <div style="clear:both;"></div><br>
 <center>
