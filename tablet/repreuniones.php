@@ -56,8 +56,6 @@ if ($_POST['cmd'] == 1) {
 			ON r.cve_parque = p.cve_parque
 			$filtro
 			ORDER BY fecha_registro";
-
-	echo $sql;
 	
 	$res = mysqli_query($enlace, $sql);
 	if (mysqli_num_rows($res) > 0) {
