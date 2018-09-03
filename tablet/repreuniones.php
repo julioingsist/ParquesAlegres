@@ -339,7 +339,7 @@ h3{
         var parque = document.getElementsByName("parque")[0].value;
         var comite_reune = document.getElementsByName("comite_reune")[0].value;
         var tiene_evidencia = document.getElementsByName("tiene_evidencia")[0].value;
-		$("#resultados").load("https://parquesalegres.org/tablet/repreuniones.php", {fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, parque: parque, comite_reune: comite_reune, 
+		$("#resultados").load("http://parquesalegres.org/tablet/repreuniones.php", {fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, parque: parque, comite_reune: comite_reune, 
 			tiene_evidencia: tiene_evidencia, cmd: 1});
     }
 </script>
