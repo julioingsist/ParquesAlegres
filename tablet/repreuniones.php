@@ -7,8 +7,8 @@ $evidencias = array(0 => "No", 1 => "Minuta", 2 => "Otros");
 $sql2 = "SELECT p.id, p.post_title FROM wp_posts p INNER JOIN asesores a ON a.ID = p.post_author 
 	     WHERE p.post_status = 'publish' AND p.post_type = 'parque' AND a.stat < 1 
 	     ORDER BY p.post_title ASC";
-$res2 = mysqli_query($enlace, $sql2);
-while ($row2 = mysqli_fetch_array($res2)) {
+$res2 = mysql_query($sql2);
+while ($row2 = mysql_fetch_array($res2)) {
 	$parques[$row2['id']] = $row2['post_title'];
 }	
 
@@ -57,8 +57,8 @@ if ($_POST['cmd'] == 1) {
 			$filtro
 			ORDER BY fecha_registro";
 	
-	$res = mysqli_query($enlace, $sql);
-	if (mysqli_num_rows($res) > 0) {
+	$res = mysql_query($sql);
+	if (mysql_num_rows($res) > 0) {
 		echo '<table>
 		<tr>
 			<td>ID Parque</td>
@@ -69,7 +69,7 @@ if ($_POST['cmd'] == 1) {
 			<td>Evidencia</td>
 		</tr>';
 
-		while ($row = mysqli_fetch_array($res)) {
+		while ($row = mysql_fetch_array($res)) {
 			echo '<tr>
 			<td>'.$row['cve_parque'].
 				'<input type="hidden" name="cve_parque[]" value="'.$row['cve_parque'].'">
@@ -105,7 +105,7 @@ if ($_POST['cmd'] == 1) {
 			echo '</td>';
 			echo '</tr>';
 		} 
-		echo '<tr><td><b>Total:</b></td><td colspan="10"><b>'.mysqli_num_rows($res).'</b></td></table>';
+		echo '<tr><td><b>Total:</b></td><td colspan="10"><b>'.mysql_num_rows($res).'</b></td></table>';
 	} else {
 		echo 'No hay reuniones registradas bajo el criterio de búsqueda.';
 	}
@@ -339,7 +339,7 @@ h3{
         var parque = document.getElementsByName("parque")[0].value;
         var comite_reune = document.getElementsByName("comite_reune")[0].value;
         var tiene_evidencia = document.getElementsByName("tiene_evidencia")[0].value;
-		$("#resultados").load("http://localhost/web-site/tablet/repreuniones.php", {fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, parque: parque, comite_reune: comite_reune, 
+		$("#resultados").load("https://parquesalegres.org/tablet/repreuniones.php", {fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, parque: parque, comite_reune: comite_reune, 
 			tiene_evidencia: tiene_evidencia, cmd: 1});
     }
 </script>
