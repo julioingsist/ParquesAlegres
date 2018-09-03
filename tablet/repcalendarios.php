@@ -1,39 +1,139 @@
 <?php
 require_once('../wp-config.php');
 date_default_timezone_set("America/Mazatlan");
-if($_POST['cmd']==1){
-	echo '<table>
-	<tr>
-	<th>ID Parque</th><th>Nombre</th><th>Fecha de inicio del calendario</th><th>Fecha de fin del calendario</th><th>Evidencia</th><th>Fecha Registro</th></tr>';
-	$sql1="select id,post_title from wp_posts where post_status='publish' and post_type='parque'";
-	$res1=mysql_query($sql1);
-	while($row1=mysql_fetch_array($res1)){
-		echo '<tr>
-		<td>'.$row1['id'].'</td><td>'.$row1['post_title'].'</td>';
-		$sql2="select * from evidencia_eventos WHERE cve_parque='".$row1['id']."'";
-		$res2=mysql_query($sql2);
-		if(mysql_num_rows($res2)>0){
-			$row2=mysql_fetch_array($res2);
-			echo '<td>'.$row2['inicio_calendario'].'</td><td>'.$row2['fin_calendario'].'</td><td>';
-			if($row2['archivo']!=""){ 
-				$evidencia=explode(",",$row2['archivo']);
-				foreach($evidencia as $k=>$v){
-	            	if($v!=""){
-	            		echo '<a href="calendarios/'.$v.'" target="_blank"><img src="calendarios/'.$v.'" width="150"></a> &nbsp;';
-	            	}
-            	}
-            }
-			echo '</td><td>'.$row2['fecha_registro'].'</td>';
+
+$calendario = array(0 => "No", 50 => "Sí");
+$evidencias = array(0 => "No", 1 => "Fotos");
+
+$sql = "SELECT a.ID,u.display_name FROM asesores AS a INNER JOIN wp_users AS u ON a.ID = u.ID 
+		WHERE stat < 1";
+$res = mysqli_query($enlace, $sql);
+while ($row = mysqli_fetch_array($res)) {
+	$asesores[$row['ID']] = $row['display_name'];
+}
+
+$sql = "SELECT p.ID, p.post_title FROM wp_posts p INNER JOIN asesores a ON a.ID = p.post_author 
+	     WHERE p.post_status = 'publish' AND p.post_type = 'parque' AND a.stat < 1 
+	     ORDER BY p.post_title ASC";
+$res = mysqli_query($enlace, $sql);
+while ($row = mysqli_fetch_array($res)) {
+	$parques[$row['ID']] = $row['post_title'];
+}
+
+if ($_GET['fecha_inicial'] != "") {
+	$fecha_filtro = $_GET['fecha_inicial'];
+} else {
+	$fecha_filtro = date("Y-m-").'01';
+}
+
+if ($_GET['fecha_fin'] != "") {
+	$fecha_filtro2 = $_GET['fecha_fin'];	
+} else {
+	$fecha_filtro2 = date("Y-m-t");
+}
+
+if ($_POST['cmd'] == 2) {
+	$sql = "SELECT id, post_title FROM wp_posts WHERE post_author = '".$_POST['asesor']."' AND
+			post_status='publish' AND post_type='parque' ORDER BY post_title ASC";
+	$res = mysqli_query($enlace, $sql);
+	if (mysqli_num_rows($res) > 0){
+		echo '<option value=""> -- Todos --</option>';
+		while ($row = mysqli_fetch_array($res)){
+			echo '<option value="'.$row['id'].'">'.$row['post_title'].'</option>';
 		}
-		else{
-			echo '<td colspan="4">No capturado calendario aun</td>';
-		}
-		echo '</tr>';
+	} else {
+	    echo 'no';
 	}
-	echo '</table>';
 	exit();
 }
-echo '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+if ($_POST['cmd'] == 1) {
+	$filtro = " WHERE 1";
+
+    if ($_POST['fecha_inicial']) {
+        $filtro .= " AND fecha_registro >= '".$_POST['fecha_inicial']."'";
+    }
+
+    if ($_POST['fecha_fin']) {
+        $filtro .= " AND fecha_registro <= '".$_POST['fecha_fin']."'";
+    }
+
+    if ($_POST['asesor']) {
+        $filtro .= " AND u.ID = '".$_POST['asesor']."'";
+    }
+
+    if ($_POST['parque']) {
+        $filtro .= " AND cve_parque = '".$_POST['parque']."'";
+    }
+
+    if ($_POST['tiene_calendario'] || $_POST['tiene_calendario'] == '0') {
+    	$filtro .= " AND p.eventos = '".$_POST['tiene_calendario']."'";
+    }
+
+    if ($_POST['tiene_evidencia'] || $_POST['tiene_evidencia'] == '0') {
+    	$filtro .= " AND e.evidencia = '".$_POST['tiene_evidencia']."'";
+    }
+
+	$sql = "SELECT * FROM evidencia_eventos e
+			INNER JOIN wp_posts p ON e.cve_parque = p.ID 
+    		INNER JOIN wp_users AS u ON u.ID = p.post_author
+    		INNER JOIN
+    			(SELECT * FROM wp_comites_parques
+				 GROUP BY cve_parque
+				 ORDER BY fecha_visita) AS p  
+			ON e.cve_parque = p.cve_parque
+    		$filtro
+    		ORDER BY fecha_registro";
+	$res = mysqli_query($enlace, $sql);
+	if (mysqli_num_rows($res) > 0) {
+		echo '<table>
+		<tr>
+			<td>Fecha Registro</td>
+			<td>Asesor</td>
+			<td>ID Parque</td>
+			<td>Nombre</td>
+			<td>Cuenta con calendario</td>
+			<td>Fecha de inicio del calendario</td>
+			<td>Fecha de fin del calendario</td>
+			<td>Cuenta con evidencia</td>
+			<td>Evidencia</td>
+		</tr>';
+
+		while ($row = mysqli_fetch_array($res)) {
+			echo '<tr>
+				  <td>'.$row['fecha_registro'].'</td>
+				  <td>'.$asesores[$row['post_author']].'</td>				
+				  <td>'.$row['cve_parque'].'</td>
+				  <td>'.$parques[$row['cve_parque']].'</td>
+				  <td>'.$calendario[$row['eventos']].'</td>
+				  <td>'.$row['inicio_calendario'].'</td>
+				  <td>'.$row['fin_calendario'].'</td>
+				  <td>'.$evidencias[$row['evidencia']].'</td>
+				  <td>';
+			if ($row['archivo'] != "") {  
+				$evidencia = explode(",",$row['archivo']);
+				foreach ($evidencia as $k => $v) {
+					if ($v != "") {
+						echo '<a href="calendarios/'.$v.'" target="_blank"><img src="calendarios/'.$v.'" width="150"></a> &nbsp;';
+		            }
+	            }
+        	} else {
+        		if ($row['evidencia'] > 0) {
+        			echo 'No ha capturado evidencia de calendarios aún';		
+        		}
+        	}
+        	echo '</td>';
+        	echo '</tr>';
+        }
+        
+		echo '</table>';
+	} else {
+		echo 'No hay calendarios registrados bajo el criterio de búsqueda.';
+	}
+	exit();
+}	
+?>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Reporte de Calendarios - Parques Alegres</title>
 </head>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
@@ -235,30 +335,112 @@ input[type="text"]{
 </style>
 <script>
     $(function() {
+    	$( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
+        $( "#datepicker2" ).datepicker({ dateFormat: "yy-mm-dd",dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ], monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]});
     	buscar();
     });
-	function buscar(){
+	function buscar() {
 		$("#resultados").text("Cargando...");
-		$("#resultados").load("http://parquesalegres.org/tablet/repcalendarios.php", {cmd: 1});
+		var asesor = document.getElementsByName("asesor")[0].value;
+		var parque = document.getElementsByName("parque")[0].value;
+        var fecha_inicial = document.getElementsByName("fecha_inicial")[0].value;
+        var fecha_fin = document.getElementsByName("fecha_fin")[0].value;
+        var tiene_calendario = document.getElementsByName("tiene_calendario")[0].value;
+        var tiene_evidencia = document.getElementsByName("tiene_evidencia")[0].value;
+		$("#resultados").load("http://localhost/web-site/tablet/repcalendarios.php", {asesor: asesor,
+		 	parque: parque, fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, 
+		 	tiene_calendario: tiene_calendario, tiene_evidencia: tiene_evidencia, cmd: 1});
     }
-</script>';
-$meses=array("01"=>"Enero","02"=>"Febrero","03"=>"Marzo","04"=>"Abril","05"=>"Mayo","06"=>"Junio","07"=>"Julio","08"=>"Agosto","09"=>"Septiembre","10"=>"Octubre",
-             "11"=>"Noviembre","12"=>"Diciembre");
-$param=array(1=>"opera",2=>"formaliza",3=>"organiza",4=>"reunion",5=>"proyecto",6=>"disenio",7=>"ejecutivo",8=>"vespacio",9=>"estado",10=>"instalaciones",
-                  11=>"ingresop",12=>"ingresadop",13=>"mancomunado",14=>"eventosr",15=>"eventos",16=>"averdes",17=>"estaver",18=>"gente",19=>"respint",20=>"orden",21=>"limpieza");
-$sql="select a.ID,u.display_name from asesores as a INNER JOIN wp_users as u ON a.ID=u.ID where stat<1";
-$res=mysql_query($sql);
-while($row=mysql_fetch_array($res)) {
-	$asesores[$row['ID']]=$row['display_name'];
-}
-echo '<body>
+    function camb(i, v) {
+    	if (i == "asesor") {
+			$("#parque").html("<option value=\"\">Cargando...</option>"); 
+
+			if (v == 0) {
+				<?php 
+					$arrjs = '<option value=\"\"> -- Todos -- </option>';
+						
+					foreach ($parques as $k => $v) {
+						$arrjs .= '<option value=\"'.$k.'\">'.$v.'</option>';			
+					}
+				?>
+			$("#parque").html("<?php echo $arrjs; ?>");
+			} else {
+				$.ajax({url: "repcalendarios.php",
+					data: { cmd: 2, asesor: v},
+					dataType: "text",
+					type: "post",
+					success: function(result) {
+					    if (result != "no") {
+							$("#parque").html(result);
+					    } else {
+							alert("No hay parques asociados a este asesor");
+					    }
+					}
+				});
+			}
+		}
+    }
+</script>
+<body>
 <center><h2>Reporte de evidencia de calendarios</h2><center>
 <form method="post" action="repexcel.php">
-<input type="submit" value="Exportar a excel" class="button">
-<br>
-<center><div id="resultados" class="CSSTableGenerator"></div></center>
-<input type="hidden" name="cmd" value="repcalendarios">
+	<input type="hidden" name="cmd" value="repcalendarios">
+	<label>
+		<span>Fecha inicial: </span>
+		<input type="text" name="fecha_inicial" readonly id="datepicker" value="<?php echo $fecha_filtro ?>">
+	</label>
+	<label>
+		<span>Fecha final: </span>
+		<input type="text" name="fecha_fin" readonly id="datepicker2" value="<?php echo $fecha_filtro2 ?>">
+	</label>
+	<div style="clear:both;"></div>
+	<label>
+		<span>Asesor: </span>
+		<select name="asesor" id="asesor" onchange="camb(this.id, this.value);"><option value=""> -- Todos -- </option>
+		<?php
+	    	foreach ($asesores as $k => $v) {
+	        	echo '<option value="'.$k.'">'.$v.'</option>';    
+	    	}
+		?>
+		</select>
+	</label>
+	<label>
+		<span>Parque: </span>
+		<select name="parque" id="parque"><option value=""> -- Todos -- </option>';
+		<?php
+		foreach ($parques as $k => $v) {
+		    echo '<option value="'.$k.'"'; 
+		    if ($_GET['parque'] == $k) { 
+		    	echo ' selected'; 
+		    } 
+		    echo '>'.$v.'</option>';    
+		}
+		?></select>
+	</label>
+	<div style="clear:both"></div><br>
+	<label>
+		<span>Cuenta con calendario: </span>
+		<select name="tiene_calendario" id="tiene_calendario">
+			<option value=""> -- Todos -- </option>
+			<option value="50">Sí</option>
+			<option value="0">No</option>
+		</select>
+	</label>
+	<label>
+		<span>Cuenta con evidencia: </span>
+		<select name="tiene_evidencia" id="tiene_evidencia">
+			<option value=""> -- Todos -- </option>
+			<option value="1">Fotos</option>
+			<option value="0">No</option>
+		</select>
+	</label>
+	<div style="clear:both;"></div><br>
+	<center>
+		<input class="button" type="button" onclick="buscar();" value="Filtrar">
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="submit" value="Exportar a Excel" class="button"><br><br>
+		<div id="resultados" class="CSSTableGenerator"></div>
+	</center>
 </form>
 </body>
-</html>';
-?>  
+</html>
