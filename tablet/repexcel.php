@@ -345,10 +345,9 @@ header('Content-Type: text/html; charset=utf-8');
 
 }*/
 
-if($_POST['cmd']=="repreuniones"){
+if ($_POST['cmd'] == "repreuniones") {
     ini_set('memory_limit', '1024M'); 
     require_once('../wp-config.php');
-    $letra=array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ','BA','BB','BC','BD','BE','BF','BG','BH','BI','BJ','BK','BL','BM','BN','BO');
     // Create new PHPExcel object
     $objPHPExcel = new PHPExcel();
     // Set document properties
@@ -371,38 +370,44 @@ if($_POST['cmd']=="repreuniones"){
     $objPHPExcel->getActiveSheet()->getStyle("A1:AI1")->getFont()->setBold(true);
     $objPHPExcel->setActiveSheetIndex(0)
         ->setCellValue('A1', 'ID Parque')
-        ->setCellValue('B1', 'Nombre')
-        ->setCellValue('C1', 'Evidencias')
-        ->setCellValue('D1', 'Fecha Registro');
+        ->setCellValue('B1', 'Nombre Parque')
+        ->setCellValue('C1', 'Fecha Registro')
+        ->setCellValue('D1', 'El comité se reúne')
+        ->setCellValue('E1', 'Cuenta con evidencia')
+        ->setCellValue('F1', 'Evidencias');
 
-    $sql1="select id,post_title from wp_posts where post_status='publish' and post_type='parque'";
-    $res1=mysql_query($sql1);
-    $i=2;
-    while($row1=mysql_fetch_array($res1)){
+    $parques = $_POST['cve_parque'];
+    $nom_parque = $_POST['nombre_parque'];
+    $fecha_registro = $_POST['fecha_registro'];
+    $comite_reune = $_POST['comite_reune'];
+    $tiene_evidencia = $_POST['tiene_evidencia'];
+    $evidencias = $_POST['evidencias'];
+
+    $i = 2;
+    if (count($parques) > 0) {
+        foreach ($parques as $key => $parque) {
+            if ($evidencias[$key] != "") {
+                $evidencia = explode(",", $evidencias[$key]);
+                $fotos = count($evidencia);
+            } else {
+                $fotos = 0;
+            }
+            
+            $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('A'.$i, $parque)
+                        ->setCellValue('B'.$i, $nom_parque[$key])
+                        ->setCellValue('C'.$i, $fecha_registro[$key])
+                        ->setCellValue('D'.$i, $comite_reune[$key])
+                        ->setCellValue('E'.$i, $tiene_evidencia[$key])
+                        ->setCellValue('F'.$i, $fotos);
+            $i++;
+        }
+    } else {
         $objPHPExcel->setActiveSheetIndex(0)
-                ->setCellValue('A'.$i, $row1['id'])
-                ->setCellValue('B'.$i, $row1['post_title']);
-        $sql2="select * from comite_reuniones WHERE cve_parque='".$row1['id']."'";
-        $res2=mysql_query($sql2);
-        if(mysql_num_rows($res2)>0){
-            $row2=mysql_fetch_array($res2);
-            if($row2['archivo']!=""){ 
-                $evidencia=explode(",",$row2['archivo']);
-                $fotos=count($evidencia);
-            }
-            else{
-                $fotos=0;
-            }
-            $objPHPExcel->setActiveSheetIndex(0)
-                ->setCellValue('C'.$i, $fotos)
-                ->setCellValue('D'.$i, $row2['fecha_registro']);
-        }
-        else{
-            $objPHPExcel->setActiveSheetIndex(0)
-                ->setCellValue('C'.$i, 'No tiene calendario');
-        }
-        $i++;
-    }       
+                    ->setCellValue('A'.$i, 'No hay reuniones registradas bajo el criterio de búsqueda.');
+    }
+
+
     // Redirect output to a client’s web browser (Excel5)
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="Reporte de Reuniones.xls"');

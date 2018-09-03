@@ -71,11 +71,22 @@ if ($_POST['cmd'] == 1) {
 
 		while ($row = mysqli_fetch_array($res)) {
 			echo '<tr>
-			<td>'.$row['cve_parque'].'</td>
-			<td>'.$parques[$row['cve_parque']].'</td>
-			<td>'.$row['fecha_registro'].'</td>
-			<td>'.$reunion[$row['reunion']].'</td>
-			<td>'.$evidencias[$row['evidencia']].'</td>';
+			<td>'.$row['cve_parque'].
+				'<input type="hidden" name="cve_parque[]" value="'.$row['cve_parque'].'">
+			</td>
+			<td>'.$parques[$row['cve_parque']].
+				'<input type="hidden" name="nombre_parque[]" value="'.$parques[$row['cve_parque']].'">
+			</td>
+			<td>'.$row['fecha_registro'].
+				'<input type="hidden" name="fecha_registro[]" value="'.$row['fecha_registro'].'">
+			</td>
+			<td>'.$reunion[$row['reunion']].
+				'<input type="hidden" name="comite_reune[]" value="'.$reunion[$row['reunion']].'">
+			</td>
+			<td>'.$evidencias[$row['evidencia']].
+				'<input type="hidden" name="tiene_evidencia[]" value="'.$evidencias[$row['evidencia']].
+				'">
+			</td>';
 
 			echo '<td>';
 			if ($row['archivo'] != "") { 
@@ -90,7 +101,7 @@ if ($_POST['cmd'] == 1) {
             		echo 'No ha capturado evidencia de reuniones aún';
             	}
             }
-
+            echo '<input type="hidden" name="evidencias[]" value="'.$row['archivo'].'">';
 			echo '</td>';
 			echo '</tr>';
 		} 
