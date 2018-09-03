@@ -1,13 +1,8 @@
 <?php
 require_once('../wp-config.php');
 date_default_timezone_set("America/Mazatlan");
-$meses = array("01"=>"Enero","02"=>"Febrero","03"=>"Marzo","04"=>"Abril","05"=>"Mayo","06"=>"Junio",
-			 "07"=>"Julio","08"=>"Agosto","09"=>"Septiembre","10"=>"Octubre","11"=>"Noviembre",
-			 "12"=>"Diciembre");
-$param = array(1=>"opera",2=>"formaliza",3=>"organiza",4=>"reunion",5=>"proyecto",6=>"disenio",
-			 7=>"ejecutivo",8=>"vespacio",9=>"estado",10=>"instalaciones",11=>"ingresop",
-			 12=>"ingresadop",13=>"mancomunado",14=>"eventosr",15=>"eventos",16=>"averdes",
-			 17=>"estaver",18=>"gente",19=>"respint",20=>"orden",21=>"limpieza");
+$reunion = array(0 => "Nunca", 10 => "Regularmente", 20 => "Frecuentemente");
+$evidencias = array(0 => "No", 1 => "Minuta", 2 => "Otros");
 
 $sql2 = "SELECT p.id, p.post_title FROM wp_posts p INNER JOIN asesores a ON a.ID = p.post_author 
 	     WHERE p.post_status = 'publish' AND p.post_type = 'parque' AND a.stat < 1 
@@ -34,19 +29,35 @@ if ($_POST['cmd'] == 1) {
 	$filtro = " WHERE 1";
 
 	if ($_POST['fecha_inicial']) {
-        $filtro .= " AND fecha_registro >= '".$_POST['fecha_inicial']."'";
+        $filtro .= " AND r.fecha_registro >= '".$_POST['fecha_inicial']."'";
     }
 
     if ($_POST['fecha_fin']) {
-        $filtro .= " AND fecha_registro <= '".$_POST['fecha_fin']."'";
+        $filtro .= " AND r.fecha_registro <= '".$_POST['fecha_fin']."'";
     }
 
     if ($_POST['parque']) {
-    	$filtro .= " AND cve_parque = '".$_POST['parque']."'";
+    	$filtro .= " AND r.cve_parque = '".$_POST['parque']."'";
     }
 
-	$sql = "SELECT * FROM comite_reuniones $filtro
+    if ($_POST['comite_reune'] || $_POST['comite_reune'] == '0') {
+    	$filtro .= " AND p.reunion = '".$_POST['comite_reune']."'";
+    }
+
+    if ($_POST['tiene_evidencia'] || $_POST['tiene_evidencia'] == '0') {
+    	$filtro .= " AND r.evidencia = '".$_POST['tiene_evidencia']."'";
+    }
+
+	$sql = "SELECT * FROM comite_reuniones r 
+			INNER JOIN 
+				(SELECT * FROM wp_comites_parques
+				 GROUP BY cve_parque
+				 ORDER BY fecha_visita) AS p  
+			ON r.cve_parque = p.cve_parque
+			$filtro
 			ORDER BY fecha_registro";
+
+	echo $sql;
 	
 	$res = mysqli_query($enlace, $sql);
 	if (mysqli_num_rows($res) > 0) {
@@ -65,15 +76,10 @@ if ($_POST['cmd'] == 1) {
 			<td>'.$row['cve_parque'].'</td>
 			<td>'.$parques[$row['cve_parque']].'</td>
 			<td>'.$row['fecha_registro'].'</td>
-			<td>'.'Si'.'</td>';
-			if ($row['evidencia'] > 0) {
-				echo '<td>Si</td>';
-			} else {
-				echo '<td>No</td>';
-			}
+			<td>'.$reunion[$row['reunion']].'</td>
+			<td>'.$evidencias[$row['evidencia']].'</td>';
 
 			echo '<td>';
-
 			if ($row['archivo'] != "") { 
 				$evidencia = explode(",",$row['archivo']);
 				foreach ($evidencia as $k=>$v) {
@@ -322,7 +328,10 @@ h3{
 		var fecha_inicial = document.getElementsByName("fecha_inicial")[0].value;
         var fecha_fin = document.getElementsByName("fecha_fin")[0].value;
         var parque = document.getElementsByName("parque")[0].value;
-		$("#resultados").load("http://localhost/web-site/tablet/repreuniones.php", {fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, parque: parque, cmd: 1});
+        var comite_reune = document.getElementsByName("comite_reune")[0].value;
+        var tiene_evidencia = document.getElementsByName("tiene_evidencia")[0].value;
+		$("#resultados").load("http://localhost/web-site/tablet/repreuniones.php", {fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, parque: parque, comite_reune: comite_reune, 
+			tiene_evidencia: tiene_evidencia, cmd: 1});
     }
 </script>
 <body>
@@ -365,7 +374,7 @@ h3{
 		<div style="clear:both;"></div><br>
 		<label>
 			<span>Cuenta con evidencia: </span>
-			<select name="comite_reune" id="comite_reune">
+			<select name="tiene_evidencia" id="tiene_evidencia">
 				<option value=""> -- Todos -- </option>
 				<option value="1">Minuta</option>
 				<option value="2">Otros</option>
