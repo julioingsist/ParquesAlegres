@@ -369,7 +369,7 @@ input[type="text"]{
         var fecha_fin = document.getElementsByName("fecha_fin")[0].value;
         var tiene_calendario = document.getElementsByName("tiene_calendario")[0].value;
         var tiene_evidencia = document.getElementsByName("tiene_evidencia")[0].value;
-		$("#resultados").load("http://localhost/web-site/tablet/repcalendarios.php", {asesor: asesor,
+		$("#resultados").load("http://parquesalegres.org/tablet/repcalendarios.php", {asesor: asesor,
 		 	parque: parque, fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, 
 		 	tiene_calendario: tiene_calendario, tiene_evidencia: tiene_evidencia, cmd: 1});
     }
