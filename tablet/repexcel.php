@@ -424,10 +424,9 @@ if ($_POST['cmd'] == "repreuniones") {
     exit();
 }
 
-if($_POST['cmd']=="repcalendarios"){
+if ($_POST['cmd'] == "repcalendarios") {
     ini_set('memory_limit', '1024M'); 
     require_once('../wp-config.php');
-    $letra=array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ','BA','BB','BC','BD','BE','BF','BG','BH','BI','BJ','BK','BL','BM','BN','BO');
     // Create new PHPExcel object
     $objPHPExcel = new PHPExcel();
     // Set document properties
@@ -440,56 +439,68 @@ if($_POST['cmd']=="repcalendarios"){
         ->setCategory("");
     $objWorkSheet = $objPHPExcel->createSheet(0);
     $objPHPExcel->setActiveSheetIndex(0);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(40);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(25);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(25);
     $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(25);
     $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(25);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(25);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(25);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(25);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(25);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(25);
     $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(15);
-    $objPHPExcel->getActiveSheet()->getStyle("A1:AI1")->getFont()->setBold(true);
+    $objPHPExcel->getActiveSheet()->getStyle("A1:I1")->getFont()->setBold(true);
     $objPHPExcel->setActiveSheetIndex(0)
-        ->setCellValue('A1', 'ID Parque')
-        ->setCellValue('B1', 'Nombre')
-        ->setCellValue('C1', 'Fecha de inicio del calendario')
-        ->setCellValue('D1', 'Fecha de fin del calendario')
-        ->setCellValue('E1', 'Evidencias')
-        ->setCellValue('F1', 'Fecha Registro');
+        ->setCellValue('A1', 'Fecha Registro')
+        ->setCellValue('B1', 'Asesor')
+        ->setCellValue('C1', 'ID Parque')
+        ->setCellValue('D1', 'Nombre')
+        ->setCellValue('E1', 'Cuenta con calendario')
+        ->setCellValue('F1', 'Fecha de inicio del calendario')
+        ->setCellValue('G1', 'Fecha de fin del calendario')
+        ->setCellValue('H1', 'Cuenta con evidencia')
+        ->setCellValue('I1', 'Evidencias');
 
-    $sql1="select id,post_title from wp_posts where post_status='publish' and post_type='parque'";
-    $res1=mysql_query($sql1);
-    $i=2;
-    while($row1=mysql_fetch_array($res1)){
+    $registros = $_POST['fecha_registro'];
+    $asesor = $_POST['asesor'];
+    $cve_parque = $_POST['cve_parque'];
+    $nom_parque = $_POST['nom_parque'];
+    $tiene_calendario = $_POST['tiene_calendario'];
+    $inicio_calendario = $_POST['inicio_calendario'];
+    $fin_calendario = $_POST['fin_calendario'];
+    $tiene_evidencia = $_POST['tiene_evidencia'];
+    $evidencias = $_POST['evidencias'];
+
+    $i = 2;
+    if (count($registros) > 0) {
+        foreach ($registros as $key => $fecha_registro) {
+            if ($evidencias[$key] != "") {
+                $evidencia = explode(",", $evidencias[$key]);
+                $fotos = count($evidencia);
+            } else {
+                $fotos = 0;
+            }
+            
+            $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('A'.$i, $fecha_registro)
+                        ->setCellValue('B'.$i, $asesor[$key])
+                        ->setCellValue('C'.$i, $cve_parque[$key])
+                        ->setCellValue('D'.$i, $nom_parque[$key])
+                        ->setCellValue('E'.$i, $tiene_calendario[$key])
+                        ->setCellValue('F'.$i, $inicio_calendario[$key])
+                        ->setCellValue('G'.$i, $fin_calendario[$key])
+                        ->setCellValue('H'.$i, $tiene_evidencia[$key])
+                        ->setCellValue('I'.$i, $fotos);
+            $i++;
+        }
+    } else {
         $objPHPExcel->setActiveSheetIndex(0)
-                ->setCellValue('A'.$i, $row1['id'])
-                ->setCellValue('B'.$i, $row1['post_title']);
-        $sql2="select * from evidencia_eventos WHERE cve_parque='".$row1['id']."'";
-        $res2=mysql_query($sql2);
-        if(mysql_num_rows($res2)>0){
-            $row2=mysql_fetch_array($res2);
-            $objPHPExcel->setActiveSheetIndex(0)
-                ->setCellValue('C'.$i, $row2['inicio_calendario'])
-                ->setCellValue('D'.$i, $row2['fin_calendario']);
-            if($row2['archivo']!=""){ 
-                $evidencia=explode(",",$row2['archivo']);
-                $fotos=count($evidencia);
-            }
-            else{
-                $fotos=0;
-            }
-            $objPHPExcel->setActiveSheetIndex(0)
-                ->setCellValue('E'.$i, $fotos)
-                ->setCellValue('F'.$i, $row2['fecha_registro']);
-        }
-        else{
-            $objPHPExcel->setActiveSheetIndex(0)
-                ->setCellValue('C'.$i, 'No tiene calendario');
-        }
-        $i++;
-    }       
+                    ->setCellValue('A'.$i, 'No hay calendarios registrados bajo el criterio de búsqueda.');
+    } 
     // Redirect output to a client’s web browser (Excel5)
     header('Content-Type: application/vnd.ms-excel');
-    header('Content-Disposition: attachment;filename="Reporte de Calendarios.xls"');
+    header('Content-Disposition: attachment;filename="Reporte de Calendarios del '.$_POST['fecha_inicial'].' al '.$_POST['fecha_fin'].'.xls"');
     header('Cache-Control: max-age=0');
     // If you're serving to IE 9, then the following may be needed
     header('Cache-Control: max-age=1');

@@ -101,14 +101,35 @@ if ($_POST['cmd'] == 1) {
 
 		while ($row = mysqli_fetch_array($res)) {
 			echo '<tr>
-				  <td>'.$row['fecha_registro'].'</td>
-				  <td>'.$asesores[$row['post_author']].'</td>				
-				  <td>'.$row['cve_parque'].'</td>
-				  <td>'.$parques[$row['cve_parque']].'</td>
-				  <td>'.$calendario[$row['eventos']].'</td>
-				  <td>'.$row['inicio_calendario'].'</td>
-				  <td>'.$row['fin_calendario'].'</td>
-				  <td>'.$evidencias[$row['evidencia']].'</td>
+				  <td>'.$row['fecha_registro'].
+				  		'<input type="hidden" name="fecha_registro[]" value="'.$row['fecha_registro'].
+				  		'">
+				  </td>
+				  <td>'.$asesores[$row['post_author']].
+				  		'<input type="hidden" name="asesor[]" value="'.$asesores[$row['post_author']].
+				  		'">
+				  </td>				
+				  <td>'.$row['cve_parque'].
+				  		'<input type="hidden" name="cve_parque[]" value="'.$row['cve_parque'].
+				  		'">
+				  </td>
+				  <td>'.$parques[$row['cve_parque']].
+				  		'<input type="hidden" name="nom_parque[]" value="'.$parques[$row['cve_parque']]
+				  		.'">
+				  </td>
+				  <td>'.$calendario[$row['eventos']].
+				  		'<input type="hidden" name="tiene_calendario[]" value="'.$calendario[$row['eventos']].'">
+				  </td>
+				  <td>'.$row['inicio_calendario'].
+				  		'<input type="hidden" name="inicio_calendario[]" value="'.$row['inicio_calendario'].'">
+				  </td>
+				  <td>'.$row['fin_calendario'].
+				  		'<input type="hidden" name="fin_calendario[]" value="'.$row['fin_calendario'].
+				  		'">
+				  </td>
+				  <td>'.$evidencias[$row['evidencia']].
+				  		'<input type="hidden" name="tiene_evidencia[]" value="'.$evidencias[$row['evidencia']].'">
+				  </td>
 				  <td>';
 			if ($row['archivo'] != "") {  
 				$evidencia = explode(",",$row['archivo']);
@@ -122,10 +143,11 @@ if ($_POST['cmd'] == 1) {
         			echo 'No ha capturado evidencia de calendarios aún';		
         		}
         	}
+        	echo '<input type="hidden" name="evidencias[]" value="'.$row['archivo'].'">';
         	echo '</td>';
         	echo '</tr>';
         }
-        
+        echo '<tr><td><b>Total:</b></td><td colspan="10"><b>'.mysqli_num_rows($res).'</b></td></table>';
 		echo '</table>';
 	} else {
 		echo 'No hay calendarios registrados bajo el criterio de búsqueda.';
