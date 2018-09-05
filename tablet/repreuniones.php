@@ -4,11 +4,18 @@ date_default_timezone_set("America/Mazatlan");
 $reunion = array(0 => "Nunca", 10 => "Regularmente", 20 => "Frecuentemente");
 $evidencias = array(0 => "No", 1 => "Minuta", 2 => "Otros");
 
+$sql = "SELECT a.ID,u.display_name FROM asesores AS a INNER JOIN wp_users AS u ON a.ID = u.ID 
+		WHERE stat < 1";
+$res = mysqli_query($enlace, $sql);
+while ($row = mysqli_fetch_array($res)) {
+	$asesores[$row['ID']] = $row['display_name'];
+}
+
 $sql2 = "SELECT p.id, p.post_title FROM wp_posts p INNER JOIN asesores a ON a.ID = p.post_author 
 	     WHERE p.post_status = 'publish' AND p.post_type = 'parque' AND a.stat < 1 
 	     ORDER BY p.post_title ASC";
-$res2 = mysql_query($sql2);
-while ($row2 = mysql_fetch_array($res2)) {
+$res2 = mysqli_query($enlace, $sql2);
+while ($row2 = mysqli_fetch_array($res2)) {
 	$parques[$row2['id']] = $row2['post_title'];
 }	
 
@@ -24,6 +31,21 @@ if ($_GET['fecha_fin'] != "") {
 	$fecha_filtro2 = date("Y-m-t");
 }
 
+if ($_POST['cmd'] == 2) {
+	$sql = "SELECT id, post_title FROM wp_posts WHERE post_author = '".$_POST['asesor']."' AND
+			post_status='publish' AND post_type='parque' ORDER BY post_title ASC";
+	$res = mysqli_query($enlace, $sql);
+	if (mysqli_num_rows($res) > 0) {
+		echo '<option value=""> -- Todos --</option>';
+		while ($row = mysqli_fetch_array($res)) {
+			echo '<option value="'.$row['id'].'">'.$row['post_title'].'</option>';
+		}
+	} else {
+	    echo 'no';
+	}
+	exit();
+}
+
 if ($_POST['cmd'] == 1) {
 	
 	$filtro = " WHERE 1";
@@ -34,6 +56,10 @@ if ($_POST['cmd'] == 1) {
 
     if ($_POST['fecha_fin']) {
         $filtro .= " AND r.fecha_registro <= '".$_POST['fecha_fin']."'";
+    }
+
+    if ($_POST['asesor']) {
+        $filtro .= " AND u.ID = '".$_POST['asesor']."'";
     }
 
     if ($_POST['parque']) {
@@ -49,6 +75,8 @@ if ($_POST['cmd'] == 1) {
     }
 
 	$sql = "SELECT * FROM comite_reuniones r 
+			INNER JOIN wp_posts p ON r.cve_parque = p.ID 
+    		INNER JOIN wp_users AS u ON u.ID = p.post_author
 			INNER JOIN 
 				(SELECT * FROM wp_comites_parques
 				 GROUP BY cve_parque
@@ -57,10 +85,11 @@ if ($_POST['cmd'] == 1) {
 			$filtro
 			ORDER BY fecha_registro";
 	
-	$res = mysql_query($sql);
-	if (mysql_num_rows($res) > 0) {
+	$res = mysqli_query($enlace, $sql);
+	if (mysqli_num_rows($res) > 0) {
 		echo '<table>
 		<tr>
+			<td>Asesor</td>
 			<td>ID Parque</td>
 			<td>Nombre Parque</td>
 			<td>Fecha Registro</td>
@@ -69,8 +98,11 @@ if ($_POST['cmd'] == 1) {
 			<td>Evidencia</td>
 		</tr>';
 
-		while ($row = mysql_fetch_array($res)) {
+		while ($row = mysqli_fetch_array($res)) {
 			echo '<tr>
+			<td>'.$asesores[$row['post_author']].
+				  '<input type="hidden" name="asesor[]" value="'.$asesores[$row['post_author']].'">
+			</td>
 			<td>'.$row['cve_parque'].
 				'<input type="hidden" name="cve_parque[]" value="'.$row['cve_parque'].'">
 			</td>
@@ -105,7 +137,7 @@ if ($_POST['cmd'] == 1) {
 			echo '</td>';
 			echo '</tr>';
 		} 
-		echo '<tr><td><b>Total:</b></td><td colspan="10"><b>'.mysql_num_rows($res).'</b></td></table>';
+		echo '<tr><td><b>Total:</b></td><td colspan="10"><b>'.mysqli_num_rows($res).'</b></td></table>';
 	} else {
 		echo 'No hay reuniones registradas bajo el criterio de búsqueda.';
 	}
@@ -336,17 +368,47 @@ h3{
 		$("#resultados").text("Cargando...");
 		var fecha_inicial = document.getElementsByName("fecha_inicial")[0].value;
         var fecha_fin = document.getElementsByName("fecha_fin")[0].value;
+        var asesor = document.getElementsByName("asesor")[0].value;
         var parque = document.getElementsByName("parque")[0].value;
         var comite_reune = document.getElementsByName("comite_reune")[0].value;
         var tiene_evidencia = document.getElementsByName("tiene_evidencia")[0].value;
-		$("#resultados").load("http://parquesalegres.org/tablet/repreuniones.php", {fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, parque: parque, comite_reune: comite_reune, 
+		$("#resultados").load("http://localhost/web-site/tablet/repreuniones.php", {fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, asesor: asesor, parque: parque, comite_reune: comite_reune, 
 			tiene_evidencia: tiene_evidencia, cmd: 1});
+    }
+    function camb(i, v) {
+    	if (i == "asesor") {
+			$("#parque").html("<option value=\"\">Cargando...</option>"); 
+
+			if (v == 0) {
+				<?php 
+					$arrjs = '<option value=\"\"> -- Todos -- </option>';
+						
+					foreach ($parques as $k => $v) {
+						$arrjs .= '<option value=\"'.$k.'\">'.$v.'</option>';			
+					}
+				?>
+			$("#parque").html("<?php echo $arrjs; ?>");
+			} else {
+				$.ajax({url: "repreuniones.php",
+					data: { cmd: 2, asesor: v},
+					dataType: "text",
+					type: "post",
+					success: function(result) {
+					    if (result != "no") {
+							$("#parque").html(result);
+					    } else {
+							alert("No hay parques asociados a este asesor");
+					    }
+					}
+				});
+			}
+		}
     }
 </script>
 <body>
 	<center><h2>Reporte de reuniones</h2></center>
 	<form method="post" action="repexcel.php">
-		<input type="hidden" name="cmd" value="reuniones">
+		<input type="hidden" value="repreuniones" name="cmd">
 		<label>
 			<span>Fecha inicial: </span>
 			<input type="text" name="fecha_inicial" readonly id="datepicker" value="<?php echo $fecha_filtro ?>">
@@ -356,6 +418,17 @@ h3{
 			<input type="text" name="fecha_fin" readonly id="datepicker2" value="<?php echo $fecha_filtro2 ?>">
 		</label>
 		<div style="clear:both;"></div>
+		<label>
+			<span>Asesor: </span>
+			<select name="asesor" id="asesor" onchange="camb(this.id, this.value);">
+				<option value=""> -- Todos -- </option>
+				<?php
+			    	foreach ($asesores as $k => $v) {
+			        	echo '<option value="'.$k.'">'.$v.'</option>';    
+			    	}
+				?>
+			</select>
+		</label>
 		<label>
 			<span>Parque: </span>
 			<select name="parque" id="parque">
@@ -371,6 +444,7 @@ h3{
 				?>
 			</select>
 		</label>
+		<div style="clear:both;"></div><br>
 		<label>
 			<span>El cómite se reúne: </span>
 			<select name="comite_reune" id="comite_reune">
@@ -380,7 +454,6 @@ h3{
 				<option value="20">Frecuentemente</option>
 			</select>
 		</label>
-		<div style="clear:both;"></div><br>
 		<label>
 			<span>Cuenta con evidencia: </span>
 			<select name="tiene_evidencia" id="tiene_evidencia">
@@ -392,7 +465,6 @@ h3{
 		</label>
 		<div style="clear:both;"></div><br>
 		<center>
-			<input type="hidden" value="repreuniones" name="cmd">
 			<input class="button" type="button" onclick="buscar();" value="Filtrar">&nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="submit" value="Exportar a Excel" class="button"><br><br>
 			<div id="resultados" class="CSSTableGenerator"></div>
