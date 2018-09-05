@@ -366,17 +366,20 @@ if ($_POST['cmd'] == "repreuniones") {
     $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(25);
     $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(15);
-    $objPHPExcel->getActiveSheet()->getStyle("A1:AI1")->getFont()->setBold(true);
+    $objPHPExcel->getActiveSheet()->getStyle("A1:G1")->getFont()->setBold(true);
     $objPHPExcel->setActiveSheetIndex(0)
-        ->setCellValue('A1', 'ID Parque')
-        ->setCellValue('B1', 'Nombre Parque')
-        ->setCellValue('C1', 'Fecha Registro')
-        ->setCellValue('D1', 'El comité se reúne')
-        ->setCellValue('E1', 'Cuenta con evidencia')
-        ->setCellValue('F1', 'Evidencias');
+        ->setCellValue('A1', 'Asesor')
+        ->setCellValue('B1', 'ID Parque')
+        ->setCellValue('C1', 'Nombre Parque')
+        ->setCellValue('D1', 'Fecha Registro')
+        ->setCellValue('E1', 'El comité se reúne')
+        ->setCellValue('F1', 'Cuenta con evidencia')
+        ->setCellValue('G1', 'Evidencias');
 
-    $parques = $_POST['cve_parque'];
+    $asesores = $_POST['asesor'];
+    $cve_parque = $_POST['cve_parque'];
     $nom_parque = $_POST['nombre_parque'];
     $fecha_registro = $_POST['fecha_registro'];
     $comite_reune = $_POST['comite_reune'];
@@ -384,8 +387,8 @@ if ($_POST['cmd'] == "repreuniones") {
     $evidencias = $_POST['evidencias'];
 
     $i = 2;
-    if (count($parques) > 0) {
-        foreach ($parques as $key => $parque) {
+    if (count($asesores) > 0) {
+        foreach ($asesores as $key => $asesor) {
             if ($evidencias[$key] != "") {
                 $evidencia = explode(",", $evidencias[$key]);
                 $fotos = count($evidencia);
@@ -394,12 +397,13 @@ if ($_POST['cmd'] == "repreuniones") {
             }
             
             $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A'.$i, $parque)
-                        ->setCellValue('B'.$i, $nom_parque[$key])
-                        ->setCellValue('C'.$i, $fecha_registro[$key])
-                        ->setCellValue('D'.$i, $comite_reune[$key])
-                        ->setCellValue('E'.$i, $tiene_evidencia[$key])
-                        ->setCellValue('F'.$i, $fotos);
+                        ->setCellValue('A'.$i, $asesor)
+                        ->setCellValue('B'.$i, $cve_parque[$key])
+                        ->setCellValue('C'.$i, $nom_parque[$key])
+                        ->setCellValue('D'.$i, $fecha_registro[$key])
+                        ->setCellValue('E'.$i, $comite_reune[$key])
+                        ->setCellValue('F'.$i, $tiene_evidencia[$key])
+                        ->setCellValue('G'.$i, $fotos);
             $i++;
         }
     } else {
