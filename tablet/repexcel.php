@@ -2535,10 +2535,10 @@ if($_POST['cmd']=="organizacion"){
 
 }
 
-if ($_POST['cmd'] == "tangibles"){
+if ($_POST['cmd'] == "tangibles") {
     ini_set('memory_limit', '1024M'); 
     require_once('../wp-config.php');
-    
+
     // Create new PHPExcel object
     $objPHPExcel = new PHPExcel();
     // Set document properties
@@ -2558,50 +2558,56 @@ if ($_POST['cmd'] == "tangibles"){
     $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(25);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(20);
     $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(20);
     $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('P')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('Q')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('R')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('R')->setWidth(20);
     $objPHPExcel->getActiveSheet()->getColumnDimension('S')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('T')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('U')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('V')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('W')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('Y')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('V')->setWidth(20);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('W')->setWidth(20);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('X')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(15);
-    $objPHPExcel->getActiveSheet()->getStyle("A1:X1")->getFont()->setBold(true);
+    $objPHPExcel->getActiveSheet()->getStyle("A1:X2")->getFont()->setBold(true);
+    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', 'Datos del tangible');
+    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1', 'Ingresos');
+    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V1', 'Datos de la experiencia exitosa');
+    $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A1:K1');
+    $objPHPExcel->setActiveSheetIndex(0)->mergeCells('L1:U1');
+    $objPHPExcel->setActiveSheetIndex(0)->mergeCells('V1:X1');
     $objPHPExcel->setActiveSheetIndex(0)
-        ->setCellValue('A1', 'Asesor')
-        ->setCellValue('B1', 'ID Parque')
-        ->setCellValue('C1', 'Nombre Parque')
-        ->setCellValue('D1', 'Fecha')
-        ->setCellValue('E1', 'Propósito')
-        ->setCellValue('F1', 'Tipo')
-        ->setCellValue('G1', 'Notas')
-        ->setCellValue('H1', 'No. de participantes del comité')
-        ->setCellValue('I1', 'No. de vecinos participantes')
-        ->setCellValue('J1', 'No. de asistentes')
-        ->setCellValue('K1', 'Evidencias')
-        ->setCellValue('L1', 'Total ingreso')
-        ->setCellValue('M1', 'Venta')
-        ->setCellValue('N1', 'Cooperación Vecinal')
-        ->setCellValue('O1', 'Patrocinios')
-        ->setCellValue('P1', 'Gestión')
-        ->setCellValue('Q1', 'Costo estimado')
-        ->setCellValue('R1', 'Empresa(s) que apoyo(aron)')
-        ->setCellValue('S1', 'Área beneficiada')
-        ->setCellValue('T1', 'Concepto')
-        ->setCellValue('U1', 'Cantidad')
-        ->setCellValue('V1', 'Descripción de la actividad')
-        ->setCellValue('W1', 'Aspectos a mejorar')
-        ->setCellValue('X1', 'Contacto del comité');
+        ->setCellValue('A2', 'Asesor')
+        ->setCellValue('B2', 'ID Parque')
+        ->setCellValue('C2', 'Nombre Parque')
+        ->setCellValue('D2', 'Fecha')
+        ->setCellValue('E2', 'Propósito')
+        ->setCellValue('F2', 'Tipo')
+        ->setCellValue('G2', 'Notas')
+        ->setCellValue('H2', 'No. de participantes del comité')
+        ->setCellValue('I2', 'No. de vecinos participantes')
+        ->setCellValue('J2', 'No. de asistentes')
+        ->setCellValue('K2', 'Evidencias')
+        ->setCellValue('L2', 'Total ingreso')
+        ->setCellValue('M2', 'Venta')
+        ->setCellValue('N2', 'Cooperación Vecinal')
+        ->setCellValue('O2', 'Patrocinios')
+        ->setCellValue('P2', 'Gestión')
+        ->setCellValue('Q2', 'Costo estimado')
+        ->setCellValue('R2', 'Empresa(s) que apoyo(aron)')
+        ->setCellValue('S2', 'Área beneficiada')
+        ->setCellValue('T2', 'Concepto')
+        ->setCellValue('U2', 'Cantidad')
+        ->setCellValue('V2', 'Descripción de la actividad')
+        ->setCellValue('W2', 'Aspectos a mejorar')
+        ->setCellValue('X2', 'Contacto del comité');
 
     $asesores = $_POST['asesor'];
     $evidencias = $_POST['evidencias'];
@@ -2628,7 +2634,7 @@ if ($_POST['cmd'] == "tangibles"){
     $aspectos_mejorar = $_POST['aspectos_mejorar'];
     $contacto = $_POST['contacto'];
 
-    $i = 2;
+    $i = 3;
     if (count($asesores) > 0) {
         foreach ($asesores as $key => $asesor) {
             if ($evidencias[$key] != "") {
