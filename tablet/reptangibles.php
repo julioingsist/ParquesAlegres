@@ -93,27 +93,27 @@ $concepto = array(1=>array(1=>"Agua", 2=>"Electricidad"),
 
 $sql1 = "SELECT a.ID,u.display_name FROM asesores as a INNER JOIN wp_users as u ON a.ID = u.ID 
 	     WHERE stat < 1 ORDER BY display_name ASC";
-$res1 = mysqli_query($enlace, $sql1);
+$res1 = mysql_query($sql1);
 
-while ($row1 = mysqli_fetch_array($res1)) {
+while ($row1 = mysql_fetch_array($res1)) {
 	$asesores[$row1['ID']] = $row1['display_name'];
 }
 
 $sql2 = "SELECT p.ID, p.post_title FROM wp_posts p INNER JOIN asesores a ON a.ID = p.post_author 
 	     WHERE p.post_status = 'publish' AND p.post_type = 'parque' AND a.stat < 1 
 	     ORDER BY p.post_title ASC";
-$res2 = mysqli_query($enlace, $sql2);
-while ($row2 = mysqli_fetch_array($res2)) {
+$res2 = mysql_query($sql2);
+while ($row2 = mysql_fetch_array($res2)) {
 	$parques[$row2['ID']] = $row2['post_title'];
 }
 
 if ($_POST['cmd'] == 2) {
 	$sql = "SELECT id,post_title FROM wp_posts WHERE post_author = '".$_POST['asesor']."' AND
 			post_status='publish' AND post_type='parque' ORDER BY post_title ASC";
-	$res = mysqli_query($enlace, $sql);
-	if (mysqli_num_rows($res) > 0){
+	$res = mysql_query($sql);
+	if (mysql_num_rows($res) > 0){
 		echo '<option value=""> -- Todos --</option>';
-		while ($row = mysqli_fetch_array($res)){
+		while ($row = mysql_fetch_array($res)){
 			echo '<option value="'.$row['id'].'">'.$row['post_title'].'</option>';
 		}
 	} else {
@@ -202,8 +202,8 @@ if ($_POST['cmd'] == 1) {
     		LEFT JOIN wp_postmeta AS pm16 ON t.experiencia_exitosa = pm16.post_id 
     		AND pm16.meta_key = '_cmb_contacto_exp'
     		$filtro ORDER BY nomasesor, cve_parque DESC";
-    $res = mysqli_query($enlace, $sql);
-    if (mysqli_num_rows($res) > 0) {
+    $res = mysql_query($sql);
+    if (mysql_num_rows($res) > 0) {
     	echo '<table>
               <tr>
                 <td colspan="11">Datos del tangible</td>
@@ -237,7 +237,7 @@ if ($_POST['cmd'] == 1) {
 				<td>Contacto del comité</td>
               </tr>';
 
-        while ($row = mysqli_fetch_array($res)) {
+        while ($row = mysql_fetch_array($res)) {
         	$evidencia = explode(",",$row['evidencias']);
 
             echo '<tr>
@@ -321,7 +321,7 @@ if ($_POST['cmd'] == 1) {
             echo '</tr>';
         }
 
-        echo '<tr><td><b>Total:</b></td><td colspan="24"><b>'.mysqli_num_rows($res).'</b></td></table>';
+        echo '<tr><td><b>Total:</b></td><td colspan="24"><b>'.mysql_num_rows($res).'</b></td></table>';
     } else {
         echo 'No hay tangibles registrados bajo el criterio de búsqueda.';
     }
@@ -551,7 +551,7 @@ h3{
         var fecha_fin = document.getElementsByName("fecha_fin")[0].value;
         var area_beneficiada = document.getElementsByName("area_beneficiada")[0].value;
         var concepto = document.getElementsByName("concepto")[0].value;
-		$("#resultados").load("http://localhost/web-site/tablet/reptangibles.php", {asesor: asesor, parque: parque, proposito: proposito, tipo: tipo, fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, area_beneficiada: area_beneficiada, concepto: concepto, cmd: 1});
+		$("#resultados").load("http://parquesalegres.org/tablet/reptangibles.php", {asesor: asesor, parque: parque, proposito: proposito, tipo: tipo, fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, area_beneficiada: area_beneficiada, concepto: concepto, cmd: 1});
     }
     function camb(i, v) {
 		if (i == "proposito") {
