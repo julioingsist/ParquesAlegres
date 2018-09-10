@@ -7,16 +7,16 @@ $evidencias = array(0 => "No", 1 => "Fotos");
 
 $sql = "SELECT a.ID,u.display_name FROM asesores AS a INNER JOIN wp_users AS u ON a.ID = u.ID 
 		WHERE stat < 1";
-$res = mysql_query($sql);
-while ($row = mysql_fetch_array($res)) {
+$res = mysqli_query($enlace, $sql);
+while ($row = mysqli_fetch_array($res)) {
 	$asesores[$row['ID']] = $row['display_name'];
 }
 
 $sql = "SELECT p.ID, p.post_title FROM wp_posts p INNER JOIN asesores a ON a.ID = p.post_author 
 	     WHERE p.post_status = 'publish' AND p.post_type = 'parque' AND a.stat < 1 
 	     ORDER BY p.post_title ASC";
-$res = mysql_query($sql);
-while ($row = mysql_fetch_array($res)) {
+$res = mysqli_query($enlace, $sql);
+while ($row = mysqli_fetch_array($res)) {
 	$parques[$row['ID']] = $row['post_title'];
 }
 
@@ -35,10 +35,10 @@ if ($_GET['fecha_fin'] != "") {
 if ($_POST['cmd'] == 2) {
 	$sql = "SELECT id, post_title FROM wp_posts WHERE post_author = '".$_POST['asesor']."' AND
 			post_status='publish' AND post_type='parque' ORDER BY post_title ASC";
-	$res = mysql_query($sql);
-	if (mysql_num_rows($res) > 0){
+	$res = mysqli_query($enlace, $sql);
+	if (mysqli_num_rows($res) > 0){
 		echo '<option value=""> -- Todos --</option>';
-		while ($row = mysql_fetch_array($res)){
+		while ($row = mysqli_fetch_array($res)){
 			echo '<option value="'.$row['id'].'">'.$row['post_title'].'</option>';
 		}
 	} else {
@@ -67,25 +67,27 @@ if ($_POST['cmd'] == 1) {
     }
 
     if ($_POST['tiene_calendario'] || $_POST['tiene_calendario'] == '0') {
-    	$filtro .= " AND p.eventos = '".$_POST['tiene_calendario']."'";
+    	$filtro .= " AND IFNULL(p.eventos, 0) = '".$_POST['tiene_calendario']."'";
     }
 
     if ($_POST['tiene_evidencia'] || $_POST['tiene_evidencia'] == '0') {
     	$filtro .= " AND e.evidencia = '".$_POST['tiene_evidencia']."'";
     }
 
-	$sql = "SELECT * FROM evidencia_eventos e
+	$sql = "SELECT IFNULL(p.eventos, 0) AS tiene_calendario, e.*, p.*, u.* 
+			FROM evidencia_eventos e
 			INNER JOIN wp_posts p ON e.cve_parque = p.ID 
     		INNER JOIN wp_users AS u ON u.ID = p.post_author
-    		INNER JOIN
+    		LEFT JOIN
     			(SELECT * FROM wp_comites_parques
 				 GROUP BY cve_parque
 				 ORDER BY fecha_visita) AS p  
 			ON e.cve_parque = p.cve_parque
     		$filtro
     		ORDER BY fecha_registro";
-	$res = mysql_query($sql);
-	if (mysql_num_rows($res) > 0) {
+	
+	$res = mysqli_query($enlace, $sql);
+	if (mysqli_num_rows($res) > 0) {
 		echo '<table>
 		<tr>
 			<td>Fecha Registro</td>
@@ -99,7 +101,7 @@ if ($_POST['cmd'] == 1) {
 			<td>Evidencia</td>
 		</tr>';
 
-		while ($row = mysql_fetch_array($res)) {
+		while ($row = mysqli_fetch_array($res)) {
 			echo '<tr>
 				  <td>'.$row['fecha_registro'].
 				  		'<input type="hidden" name="fecha_registro[]" value="'.$row['fecha_registro'].
@@ -118,7 +120,7 @@ if ($_POST['cmd'] == 1) {
 				  		.'">
 				  </td>
 				  <td>'.$calendario[$row['eventos']].
-				  		'<input type="hidden" name="tiene_calendario[]" value="'.$calendario[$row['eventos']].'">
+				  		'<input type="hidden" name="tiene_calendario[]" value="'.$calendario[$row['tiene_calendario']].'">
 				  </td>
 				  <td>'.$row['inicio_calendario'].
 				  		'<input type="hidden" name="inicio_calendario[]" value="'.$row['inicio_calendario'].'">
@@ -147,7 +149,7 @@ if ($_POST['cmd'] == 1) {
         	echo '</td>';
         	echo '</tr>';
         }
-        echo '<tr><td><b>Total:</b></td><td colspan="10"><b>'.mysql_num_rows($res).'</b></td></table>';
+        echo '<tr><td><b>Total:</b></td><td colspan="10"><b>'.mysqli_num_rows($res).'</b></td></table>';
 		echo '</table>';
 	} else {
 		echo 'No hay calendarios registrados bajo el criterio de búsqueda.';
@@ -369,7 +371,7 @@ input[type="text"]{
         var fecha_fin = document.getElementsByName("fecha_fin")[0].value;
         var tiene_calendario = document.getElementsByName("tiene_calendario")[0].value;
         var tiene_evidencia = document.getElementsByName("tiene_evidencia")[0].value;
-		$("#resultados").load("http://parquesalegres.org/tablet/repcalendarios.php", {asesor: asesor,
+		$("#resultados").load("http://localhost/web-site/tablet/repcalendarios.php", {asesor: asesor,
 		 	parque: parque, fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, 
 		 	tiene_calendario: tiene_calendario, tiene_evidencia: tiene_evidencia, cmd: 1});
     }
