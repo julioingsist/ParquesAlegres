@@ -6,16 +6,16 @@ $evidencias = array(0 => "No", 1 => "Minuta", 2 => "Otros");
 
 $sql = "SELECT a.ID,u.display_name FROM asesores AS a INNER JOIN wp_users AS u ON a.ID = u.ID 
 		WHERE stat < 1";
-$res = mysql_query($sql);
-while ($row = mysql_fetch_array($res)) {
+$res = mysqli_query($enlace, $sql);
+while ($row = mysqli_fetch_array($res)) {
 	$asesores[$row['ID']] = $row['display_name'];
 }
 
 $sql2 = "SELECT p.id, p.post_title FROM wp_posts p INNER JOIN asesores a ON a.ID = p.post_author 
 	     WHERE p.post_status = 'publish' AND p.post_type = 'parque' AND a.stat < 1 
 	     ORDER BY p.post_title ASC";
-$res2 = mysql_query($sql2);
-while ($row2 = mysql_fetch_array($res2)) {
+$res2 = mysqli_query($enlace, $sql2);
+while ($row2 = mysqli_fetch_array($res2)) {
 	$parques[$row2['id']] = $row2['post_title'];
 }	
 
@@ -33,11 +33,11 @@ if ($_GET['fecha_fin'] != "") {
 
 if ($_POST['cmd'] == 2) {
 	$sql = "SELECT id, post_title FROM wp_posts WHERE post_author = '".$_POST['asesor']."' AND
-			post_status='publish' AND post_type='parque' ORDER BY post_title ASC";
-	$res = mysql_query($sql);
-	if (mysql_num_rows($res) > 0) {
+			post_status = 'publish' AND post_type = 'parque' ORDER BY post_title ASC";
+	$res = mysqli_query($enlace, $sql);
+	if (mysqli_num_rows($res) > 0) {
 		echo '<option value=""> -- Todos --</option>';
-		while ($row = mysql_fetch_array($res)) {
+		while ($row = mysqli_fetch_array($res)) {
 			echo '<option value="'.$row['id'].'">'.$row['post_title'].'</option>';
 		}
 	} else {
@@ -51,11 +51,11 @@ if ($_POST['cmd'] == 1) {
 	$filtro = " WHERE 1";
 
 	if ($_POST['fecha_inicial']) {
-        $filtro .= " AND r.fecha_registro >= '".$_POST['fecha_inicial']."'";
+        $filtro .= " AND cp.fecha_visita >= '".$_POST['fecha_inicial']."'";
     }
 
     if ($_POST['fecha_fin']) {
-        $filtro .= " AND r.fecha_registro <= '".$_POST['fecha_fin']."'";
+        $filtro .= " AND cp.fecha_visita <= '".$_POST['fecha_fin']."'";
     }
 
     if ($_POST['asesor']) {
@@ -63,7 +63,7 @@ if ($_POST['cmd'] == 1) {
     }
 
     if ($_POST['parque']) {
-    	$filtro .= " AND r.cve_parque = '".$_POST['parque']."'";
+    	$filtro .= " AND cp.cve_parque = '".$_POST['parque']."'";
     }
 
     if ($_POST['comite_reune'] || $_POST['comite_reune'] == '0') {
@@ -74,20 +74,16 @@ if ($_POST['cmd'] == 1) {
     	$filtro .= " AND r.evidencia = '".$_POST['tiene_evidencia']."'";
     }
 
-	$sql = "SELECT IFNULL(p.reunion, 0) AS comite_reune, r.*, p.*, u.*
-			FROM comite_reuniones r 
-			INNER JOIN wp_posts p ON r.cve_parque = p.ID 
+	$sql = "SELECT IFNULL(cp.reunion, 0) AS comite_reune, r.*, p.*, u.*
+			FROM wp_comites_parques cp 
+			INNER JOIN wp_posts p ON cp.cve_parque = p.ID 
     		INNER JOIN wp_users AS u ON u.ID = p.post_author
-			LEFT JOIN 
-				(SELECT * FROM wp_comites_parques
-				 GROUP BY cve_parque
-				 ORDER BY fecha_visita) AS p  
-			ON r.cve_parque = p.cve_parque
+			LEFT JOIN comite_reuniones r ON cp.cve_parque = r.cve_parque
 			$filtro
-			ORDER BY fecha_registro";
-	
-	$res = mysql_query($sql);
-	if (mysql_num_rows($res) > 0) {
+			ORDER BY fecha_visita";
+
+	$res = mysqli_query($enlace, $sql);
+	if (mysqli_num_rows($res) > 0) {
 		echo '<table>
 		<tr>
 			<td>Asesor</td>
@@ -99,7 +95,7 @@ if ($_POST['cmd'] == 1) {
 			<td>Evidencia</td>
 		</tr>';
 
-		while ($row = mysql_fetch_array($res)) {
+		while ($row = mysqli_fetch_array($res)) {
 			echo '<tr>
 			<td>'.$asesores[$row['post_author']].
 				  '<input type="hidden" name="asesor[]" value="'.$asesores[$row['post_author']].'">
@@ -138,7 +134,7 @@ if ($_POST['cmd'] == 1) {
 			echo '</td>';
 			echo '</tr>';
 		} 
-		echo '<tr><td><b>Total:</b></td><td colspan="10"><b>'.mysql_num_rows($res).'</b></td></table>';
+		echo '<tr><td><b>Total:</b></td><td colspan="10"><b>'.mysqli_num_rows($res).'</b></td></table>';
 	} else {
 		echo 'No hay reuniones registradas bajo el criterio de búsqueda.';
 	}
@@ -373,7 +369,7 @@ h3{
         var parque = document.getElementsByName("parque")[0].value;
         var comite_reune = document.getElementsByName("comite_reune")[0].value;
         var tiene_evidencia = document.getElementsByName("tiene_evidencia")[0].value;
-		$("#resultados").load("http://parquesalegres.org/tablet/repreuniones.php", {fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, asesor: asesor, parque: parque, comite_reune: comite_reune, 
+		$("#resultados").load("http://localhost/web-site/tablet/repreuniones.php", {fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, asesor: asesor, parque: parque, comite_reune: comite_reune, 
 			tiene_evidencia: tiene_evidencia, cmd: 1});
     }
     function camb(i, v) {
