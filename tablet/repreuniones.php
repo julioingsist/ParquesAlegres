@@ -75,9 +75,9 @@ if ($_POST['cmd'] == 1) {
     }
 
 	$sql = "SELECT IFNULL(cp.reunion, 0) AS comite_reune, r.*, p.*, u.*
-			FROM wp_comites_parques cp 
-			INNER JOIN wp_posts p ON cp.cve_parque = p.ID 
-    		INNER JOIN wp_users AS u ON u.ID = p.post_author
+			FROM wp_posts p
+			INNER JOIN wp_users AS u ON u.ID = p.post_author
+			LEFT JOIN wp_comites_parques cp  ON cp.cve_parque = p.ID 
 			LEFT JOIN comite_reuniones r ON cp.cve_parque = r.cve_parque
 			$filtro
 			ORDER BY fecha_visita";
