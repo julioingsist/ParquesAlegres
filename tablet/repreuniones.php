@@ -105,9 +105,6 @@ if ($_POST['cmd'] == 1) {
 				'<input type="hidden" name="comite_reune[]" value="'.$reunion[$row['comite_reune']].'">
 			</td>';
 
-			$sql2 = "SELECT * FROM comite_reuniones AS r
-					$filtro LIMIT 1";
-
 			$filtro = " WHERE r.cve_parque = ".$row['cve_parque'];
 
 			if ($_POST['fecha_inicial']) {
@@ -121,6 +118,9 @@ if ($_POST['cmd'] == 1) {
 			if ($_POST['tiene_evidencia'] || $_POST['tiene_evidencia'] == '0') {
 		    	$filtro .= " AND r.evidencia = '".$_POST['tiene_evidencia']."'";
     		}
+
+			$sql2 = "SELECT * FROM comite_reuniones AS r
+					$filtro LIMIT 1";
 
     		$res2 = mysql_query($sql2);
 
