@@ -67,20 +67,15 @@ if ($_POST['cmd'] == 1) {
     }
 
     if ($_POST['comite_reune'] || $_POST['comite_reune'] == '0') {
-    	$filtro .= " AND p.reunion = '".$_POST['comite_reune']."'";
+    	$filtro .= " AND cp.reunion = '".$_POST['comite_reune']."'";
     }
 
-    if ($_POST['tiene_evidencia'] || $_POST['tiene_evidencia'] == '0') {
-    	$filtro .= " AND r.evidencia = '".$_POST['tiene_evidencia']."'";
-    }
-
-	$sql = "SELECT IFNULL(cp.reunion, 0) AS comite_reune, r.*, p.*, u.*
+	$sql = "SELECT IFNULL(cp.reunion, 0) AS comite_reune, p.*, u.*, cp.*
 			FROM wp_posts p
 			INNER JOIN wp_users AS u ON u.ID = p.post_author
 			LEFT JOIN wp_comites_parques cp  ON cp.cve_parque = p.ID 
-			LEFT JOIN comite_reuniones r ON cp.cve_parque = r.cve_parque
 			$filtro
-			ORDER BY fecha_visita";
+			ORDER BY p.post_author";
 
 	$res = mysqli_query($enlace, $sql);
 	if (mysqli_num_rows($res) > 0) {
@@ -89,9 +84,9 @@ if ($_POST['cmd'] == 1) {
 			<td>Asesor</td>
 			<td>ID Parque</td>
 			<td>Nombre Parque</td>
-			<td>Fecha Registro</td>
 			<td>El comité se reúne</td>
 			<td>Cuenta con evidencia</td>
+			<td>Fecha Registro</td>
 			<td>Evidencia</td>
 		</tr>';
 
@@ -106,34 +101,65 @@ if ($_POST['cmd'] == 1) {
 			<td>'.$parques[$row['cve_parque']].
 				'<input type="hidden" name="nombre_parque[]" value="'.$parques[$row['cve_parque']].'">
 			</td>
-			<td>'.$row['fecha_registro'].
-				'<input type="hidden" name="fecha_registro[]" value="'.$row['fecha_registro'].'">
-			</td>
 			<td>'.$reunion[$row['reunion']].
 				'<input type="hidden" name="comite_reune[]" value="'.$reunion[$row['comite_reune']].'">
-			</td>
-			<td>'.$evidencias[$row['evidencia']].
-				'<input type="hidden" name="tiene_evidencia[]" value="'.$evidencias[$row['evidencia']].
-				'">
 			</td>';
 
-			echo '<td>';
-			if ($row['archivo'] != "") { 
-				$evidencia = explode(",",$row['archivo']);
-				foreach ($evidencia as $k=>$v) {
-	            	if ($v != "") {
-	            		echo '<a href="reuniones/'.$v.'" target="_blank"><img src="reuniones/'.$v.'" width="150"></a> &nbsp;';
-	            	}
-            	}
-            } else {
-            	if ($row['evidencia'] > 0) {
-            		echo 'No ha capturado evidencia de reuniones aún';
-            	}
-            }
-            echo '<input type="hidden" name="evidencias[]" value="'.$row['archivo'].'">';
-			echo '</td>';
+			$sql2 = "SELECT * FROM comite_reuniones AS r
+					$filtro LIMIT 1";
+
+			$filtro = " WHERE r.cve_parque = ".$row['cve_parque'];
+
+			if ($_POST['fecha_inicial']) {
+		        $filtro .= " AND r.fecha_registro >= '".$_POST['fecha_inicial']."'";
+		    }
+
+		    if ($_POST['fecha_fin']) {
+		        $filtro .= " AND r.fecha_registro <= '".$_POST['fecha_fin']."'";
+		    }
+
+			if ($_POST['tiene_evidencia'] || $_POST['tiene_evidencia'] == '0') {
+		    	$filtro .= " AND r.evidencia = '".$_POST['tiene_evidencia']."'";
+    		}
+
+    		$res2 = mysqli_query($enlace, $sql2);
+
+    		if (mysqli_num_rows($res2) > 0) {
+    			while ($row2 = mysqli_fetch_array($res2)) { 
+					echo '<td>'.$evidencias[$row2['evidencia']].
+						'<input type="hidden" name="tiene_evidencia[]" value="'.$evidencias[$row2['evidencia']].
+						'">
+					</td>
+					<td>'.$row2['fecha_registro'].
+						'<input type="hidden" name="fecha_registro[]" value="'.$row2['fecha_registro'].'">
+					</td>';
+
+					echo '<td>';
+					if ($row2['archivo'] != "") { 
+						$evidencia = explode(",",$row2['archivo']);
+						foreach ($evidencia as $k => $v) {
+			            	if ($v != "") {
+			            		echo '<a href="reuniones/'.$v.'" target="_blank"><img src="reuniones/'.$v.'" width="150"></a> &nbsp;';
+			            	}
+		            	}
+		            } else {
+		            	if ($row2['evidencia'] > 0) {
+		            		echo 'No ha capturado evidencia de reuniones aún';
+		            	}
+		            }
+
+	            	echo '<input type="hidden" name="evidencias[]" value="'.$row2['archivo'].'">';
+					echo '</td>';
+				}
+    		} else {
+    			echo '<td>'.$evidencias[0].'<input type="hidden" name="tiene_evidencia[]" value="'.$evidencias[0].'"></td>
+    				  <td><input type="hidden" name="fecha_registro[]"></td>
+    				  <td><input type="hidden" name="evidencias[]"></td>';	
+    		}
+
 			echo '</tr>';
-		} 
+		}
+
 		echo '<tr><td><b>Total:</b></td><td colspan="10"><b>'.mysqli_num_rows($res).'</b></td></table>';
 	} else {
 		echo 'No hay reuniones registradas bajo el criterio de búsqueda.';
