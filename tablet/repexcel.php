@@ -373,14 +373,16 @@ if ($_POST['cmd'] == "repreuniones") {
         ->setCellValue('A1', 'Asesor')
         ->setCellValue('B1', 'ID Parque')
         ->setCellValue('C1', 'Nombre Parque')
-        ->setCellValue('D1', 'Fecha Registro')
+        ->setCellValue('D1', 'Fecha Visita')
         ->setCellValue('E1', 'El comité se reúne')
         ->setCellValue('F1', 'Cuenta con evidencia')
-        ->setCellValue('G1', 'Evidencias');
+        ->setCellValue('G1', 'Fecha Registro')
+        ->setCellValue('H1', 'Evidencias');
 
     $asesores = $_POST['asesor'];
     $cve_parque = $_POST['cve_parque'];
     $nom_parque = $_POST['nombre_parque'];
+    $fecha_visita = $_POST['fecha_visita'];
     $fecha_registro = $_POST['fecha_registro'];
     $comite_reune = $_POST['comite_reune'];
     $tiene_evidencia = $_POST['tiene_evidencia'];
@@ -400,10 +402,11 @@ if ($_POST['cmd'] == "repreuniones") {
                         ->setCellValue('A'.$i, $asesor)
                         ->setCellValue('B'.$i, $cve_parque[$key])
                         ->setCellValue('C'.$i, $nom_parque[$key])
-                        ->setCellValue('D'.$i, $fecha_registro[$key])
+                        ->setCellValue('D'.$i, $fecha_visita[$key])
                         ->setCellValue('E'.$i, $comite_reune[$key])
                         ->setCellValue('F'.$i, $tiene_evidencia[$key])
-                        ->setCellValue('G'.$i, $fotos);
+                        ->setCellValue('G'.$i, $fecha_registro[$key])
+                        ->setCellValue('H'.$i, $fotos);
             $i++;
         }
     } else {
@@ -414,7 +417,7 @@ if ($_POST['cmd'] == "repreuniones") {
 
     // Redirect output to a client’s web browser (Excel5)
     header('Content-Type: application/vnd.ms-excel');
-    header('Content-Disposition: attachment;filename="Reporte de Reuniones.xls"');
+    header('Content-Disposition: attachment;filename="Reporte de Reuniones del '.$_POST['fecha_inicial'].' al '.$_POST['fecha_fin'].'.xls"');
     header('Cache-Control: max-age=0');
     // If you're serving to IE 9, then the following may be needed
     header('Cache-Control: max-age=1');
