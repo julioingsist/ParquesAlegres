@@ -456,55 +456,59 @@ if ($_POST['cmd'] == "repcalendarios") {
     $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(25);
     $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(25);
     $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(25);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(25);
     $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(15);
-    $objPHPExcel->getActiveSheet()->getStyle("A1:I1")->getFont()->setBold(true);
+    $objPHPExcel->getActiveSheet()->getStyle("A1:J1")->getFont()->setBold(true);
     $objPHPExcel->setActiveSheetIndex(0)
-        ->setCellValue('A1', 'Fecha Registro')
-        ->setCellValue('B1', 'Asesor')
-        ->setCellValue('C1', 'ID Parque')
-        ->setCellValue('D1', 'Nombre')
-        ->setCellValue('E1', 'Cuenta con calendario')
-        ->setCellValue('F1', 'Fecha de inicio del calendario')
-        ->setCellValue('G1', 'Fecha de fin del calendario')
-        ->setCellValue('H1', 'Cuenta con evidencia')
-        ->setCellValue('I1', 'Evidencias');
+                ->setCellValue('A1', 'Asesor')
+                ->setCellValue('B1', 'ID Parque')
+                ->setCellValue('C1', 'Nombre')
+                ->setCellValue('D1', 'Fecha Visita')
+                ->setCellValue('E1', 'Cuenta con calendario')
+                ->setCellValue('F1', 'Fecha de inicio del calendario')
+                ->setCellValue('G1', 'Fecha de fin del calendario')
+                ->setCellValue('H1', 'Cuenta con evidencia')
+                ->setCellValue('I1', 'Fecha Registro')
+                ->setCellValue('J1', 'Evidencias');
 
-    $registros = $_POST['fecha_registro'];
-    $asesor = $_POST['asesor'];
+    $asesores = $_POST['asesor'];
     $cve_parque = $_POST['cve_parque'];
     $nom_parque = $_POST['nom_parque'];
+    $fecha_visita = $_POST['fecha_visita'];
     $tiene_calendario = $_POST['tiene_calendario'];
     $inicio_calendario = $_POST['inicio_calendario'];
     $fin_calendario = $_POST['fin_calendario'];
     $tiene_evidencia = $_POST['tiene_evidencia'];
+    $fecha_registro = $_POST['fecha_registro'];
     $evidencias = $_POST['evidencias'];
 
     $i = 2;
-    if (count($registros) > 0) {
-        foreach ($registros as $key => $fecha_registro) {
+    if (count($asesores) > 0) {
+        foreach ($asesores as $key => $asesor) {
             if ($evidencias[$key] != "") {
                 $evidencia = explode(",", $evidencias[$key]);
                 $fotos = count($evidencia);
             } else {
                 $fotos = 0;
             }
-            
+
             $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A'.$i, $fecha_registro)
-                        ->setCellValue('B'.$i, $asesor[$key])
-                        ->setCellValue('C'.$i, $cve_parque[$key])
-                        ->setCellValue('D'.$i, $nom_parque[$key])
+                        ->setCellValue('A'.$i, $asesor)
+                        ->setCellValue('B'.$i, $cve_parque[$key])
+                        ->setCellValue('C'.$i, $nom_parque[$key])
+                        ->setCellValue('D'.$i, $fecha_visita[$key])
                         ->setCellValue('E'.$i, $tiene_calendario[$key])
                         ->setCellValue('F'.$i, $inicio_calendario[$key])
                         ->setCellValue('G'.$i, $fin_calendario[$key])
                         ->setCellValue('H'.$i, $tiene_evidencia[$key])
-                        ->setCellValue('I'.$i, $fotos);
+                        ->setCellValue('I'.$i, $fecha_registro[$key])
+                        ->setCellValue('J'.$i, $fotos);
             $i++;
         }
     } else {
         $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A'.$i, 'No hay calendarios registrados bajo el criterio de búsqueda.');
-    } 
+    }
     // Redirect output to a client’s web browser (Excel5)
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="Reporte de Calendarios del '.$_POST['fecha_inicial'].' al '.$_POST['fecha_fin'].'.xls"');
