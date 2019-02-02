@@ -2616,72 +2616,139 @@ if ($_POST['cmd'] == "tangibles") {
         ->setCellValue('W2', 'Aspectos a mejorar')
         ->setCellValue('X2', 'Contacto del comité');
 
-    $asesores = $_POST['asesor'];
-    $evidencias = $_POST['evidencias'];
-    $id_parque = $_POST['id_parque'];
-    $parque = $_POST['parque'];
-    $fecha_tangible = $_POST['fecha_tangible'];
-    $proposito = $_POST['proposito'];
-    $tipo = $_POST['tipo'];
-    $notas = $_POST['notas'];
-    $num_participantes_comite = $_POST['num_participantes_comite'];
-    $num_vecinos = $_POST['num_vecinos'];
-    $num_asistentes = $_POST['num_asistentes'];
-    $total_ingreso = $_POST['total_ingreso'];
-    $venta = $_POST['venta'];
-    $cooperacion = $_POST['cooperacion'];
-    $patrocinios = $_POST['patrocinios'];
-    $gestiones = $_POST['gestiones'];
-    $costo_estimado = $_POST['costo_estimado'];
-    $empresas = $_POST['empresas'];
-    $area_beneficiada = $_POST['area_beneficiada'];
-    $concepto = $_POST['concepto'];
-    $cantidad = $_POST['cantidad'];
-    $descripcion_actividad = $_POST['descripcion_actividad'];
-    $aspectos_mejorar = $_POST['aspectos_mejorar'];
-    $contacto = $_POST['contacto'];
+    $proposito = array(1=>"Gestión con Empresa",2=>"Gestión con H. Ayuntamiento", 
+                   3=>"Infraestructura y mobiliario", 4=>"Ingresos", 5=>"Tejido social", 
+                   6=>"Organización",50=>"Áreas verdes",51=>"Infraestructura y mobiliario",
+                   52=>"Ingresos",53=>"Tejido social",54=>"Organización");
+    $subtipo = array(1=>array(1=>"Alumbrado",2=>"Arborización",3=>"Diseño de sistema de riego",
+                          4=>"Donación de PET",5=>"Murales",6=>"Pintura",7=>"Proyecto arquitectónico",
+                          8=>"Proyecto ejecutivo",9=>"Proyecto EVA",10=>"Voluntariado"),
+                 2=>array(1=>"Alumbrado",2=>"Arborización",3=>"Denuncia ciudadana formal",
+                          4=>"Jornada de limpieza",5=>"Pintura",6=>"Proyecto arquitectónico",
+                          7=>"Toma de agua",8=>"Visita a cabildo abierto"),
+                 3=>array(1=>"Arborización",2=>"Mesa de ping pong",3=>"Fertilización",4=>"Fumigación",
+                          5=>"Instalación de infraestructura",6=>"Limpieza del parque",7=>"Poda",
+                          8=>"Reglamento de orden",9=>"Riego"),
+                 4=>array(1=>"Activación por empresas y/o instituciones",
+                          2=>"Actividad para generar ingresos",3=>"Carrera pedestre",
+                          4=>"Cooperación vecinal",5=>"Días festivos",6=>"Función de cine",
+                          7=>"Kermesse",8=>"Kermesse cultural",9=>"Noche bohemia",
+                          10=>"Programa de reciclaje Ecoce o programa externo",11=>"Rifa",
+                          12=>"Tianguis",13=>"Torneos"),
+                 5=>array(1=>"Actividades deportivas",2=>"Asistencia a juego de Dorados",
+                          3=>"Campamentos",4=>"Carrera pedestre",5=>"Cooperación vecinal",
+                          6=>"Cursos y talleres",7=>"Días festivos",8=>"Función de cine",
+                          9=>"Kermesse",10=>"Kermesse cultural",11=>"Muestra gastronómica",
+                          12=>"Noche bohemia",13=>"Pláticas",14=>"Rifa",15=>"Tianguis",16=>"Torneos",
+                          17=>"Visita Jardín Botánico de Culiacán",18=>"Visita MIA"),
+                 6=>array(1=>"Asistencia a cursos P.A (será un tangible por parque)",
+                          2=>"Calendario de actividades",3=>"Club guardianes del parque",
+                          4=>"Comité de ninos",5=>"Contratación del jardinero",
+                          6=>"Correo electrónico formal",7=>"Creación de comité",
+                          8=>"Creación de logo del parque",9=>"Cuenta de Facebook",
+                          10=>"Cuenta de Whatsapp",11=>"Cuenta mancomunada",12=>"Difusión de medios",
+                          13=>"Elaborar expedientes de evidencia",
+                          14=>"Formalización de comité ante H. Ayuntamiento",15=>"Hojas membretadas",
+                          16=>"Plan de mantenimiento del parque",17=>"Recibos de dinero institucional",
+                          18=>"Reestructuración de comité",19=>"Rendición de cuentas general",
+                          20=>"Sello del parque",21=>"Uniforme",22=>"Visión del espacio"),
+                 50=>array(1=>"Proyecto arquitectónico",2=>"Plantas de ornato",3=>"Arborización",
+                           4=>"Poda",5=>"Cursos, plática y talleres",6=>"Jornada de limpieza",
+                           7=>"Fumigación",8=>"Fertilización",9=>"Proyecto EVA",
+                           10=>"Instalación de Jardín",11=>"Huerto",12=>"Voluntariado"),
+                 51=>array(1=>"Proyecto arquitectónico",2=>"Jornada de limpieza",
+                           3=>"Mantenimiento de infraestructura",4=>"Pintura",5=>"Toma de agua",
+                           6=>"Alumbrado",7=>"Reglamento de orden",8=>"Mesa de ping pong",
+                           9=>"Instalación de infraestructura",10=>"Murales",11=>"Proyecto ejecutivo",
+                           12=>"Proyecto EVA",13=>"Sistema de riego",14=>"Sistema de riego por goteo",
+                           15=>"Nivelación del terreno",16=>"Donación de PET",17=>"Voluntariado"),
+                 52=>array(1=>"Programa de reciclaje Ecoce o programa externo",
+                           2=>"Actividad para generar ingresos",3=>"Cursos, plática y talleres",
+                           4=>"Activación por empresas y/o instituciones",5=>"Carrera pedestre",
+                           6=>"Cooperación vecinal",7=>"Días festivos",8=>"Función de cine",
+                           9=>"Kermesse",10=>"Kermesse cultural",11=>"Noche bohemia",12=>"Rifa",
+                           13=>"Tianguis",14=>"Torneos",15=>"Productos elaborados por el comité"),
+                 53=>array(1=>"Campamentos",2=>"Cursos, plática y talleres",3=>"Muestra gastronómica",
+                           4=>"Visita MIA",5=>"Visita Jardín Botánico de Culiacán",
+                           6=>"Asistencia a juego de Dorados",7=>"Carrera pedestre",8=>"Días festivos",
+                           9=>"Función de cine",10=>"Kermesse",11=>"Kermesse cultural",
+                           12=>"Noche bohemia",13=>"Rifa",14=>"Tianguis",15=>"Torneos"),
+                 54=>array(1=>"Club guardianes del parque",2=>"Denuncia ciudadana formal",
+                           3=>"Creación de comité",4=>"Visita a cabildo abierto",
+                           5=>"Formalización de comité ante H. Ayuntamiento",
+                           6=>"Reestructuración de comité",7=>"Cuenta de Facebook",
+                           8=>"Calendario de actividades",9=>"Plan de mantenimiento del parque",
+                           10=>"Diseño participativo",11=>"Contratación del jardinero",
+                           12=>"Cuenta de Whatsapp",13=>"Creación de logo del parque",14=>"Uniforme",
+                           15=>"Rendición de cuentas general",16=>"Sello del parque",
+                           17=>"Correo electrónico formal",18=>"Recibos de dinero institucional",
+                           19=>"Cuenta mancomunada",20=>"Elaborar expedientes de evidencia",
+                           21=>"Comité de niños",
+                           22=>"Asistencia a cursos P.A (será un tangible por parque)",
+                           23=>"Hojas membretadas",24=>"Difusión de medios ",
+                           25=>"Elaboración de reglamento",26=>"Entrega de reconocimiento del parque")
+                );
 
-    $i = 3;
-    if (count($asesores) > 0) {
-        foreach ($asesores as $key => $asesor) {
-            if ($evidencias[$key] != "") {
-                $evidencia = explode(",", $evidencias[$key]);
+    $area_beneficiada = array(1=>"Servicios públicos", 
+                          2=>"Mobiliarios de parques",
+                          3=>"Canchas deportivas",
+                          4=>"Espacios de convivencia social",
+                          5=>"Elementos urbanos");
+    $concepto = array(1=>array(1=>"Agua", 2=>"Electricidad"),
+                      2=>array(1=>"Bancas", 2=>"Jardineras", 3=>"Juegos infantiles"),
+                      3=>array(1=>"Futbol", 2=>"Béisbol", 3=>"Volibol", 4=>"Otro"),
+                      4=>array(1=>"Palapa", 2=>"Área de usos múltiples", 3=>"Asadores", 4=>"Piñateros"),
+                      5=>array(1=>"Estacionamiento", 2=>"Rampas", 3=>"Topes en calles aledañas", 
+                               4=>"Pavimentación de calles aledañas", 5=>"Nivelación de terreno")
+                    );
+
+    $sql = $_POST['sql'];
+    $sql = str_replace('\\', "", $sql);
+    $res = mysqli_query($enlace, $sql);
+
+    if (mysqli_num_rows($res) > 0) {
+        $i = 3;
+
+        while ($row = mysqli_fetch_array($res)) {
+            if ($row['evidencias'] != "") {
+                $evidencia = explode(",", $row['evidencias']);
                 $fotos = count($evidencia);
             } else {
                 $fotos = 0;
             }
-            
+
             $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A'.$i, $asesor)
-                        ->setCellValue('B'.$i, $id_parque[$key])
-                        ->setCellValue('C'.$i, $parque[$key])
-                        ->setCellValue('D'.$i, $fecha_tangible[$key])
-                        ->setCellValue('E'.$i, $proposito[$key])
-                        ->setCellValue('F'.$i, $tipo[$key])
-                        ->setCellValue('G'.$i, $notas[$key])
-                        ->setCellValue('H'.$i, $num_participantes_comite[$key])
-                        ->setCellValue('I'.$i, $num_vecinos[$key])
-                        ->setCellValue('J'.$i, $num_asistentes[$key])
+                        ->setCellValue('A'.$i, $row['nomasesor'])
+                        ->setCellValue('B'.$i, $row['id_parque'])
+                        ->setCellValue('C'.$i, $row['parque'])
+                        ->setCellValue('D'.$i, $row['fecha_tangible'])
+                        ->setCellValue('E'.$i, $proposito[$row['proposito']])
+                        ->setCellValue('F'.$i, $subtipo[$row['proposito']][$row['tipo']])
+                        ->setCellValue('G'.$i, $row['notas'])
+                        ->setCellValue('H'.$i, $row['num_participantes_comite'])
+                        ->setCellValue('I'.$i, $row['num_vecinos'])
+                        ->setCellValue('J'.$i, $row['num_asistentes'])
                         ->setCellValue('K'.$i, $fotos)
-                        ->setCellValue('L'.$i, $total_ingreso[$key])
-                        ->setCellValue('M'.$i, $venta[$key])
-                        ->setCellValue('N'.$i, $cooperacion[$key])
-                        ->setCellValue('O'.$i, $patrocinios[$key])
-                        ->setCellValue('P'.$i, $gestiones[$key])
-                        ->setCellValue('Q'.$i, $costo_estimado[$key])
-                        ->setCellValue('R'.$i, $empresas[$key])
-                        ->setCellValue('S'.$i, $area_beneficiada[$key])
-                        ->setCellValue('T'.$i, $concepto[$key])
-                        ->setCellValue('U'.$i, $cantidad[$key])
-                        ->setCellValue('V'.$i, $descripcion_actividad[$key])
-                        ->setCellValue('W'.$i, $aspectos_mejorar[$key])
-                        ->setCellValue('X'.$i, $contacto[$key]);
+                        ->setCellValue('L'.$i, $row['total_ingreso'])
+                        ->setCellValue('M'.$i, $row['venta'])
+                        ->setCellValue('N'.$i, $row['cooperacion'])
+                        ->setCellValue('O'.$i, $row['patrocinios'])
+                        ->setCellValue('P'.$i, $row['gestiones'])
+                        ->setCellValue('Q'.$i, $row['costo_estimado'])
+                        ->setCellValue('R'.$i, $row['empresas'])
+                        ->setCellValue('S'.$i, $area_beneficiada[$row['area_beneficiada']])
+                        ->setCellValue('T'.$i, $concepto[$row['area_beneficiada']][$row['concepto']])
+                        ->setCellValue('U'.$i, $row['cantidad'])
+                        ->setCellValue('V'.$i, $row['descripcion_actividad'])
+                        ->setCellValue('W'.$i, $row['aspectos_mejorar'])
+                        ->setCellValue('X'.$i, $row['contacto']);
             $i++;
         }
     } else {
-        $objPHPExcel->setActiveSheetIndex(0)
+         $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A'.$i, 'No hay tangibles registrados bajo el criterio de búsqueda.');
-    }       
+    }
+
     // Redirect output to a client’s web browser (Excel5)
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="Reporte de Tangibles del '.$_POST['fecha_inicial'].' al '.$_POST['fecha_fin'].' .xls"');

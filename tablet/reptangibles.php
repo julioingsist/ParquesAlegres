@@ -93,27 +93,27 @@ $concepto = array(1=>array(1=>"Agua", 2=>"Electricidad"),
 
 $sql1 = "SELECT a.ID,u.display_name FROM asesores as a INNER JOIN wp_users as u ON a.ID = u.ID 
 	     WHERE stat < 1 ORDER BY display_name ASC";
-$res1 = mysql_query($sql1);
+$res1 = mysqli_query($enlace, $sql1);
 
-while ($row1 = mysql_fetch_array($res1)) {
+while ($row1 = mysqli_fetch_array($res1)) {
 	$asesores[$row1['ID']] = $row1['display_name'];
 }
 
 $sql2 = "SELECT p.ID, p.post_title FROM wp_posts p INNER JOIN asesores a ON a.ID = p.post_author 
 	     WHERE p.post_status = 'publish' AND p.post_type = 'parque' AND a.stat < 1 
 	     ORDER BY p.post_title ASC";
-$res2 = mysql_query($sql2);
-while ($row2 = mysql_fetch_array($res2)) {
+$res2 = mysqli_query($enlace, $sql2);
+while ($row2 = mysqli_fetch_array($res2)) {
 	$parques[$row2['ID']] = $row2['post_title'];
 }
 
 if ($_POST['cmd'] == 2) {
 	$sql = "SELECT id,post_title FROM wp_posts WHERE post_author = '".$_POST['asesor']."' AND
 			post_status='publish' AND post_type='parque' ORDER BY post_title ASC";
-	$res = mysql_query($sql);
-	if (mysql_num_rows($res) > 0){
+	$res = mysqli_query($enlace, $sql);
+	if (mysqli_num_rows($res) > 0){
 		echo '<option value=""> -- Todos --</option>';
-		while ($row = mysql_fetch_array($res)){
+		while ($row = mysqli_fetch_array($res)){
 			echo '<option value="'.$row['id'].'">'.$row['post_title'].'</option>';
 		}
 	} else {
@@ -123,7 +123,7 @@ if ($_POST['cmd'] == 2) {
 }
 
 if ($_POST['cmd'] == 1) {
-    $filtro = " WHERE 1";
+    $filtro = ' WHERE 1';
 
     if ($_POST['fecha_inicial']) {
         $filtro .= " AND fecha_tangible >= '".$_POST['fecha_inicial']."'";
@@ -142,19 +142,19 @@ if ($_POST['cmd'] == 1) {
     }
 
     if ($_POST['proposito']) {
-        $filtro .= "AND proposito = '".$_POST['proposito']."'";
+        $filtro .= " AND proposito = '".$_POST['proposito']."'";
     }
 
     if ($_POST['tipo']) {
-        $filtro .= "AND tipo = '".$_POST['tipo']."'";
+        $filtro .= " AND tipo = '".$_POST['tipo']."'";
     }
 
     if ($_POST['area_beneficiada']) {
-        $filtro .= "AND pm11.meta_value = '".$_POST['area_beneficiada']."'";
+        $filtro .= " AND pm11.meta_value = '".$_POST['area_beneficiada']."'";
     }
 
     if ($_POST['concepto']) {
-        $filtro .= "AND pm12.meta_value = '".$_POST['concepto']."'";
+        $filtro .= " AND pm12.meta_value = '".$_POST['concepto']."'";
     }
 
     $sql = "SELECT p.id AS id_parque, p.post_title AS parque, u.display_name AS nomasesor, t.*,
@@ -200,10 +200,13 @@ if ($_POST['cmd'] == 1) {
     		LEFT JOIN wp_postmeta AS pm15 ON t.experiencia_exitosa = pm15.post_id 
     		AND pm15.meta_key = '_cmb_mejorar'
     		LEFT JOIN wp_postmeta AS pm16 ON t.experiencia_exitosa = pm16.post_id 
-    		AND pm16.meta_key = '_cmb_contacto_exp'
-    		$filtro ORDER BY nomasesor, cve_parque DESC";
-    $res = mysql_query($sql);
-    if (mysql_num_rows($res) > 0) {
+    		AND pm16.meta_key = '_cmb_contacto_exp' 
+            $filtro  ORDER BY nomasesor, cve_parque DESC";
+
+    $res = mysqli_query($enlace, $sql);
+    if (mysqli_num_rows($res) > 0) {
+        echo '<input type="hidden" name="sql" value="'.$sql.'">';
+
     	echo '<table>
               <tr>
                 <td colspan="11">Datos del tangible</td>
@@ -237,91 +240,91 @@ if ($_POST['cmd'] == 1) {
 				<td>Contacto del comité</td>
               </tr>';
 
-        while ($row = mysql_fetch_array($res)) {
+        while ($row = mysqli_fetch_array($res)) {
         	$evidencia = explode(",",$row['evidencias']);
 
             echo '<tr>
-            <td>'.$row['nomasesor'].
-            	'<input type="hidden" name="asesor[]" value="'.$row['nomasesor'].'">
-            </td>
-            <td>'.$row['id_parque'].
-            	'<input type="hidden" name="id_parque[]" value="'.$row['id_parque'].'">
-            </td>
-            <td>'.$row['parque'].
-            	'<input type="hidden" name="parque[]" value="'.$row['parque'].'">
-            </td>
-            <td>'.$row['fecha_tangible'].
-            	'<input type="hidden" name="fecha_tangible[]" value="'.$row['fecha_tangible'].'">
-            </td>
-            <td>'.$proposito[$row['proposito']].
-            	'<input type="hidden" name="proposito[]" value="'.$proposito[$row['proposito']].'">
-            </td>
-            <td>'.$subtipo[$row['proposito']][$row['tipo']].
-            	'<input type="hidden" name="tipo[]" value="'.$subtipo[$row['proposito']][$row['tipo']].
-            	'">
-            </td>
-            <td>'.$row['notas'].
-            	'<input type="hidden" name="notas[]" value="'.$row['notas'].'">
-            </td>
-            <td>'.$row['num_participantes_comite'].
-            	'<input type="hidden" name="num_participantes_comite[]" value="'.$row['num_participantes_comite'].'">
-            <td>'.$row['num_vecinos'].
-            	'<input type="hidden" name="num_vecinos[]" value="'.$row['num_vecinos'].'">
-            <td>'.$row['num_asistentes'].
-            	'<input type="hidden" name="num_asistentes[]" value="'.$row['num_asistentes'].'">
-            </td>
-            <td>';
+            <td>'.$row['nomasesor'].'</td>'.
+            	//'<input type="hidden" name="asesor[]" value="'.$row['nomasesor'].'">
+            //</td>
+            '<td>'.$row['id_parque'].'</td>'.
+            	//'<input type="hidden" name="id_parque[]" value="'.$row['id_parque'].'">
+            //</td>
+            '<td>'.$row['parque'].'</td>'.
+            	//'<input type="hidden" name="parque[]" value="'.$row['parque'].'">
+            //</td>
+            '<td>'.$row['fecha_tangible'].'</td>'.
+            	//'<input type="hidden" name="fecha_tangible[]" value="'.$row['fecha_tangible'].'">
+            //</td>
+            '<td>'.$proposito[$row['proposito']].'</td>'.
+            	//'<input type="hidden" name="proposito[]" value="'.$proposito[$row['proposito']].'">
+            //</td>
+            '<td>'.$subtipo[$row['proposito']][$row['tipo']].'</td>'.
+            	//'<input type="hidden" name="tipo[]" value="'.$subtipo[$row['proposito']][$row['tipo']].
+            //	'">
+            //</td>
+            '<td>'.$row['notas'].'</td>'.
+            	//'<input type="hidden" name="notas[]" value="'.$row['notas'].'">
+            //</td>
+            '<td>'.$row['num_participantes_comite'].'</td>'.
+            	//'<input type="hidden" name="num_participantes_comite[]" value="'.$row['num_participantes_comite'].'">
+            '<td>'.$row['num_vecinos'].'</td>'.
+            	//'<input type="hidden" name="num_vecinos[]" value="'.$row['num_vecinos'].'">
+            '<td>'.$row['num_asistentes'].'</td>'.
+            	//'<input type="hidden" name="num_asistentes[]" value="'.$row['num_asistentes'].'">
+            //</td>
+            '<td>';
             foreach ($evidencia as $k => $v) {
             	if ($v != "") {
             		echo '<a href="tangibles/'.$v.'" target="_blank"><img src="tangibles/'.$v.'" width="150"></a> &nbsp;';
             	}
             }
-            echo '<input type="hidden" name="evidencias[]" value="'.$row['evidencias'].'">';
+            //echo '<input type="hidden" name="evidencias[]" value="'.$row['evidencias'].'">';
             echo '</td>
-            <td>'.$row['total_ingreso'].
-            	'<input type="hidden" name="total_ingreso[]" value="'.$row['total_ingreso'].'">
-            </td>
-            <td>'.$row['venta'].
-            	'<input type="hidden" name="venta[]" value="'.$row['venta'].'">
-            </td>
-            <td>'.$row['cooperacion'].
-            	'<input type="hidden" name="cooperacion[]" value="'.$row['cooperacion'].'">
-            </td>
-            <td>'.$row['patrocinios'].
-            	'<input type="hidden" name="patrocinios[]" value="'.$row['patrocinios'].'">
-            </td>
-            <td>'.$row['gestiones'].
-            	'<input type="hidden" name="gestiones[]" value="'.$row['gestiones'].'">
-            </td>
-            <td>'.$row['costo_estimado'].
-            	'<input type="hidden" name="costo_estimado[]" value="'.$row['costo_estimado'].'">
-            </td>
-            <td>'.$row['empresas'].
-            	'<input type="hidden" name="empresas[]" value="'.$row['empresas'].'">
-            </td>
-            <td>'.$area_beneficiada[$row['area_beneficiada']].
-            	'<input type="hidden" name="area_beneficiada[]" value="'.$area_beneficiada[$row['area_beneficiada']].'">
-            </td>
-            <td>'.$concepto[$row['area_beneficiada']][$row['concepto']].
-            	'<input type="hidden" name="concepto[]" value="'.$concepto[$row['area_beneficiada']][$row['concepto']].'">
-            </td>
-            <td>'.$row['cantidad'].
-            	'<input type="hidden" name="cantidad[]" value="'.$row['cantidad'].'">
-            </td>
-            <td>'.$row['descripcion_actividad'].
-            	'<input type="hidden" name="descripcion_actividad[]" value="'.$row['descripcion_actividad'].'">
-            </td>
-            <td>'.$row['aspectos_mejorar'].
-            	'<input type="hidden" name="aspectos_mejorar[]" value="'.$row['aspectos_mejorar'].'">
-            </td>
-            <td>'.$row['contacto'].
-            	'<input type="hidden" name="contacto[]" value="'.$row['contacto'].'">
-            </td>';
+            <td>'.$row['total_ingreso'].'</td>'.
+            //	'<input type="hidden" name="total_ingreso[]" value="'.$row['total_ingreso'].'">
+            //</td>
+            '<td>'.$row['venta'].'</td>'.
+            	//'<input type="hidden" name="venta[]" value="'.$row['venta'].'">
+            //</td>
+            '<td>'.$row['cooperacion'].'</td>'.
+            	//'<input type="hidden" name="cooperacion[]" value="'.$row['cooperacion'].'">
+            //</td>
+            '<td>'.$row['patrocinios'].'</td>'.
+            	//'<input type="hidden" name="patrocinios[]" value="'.$row['patrocinios'].'">
+            //</td>
+            '<td>'.$row['gestiones'].'</td>'.
+            	//'<input type="hidden" name="gestiones[]" value="'.$row['gestiones'].'">
+            //</td>
+            '<td>'.$row['costo_estimado'].'</td>'.
+            	//'<input type="hidden" name="costo_estimado[]" value="'.$row['costo_estimado'].'">
+            //</td>
+            '<td>'.$row['empresas'].'</td>'.
+            	//'<input type="hidden" name="empresas[]" value="'.$row['empresas'].'">
+            //</td>
+            '<td>'.$area_beneficiada[$row['area_beneficiada']].'</td>'.
+            	//'<input type="hidden" name="area_beneficiada[]" value="'.$area_beneficiada[$row['area_beneficiada']].'">
+            //</td>
+            '<td>'.$concepto[$row['area_beneficiada']][$row['concepto']].
+            	//'<input type="hidden" name="concepto[]" value="'.$concepto[$row['area_beneficiada']][$row['concepto']].'">
+            //</td>
+            '<td>'.$row['cantidad'].'</td>'.
+            	//'<input type="hidden" name="cantidad[]" value="'.$row['cantidad'].'">
+            //</td>
+            '<td>'.$row['descripcion_actividad'].'</td>'.
+            	//'<input type="hidden" name="descripcion_actividad[]" value="'.$row['descripcion_actividad'].'">
+            //</td>
+            '<td>'.$row['aspectos_mejorar'].'</td>'.
+            	//'<input type="hidden" name="aspectos_mejorar[]" value="'.$row['aspectos_mejorar'].'">
+            //</td>
+            '<td>'.$row['contacto'].'</td>';
+            	//'<input type="hidden" name="contacto[]" value="'.$row['contacto'].'">
+            //</td>';
 
             echo '</tr>';
         }
 
-        echo '<tr><td><b>Total:</b></td><td colspan="24"><b>'.mysql_num_rows($res).'</b></td></table>';
+        echo '<tr><td><b>Total:</b></td><td colspan="24"><b>'.mysqli_num_rows($res).'</b></td></table>';
     } else {
         echo 'No hay tangibles registrados bajo el criterio de búsqueda.';
     }
@@ -551,7 +554,7 @@ h3{
         var fecha_fin = document.getElementsByName("fecha_fin")[0].value;
         var area_beneficiada = document.getElementsByName("area_beneficiada")[0].value;
         var concepto = document.getElementsByName("concepto")[0].value;
-		$("#resultados").load("http://parquesalegres.org/tablet/reptangibles.php", {asesor: asesor, parque: parque, proposito: proposito, tipo: tipo, fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, area_beneficiada: area_beneficiada, concepto: concepto, cmd: 1});
+		$("#resultados").load("http://localhost/web-site/tablet/reptangibles.php", {asesor: asesor, parque: parque, proposito: proposito, tipo: tipo, fecha_inicial: fecha_inicial, fecha_fin: fecha_fin, area_beneficiada: area_beneficiada, concepto: concepto, cmd: 1});
     }
     function camb(i, v) {
 		if (i == "proposito") {
