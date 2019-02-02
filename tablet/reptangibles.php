@@ -245,82 +245,35 @@ if ($_POST['cmd'] == 1) {
 
             echo '<tr>
             <td>'.$row['nomasesor'].'</td>'.
-            	//'<input type="hidden" name="asesor[]" value="'.$row['nomasesor'].'">
-            //</td>
             '<td>'.$row['id_parque'].'</td>'.
-            	//'<input type="hidden" name="id_parque[]" value="'.$row['id_parque'].'">
-            //</td>
             '<td>'.$row['parque'].'</td>'.
-            	//'<input type="hidden" name="parque[]" value="'.$row['parque'].'">
-            //</td>
             '<td>'.$row['fecha_tangible'].'</td>'.
-            	//'<input type="hidden" name="fecha_tangible[]" value="'.$row['fecha_tangible'].'">
-            //</td>
             '<td>'.$proposito[$row['proposito']].'</td>'.
-            	//'<input type="hidden" name="proposito[]" value="'.$proposito[$row['proposito']].'">
-            //</td>
             '<td>'.$subtipo[$row['proposito']][$row['tipo']].'</td>'.
-            	//'<input type="hidden" name="tipo[]" value="'.$subtipo[$row['proposito']][$row['tipo']].
-            //	'">
-            //</td>
             '<td>'.$row['notas'].'</td>'.
-            	//'<input type="hidden" name="notas[]" value="'.$row['notas'].'">
-            //</td>
             '<td>'.$row['num_participantes_comite'].'</td>'.
-            	//'<input type="hidden" name="num_participantes_comite[]" value="'.$row['num_participantes_comite'].'">
             '<td>'.$row['num_vecinos'].'</td>'.
-            	//'<input type="hidden" name="num_vecinos[]" value="'.$row['num_vecinos'].'">
             '<td>'.$row['num_asistentes'].'</td>'.
-            	//'<input type="hidden" name="num_asistentes[]" value="'.$row['num_asistentes'].'">
-            //</td>
             '<td>';
             foreach ($evidencia as $k => $v) {
             	if ($v != "") {
             		echo '<a href="tangibles/'.$v.'" target="_blank"><img src="tangibles/'.$v.'" width="150"></a> &nbsp;';
             	}
             }
-            //echo '<input type="hidden" name="evidencias[]" value="'.$row['evidencias'].'">';
             echo '</td>
             <td>'.$row['total_ingreso'].'</td>'.
-            //	'<input type="hidden" name="total_ingreso[]" value="'.$row['total_ingreso'].'">
-            //</td>
             '<td>'.$row['venta'].'</td>'.
-            	//'<input type="hidden" name="venta[]" value="'.$row['venta'].'">
-            //</td>
             '<td>'.$row['cooperacion'].'</td>'.
-            	//'<input type="hidden" name="cooperacion[]" value="'.$row['cooperacion'].'">
-            //</td>
             '<td>'.$row['patrocinios'].'</td>'.
-            	//'<input type="hidden" name="patrocinios[]" value="'.$row['patrocinios'].'">
-            //</td>
             '<td>'.$row['gestiones'].'</td>'.
-            	//'<input type="hidden" name="gestiones[]" value="'.$row['gestiones'].'">
-            //</td>
-            '<td>'.$row['costo_estimado'].'</td>'.
-            	//'<input type="hidden" name="costo_estimado[]" value="'.$row['costo_estimado'].'">
-            //</td>
+            '<td>'.$row['costo_estimado'].'</td>'.            	
             '<td>'.$row['empresas'].'</td>'.
-            	//'<input type="hidden" name="empresas[]" value="'.$row['empresas'].'">
-            //</td>
             '<td>'.$area_beneficiada[$row['area_beneficiada']].'</td>'.
-            	//'<input type="hidden" name="area_beneficiada[]" value="'.$area_beneficiada[$row['area_beneficiada']].'">
-            //</td>
             '<td>'.$concepto[$row['area_beneficiada']][$row['concepto']].
-            	//'<input type="hidden" name="concepto[]" value="'.$concepto[$row['area_beneficiada']][$row['concepto']].'">
-            //</td>
             '<td>'.$row['cantidad'].'</td>'.
-            	//'<input type="hidden" name="cantidad[]" value="'.$row['cantidad'].'">
-            //</td>
             '<td>'.$row['descripcion_actividad'].'</td>'.
-            	//'<input type="hidden" name="descripcion_actividad[]" value="'.$row['descripcion_actividad'].'">
-            //</td>
             '<td>'.$row['aspectos_mejorar'].'</td>'.
-            	//'<input type="hidden" name="aspectos_mejorar[]" value="'.$row['aspectos_mejorar'].'">
-            //</td>
             '<td>'.$row['contacto'].'</td>';
-            	//'<input type="hidden" name="contacto[]" value="'.$row['contacto'].'">
-            //</td>';
-
             echo '</tr>';
         }
 
