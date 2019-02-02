@@ -2704,12 +2704,12 @@ if ($_POST['cmd'] == "tangibles") {
 
     $sql = $_POST['sql'];
     $sql = str_replace('\\', "", $sql);
-    $res = mysqli_query($enlace, $sql);
+    $res = mysql_query($sql);
 
-    if (mysqli_num_rows($res) > 0) {
+    if (mysql_num_rows($res) > 0) {
         $i = 3;
 
-        while ($row = mysqli_fetch_array($res)) {
+        while ($row = mysql_fetch_array($res)) {
             if ($row['evidencias'] != "") {
                 $evidencia = explode(",", $row['evidencias']);
                 $fotos = count($evidencia);
