@@ -92,22 +92,12 @@ if ($_POST['cmd'] == 1) {
 		</tr>';
 
 		while ($row = mysql_fetch_array($res)) {
-			echo '<tr>
-			<td>'.$asesores[$row['post_author']].
-				  '<input type="hidden" name="asesor[]" value="'.$asesores[$row['post_author']].'">
-			</td>
-			<td>'.$row['cve_parque'].
-				'<input type="hidden" name="cve_parque[]" value="'.$row['cve_parque'].'">
-			</td>
-			<td>'.$parques[$row['cve_parque']].
-				'<input type="hidden" name="nombre_parque[]" value="'.$parques[$row['cve_parque']].'">
-			</td>
-			<td>'.$row['fecha_visita'].
-				'<input type="hidden" name="fecha_visita[]" value="'.$row['fecha_visita'].'">
-			</td>
-			<td>'.$reunion[$row['reunion']].
-				'<input type="hidden" name="comite_reune[]" value="'.$reunion[$row['comite_reune']].'">
-			</td>';
+			echo '<tr>'.
+			'<td>'.$asesores[$row['post_author']].'</td>'.
+			'<td>'.$row['cve_parque'].'</td>'.
+			'<td>'.$parques[$row['cve_parque']].'</td>'.
+			'<td>'.$row['fecha_visita'].'</td>'.
+			'<td>'.$reunion[$row['reunion']].'</td>';
 
 			$filtro = " WHERE r.cve_parque = ".$row['cve_parque'].
 					  " AND MONTH(r.fecha_registro) = MONTH('".$row['fecha_visita']."')".	
@@ -124,13 +114,8 @@ if ($_POST['cmd'] == 1) {
 
     		if (mysql_num_rows($res2) > 0) {
     			while ($row2 = mysql_fetch_array($res2)) { 
-					echo '<td>'.$evidencias[$row2['evidencia']].
-						'<input type="hidden" name="tiene_evidencia[]" value="'.$evidencias[$row2['evidencia']].
-						'">
-					</td>
-					<td>'.$row2['fecha_registro'].
-						'<input type="hidden" name="fecha_registro[]" value="'.$row2['fecha_registro'].'">
-					</td>';
+					echo '<td>'.$evidencias[$row2['evidencia']].'</td>'.
+					'<td>'.$row2['fecha_registro'].'</td>';
 
 					echo '<td>';
 					if ($row2['archivo'] != "") { 
@@ -146,13 +131,12 @@ if ($_POST['cmd'] == 1) {
 		            	}
 		            }
 
-	            	echo '<input type="hidden" name="evidencias[]" value="'.$row2['archivo'].'">';
 					echo '</td>';
 				}
     		} else {
-    			echo '<td>'.$evidencias[0].'<input type="hidden" name="tiene_evidencia[]" value="'.$evidencias[0].'"></td>
-    				  <td><input type="hidden" name="fecha_registro[]"></td>
-    				  <td><input type="hidden" name="evidencias[]"></td>';	
+    			echo '<td>'.$evidencias[0].'</td>';
+    			echo '<td></td>';
+    			echo '<td></td>';	
     		}
 
 			echo '</tr>';
