@@ -367,8 +367,9 @@ if ($_POST['cmd'] == "repreuniones") {
     $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(15);
-    $objPHPExcel->getActiveSheet()->getStyle("A1:G1")->getFont()->setBold(true);
+    $objPHPExcel->getActiveSheet()->getStyle("A1:H1")->getFont()->setBold(true);
     $objPHPExcel->setActiveSheetIndex(0)
         ->setCellValue('A1', 'Asesor')
         ->setCellValue('B1', 'ID Parque')
@@ -379,35 +380,71 @@ if ($_POST['cmd'] == "repreuniones") {
         ->setCellValue('G1', 'Fecha Registro')
         ->setCellValue('H1', 'Evidencias');
 
-    $asesores = $_POST['asesor'];
-    $cve_parque = $_POST['cve_parque'];
-    $nom_parque = $_POST['nombre_parque'];
-    $fecha_visita = $_POST['fecha_visita'];
-    $fecha_registro = $_POST['fecha_registro'];
-    $comite_reune = $_POST['comite_reune'];
-    $tiene_evidencia = $_POST['tiene_evidencia'];
-    $evidencias = $_POST['evidencias'];
+    $sql = "SELECT a.ID,u.display_name FROM asesores AS a INNER JOIN wp_users AS u ON a.ID = u.ID 
+            WHERE stat < 1";
+    $res = mysql_query($sql);
+    while ($row = mysql_fetch_array($res)) {
+        $asesores[$row['ID']] = $row['display_name'];
+    }
 
-    $i = 2;
-    if (count($asesores) > 0) {
-        foreach ($asesores as $key => $asesor) {
-            if ($evidencias[$key] != "") {
-                $evidencia = explode(",", $evidencias[$key]);
-                $fotos = count($evidencia);
-            } else {
-                $fotos = 0;
+    $sql2 = "SELECT p.id, p.post_title FROM wp_posts p INNER JOIN asesores a ON a.ID = p.post_author
+             WHERE p.post_status = 'publish' AND p.post_type = 'parque' AND a.stat < 1 
+             ORDER BY p.post_title ASC";
+    $res2 = mysql_query($sql2);
+    while ($row2 = mysql_fetch_array($res2)) {
+        $parques[$row2['id']] = $row2['post_title'];
+    }
+
+    $reunion = array(0 => "Nunca", 10 => "Regularmente", 20 => "Frecuentemente");
+    $evidencias = array(0 => "No", 1 => "Minuta", 2 => "Otros");
+
+    $sql = $_POST['sql'];
+    $sql = str_replace('\\', "", $sql);
+    $res = mysql_query($sql);
+
+    if (mysql_num_rows($res) > 0) {
+        $i = 2;
+
+        while ($row = mysql_fetch_array($res)) {
+            $tiene_evidencia = "No";
+            $fecha_registro = "";
+            $fotos = 0;
+
+            $filtro = " WHERE r.cve_parque = ".$row['cve_parque'].
+                      " AND MONTH(r.fecha_registro) = MONTH('".$row['fecha_visita']."')".   
+                      " AND r.fecha_registro >= '".$row['fecha_visita']."'";
+
+            if ($_POST['tiene_evidencia'] || $_POST['tiene_evidencia'] == '0') {
+                $filtro .= " AND r.evidencia = '".$_POST['tiene_evidencia']."'";
             }
-            
+
+            $sql2 = "SELECT * FROM comite_reuniones AS r
+                    $filtro LIMIT 1";
+
+            $res2 = mysql_query($sql2);
+
+            if (mysql_num_rows($res2) > 0) {
+                while ($row2 = mysql_fetch_array($res2)) { 
+                    $evidencia = $evidencias[$row2['evidencia']];
+                    $fecha_registro = $row2['fecha_registro'];
+                    
+                    if ($row2['archivo'] != "") { 
+                        $evidencia = explode(",", $row2['archivo']);
+                        $fotos = count($evidencia);
+                    }
+                }
+            }
+
             $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A'.$i, $asesor)
-                        ->setCellValue('B'.$i, $cve_parque[$key])
-                        ->setCellValue('C'.$i, $nom_parque[$key])
-                        ->setCellValue('D'.$i, $fecha_visita[$key])
-                        ->setCellValue('E'.$i, $comite_reune[$key])
-                        ->setCellValue('F'.$i, $tiene_evidencia[$key])
-                        ->setCellValue('G'.$i, $fecha_registro[$key])
-                        ->setCellValue('H'.$i, $fotos);
-            $i++;
+                            ->setCellValue('A'.$i, $asesores[$row['post_author']])
+                            ->setCellValue('B'.$i, $row['cve_parque'])
+                            ->setCellValue('C'.$i, $parques[$row['cve_parque']])
+                            ->setCellValue('D'.$i, $row['fecha_visita'])
+                            ->setCellValue('E'.$i, $reunion[$row['comite_reune']])
+                            ->setCellValue('F'.$i, $tiene_evidencia)
+                            ->setCellValue('G'.$i, $fecha_registro)
+                            ->setCellValue('H'.$i, $fotos);
+                $i++;
         }
     } else {
         $objPHPExcel->setActiveSheetIndex(0)
