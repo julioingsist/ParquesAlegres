@@ -79,6 +79,8 @@ if ($_POST['cmd'] == 1) {
 
 	$res = mysql_query($sql);
 	if (mysql_num_rows($res) > 0) {
+		echo '<input type="hidden" name="sql" value="'.$sql.'">';
+		
 		echo '<table>
 		<tr>
 			<td>Asesor</td>
